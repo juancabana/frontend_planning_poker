@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'form-room',
@@ -10,7 +11,7 @@ export class FormRoomComponent implements OnInit {
   public form_room!: FormGroup;
   public is_button_active: boolean = false;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private router: Router) {
     this.createForm();
   }
 
@@ -47,6 +48,8 @@ export class FormRoomComponent implements OnInit {
     this.is_button_active = is_valid;
   }
   createRoom() {
-    this.is_button_active ? console.log('Created room') : false;
+    this.is_button_active
+      ? this.router.navigateByUrl(`/${this.form_room.get('room_name')?.value}`)
+      : false;
   }
 }
