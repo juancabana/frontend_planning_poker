@@ -1,0 +1,48 @@
+.form_room
+  display: flex
+  flex-direction: column
+
+.form_room_label
+  font-family: Poppins,sans-serif
+  color: white
+  font-weight: 600
+
+.form_room_input
+  width: 280px
+  height: 50px
+  padding: 0px 1.5rem
+  border: 1px solid #B963FD
+  background: transparent
+  font-family: Poppins,sans-serif
+  font-size: 15px
+  color: white
+  margin-top: 0.5rem
+  border-radius: 25px
+  // Styles when the input is focused
+  &:focus
+    outline: none
+    border: 1px solid #B963FD
+    box-shadow: 0 0 5px #B963FD
+    // Dame un estilo para el background en rgb
+    background: #330072
+
+.form_room_button
+  height: 50px
+  width: 200px
+  display: flex
+  align-self: center
+  font-family: Poppins,sans-serif
+  font-size: 18px
+  font-weight: 600
+  justify-content: center
+  align-items: center
+  border-radius: 25px
+  margin-top: 2rem
+  background: #56367F
+  color: #807393
+  cursor: not-allowed
+  border: none
+// Dame estilos para este boton cuando está incativo
+.form_room_button_active
+  background: white
+  cursor: pointer

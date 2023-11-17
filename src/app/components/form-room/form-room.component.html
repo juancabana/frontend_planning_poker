@@ -1,0 +1,13 @@
+<form class="form_room" [formGroup]="form_room" (ngSubmit)="createRoom()">
+  <label class="form_room_label" for="">Nombra la partida</label>
+
+  <input class="form_room_input" type="text" formControlName="room_name" />
+
+  <button
+    class="form_room_button"
+    [ngClass]="{ form_room_button_active: is_button_active }"
+    type="submit"
+  >
+    Crear partida
+  </button>
+</form>
