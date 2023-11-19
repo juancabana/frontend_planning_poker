@@ -3,11 +3,5 @@
 
   <input class="form_room_input" type="text" formControlName="room_name" />
 
-  <button
-    class="form_room_button"
-    [ngClass]="{ form_room_button_active: is_button_active }"
-    type="submit"
-  >
-    Crear partida
-  </button>
+  <button-home [isActive]="is_button_active"></button-home>
 </form>

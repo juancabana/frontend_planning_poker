@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { WebSocketService } from '../web-socket.service';
+import { WebSocketService } from '../../services/web-socket/web-socket.service';
 
 @Component({
   selector: 'app-room',

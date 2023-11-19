@@ -1,20 +1,39 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { AppRoutingModule } from './app-routing.module';
+import { AppRoutingModule } from './router/app-routing.module';
 import { AppComponent } from './app.component';
-import { RoomComponent } from './room/room.component';
-import { HomeComponent } from './home/home.component';
-import { WebSocketService } from './web-socket.service';
+import { RoomComponent } from './pages/room/room.component';
+import { HomeComponent } from './pages/home/home.component';
+import { WebSocketService } from './services/web-socket/web-socket.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormRoomComponent } from './components/form-room/form-room.component';
 import { FormUserComponent } from './components/form-user/form-user.component';
 import { HeaderComponent } from './components/header/header.component';
-import { CardComponent } from './card/card.component';
+import { CardComponent } from './components/card/card.component';
+import { LogoComponent } from './components/logo/logo.component';
+import { ButtonHomeComponent } from './components/button-home/button-home.component';
+
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
-  declarations: [AppComponent, RoomComponent, HomeComponent, FormRoomComponent, FormUserComponent, HeaderComponent, CardComponent],
-  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule],
+  declarations: [
+    AppComponent,
+    RoomComponent,
+    HomeComponent,
+    FormRoomComponent,
+    FormUserComponent,
+    HeaderComponent,
+    CardComponent,
+    LogoComponent,
+    ButtonHomeComponent,
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+  ],
   providers: [WebSocketService],
   bootstrap: [AppComponent],
 })

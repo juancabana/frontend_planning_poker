@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { HttpServiceService } from 'src/app/services/http-service/http-service.service';
 
 @Component({
   selector: 'form-room',
@@ -10,8 +11,13 @@ import { Router } from '@angular/router';
 export class FormRoomComponent implements OnInit {
   public form_room!: FormGroup;
   public is_button_active: boolean = false;
+  public responseData: any;
 
-  constructor(private formBuilder: FormBuilder, private router: Router) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private httpService: HttpServiceService
+  ) {
     this.createForm();
   }
 
@@ -21,7 +27,7 @@ export class FormRoomComponent implements OnInit {
     });
   }
 
-  createForm() {
+  createForm(): void {
     this.form_room = this.formBuilder.group({
       room_name: [
         '',
@@ -41,15 +47,25 @@ export class FormRoomComponent implements OnInit {
   //   console.log(this.form_room);
   // }
 
-  setButtonActive(value: string) {
+  setButtonActive(value: string): void {
     // const val = parseInt(value);
     // console.log(typeof val);
     const is_valid = this.form_room.get('room_name')?.status === 'VALID';
     this.is_button_active = is_valid;
   }
-  createRoom() {
-    this.is_button_active
-      ? this.router.navigateByUrl(`/${this.form_room.get('room_name')?.value}`)
-      : false;
+  private async roomExists(): Promise<boolean> {
+    return true;
+  }
+
+  async createRoom() {
+    if (this.is_button_active) {
+      // TODO check if room exists
+      // if (await !this.roomExists()) {
+      // this.router.navigateByUrl(`/${this.form_room.get('room_name')?.value}`);
+      // } else {
+      //   alert('room exists');
+      // }
+    }
+    return;
   }
 }
