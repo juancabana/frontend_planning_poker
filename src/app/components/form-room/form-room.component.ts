@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HttpServiceService } from 'src/app/services/http-service/http-service.service';
+import { HttpService } from 'src/app/services/http-service/http-service.service';
 
 @Component({
   selector: 'form-room',
@@ -16,7 +16,7 @@ export class FormRoomComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private httpService: HttpServiceService
+    private httpService: HttpService
   ) {
     this.createForm();
   }
@@ -61,7 +61,22 @@ export class FormRoomComponent implements OnInit {
     if (this.is_button_active) {
       // TODO check if room exists
       // if (await !this.roomExists()) {
-      // this.router.navigateByUrl(`/${this.form_room.get('room_name')?.value}`);
+
+      // Ejecutar esto después de 5 segundos
+      this.httpService
+        .createNewRoom(this.form_room.get('room_name')?.value)
+        .subscribe({
+          next: (data) => {
+            this.responseData = data;
+            // alert('room created');
+            this.router.navigateByUrl(`room/${data._id}`);
+            // alert('last room created');
+            console.log(this.responseData);
+          },
+          error: (error) => {
+            console.log(error);
+          },
+        });
       // } else {
       //   alert('room exists');
       // }

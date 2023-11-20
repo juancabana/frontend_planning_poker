@@ -5,12 +5,17 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class HttpServiceService {
+export class HttpService {
   private url: string = 'http://localhost:3000/api';
 
   constructor(private httpClient: HttpClient) {}
 
   createNewRoom(tittle: string): Observable<any> {
-    return this.httpClient.post(`${this.url}/room`, { tittle });
+    const response = this.httpClient.post(`${this.url}/room`, { tittle });
+    return response;
+  }
+
+  findRooms(): Observable<any> {
+    return this.httpClient.get(`${this.url}/room`);
   }
 }

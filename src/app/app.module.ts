@@ -15,6 +15,7 @@ import { LogoComponent } from './components/logo/logo.component';
 import { ButtonHomeComponent } from './components/button-home/button-home.component';
 
 import { HttpClientModule } from '@angular/common/http';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { HttpClientModule } from '@angular/common/http';
     CardComponent,
     LogoComponent,
     ButtonHomeComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,
