@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'logo',
   templateUrl: './logo.component.html',
   styleUrls: ['./logo.component.sass'],
 })
-export class LogoComponent {}
+export class LogoComponent {
+  @Input() isHome: boolean = false;
+}

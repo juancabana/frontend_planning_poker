@@ -20,6 +20,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserModalComponent } from './components/user-modal/user-modal.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
+import { InvitePlayersModalComponent } from './components/invite-players-modal/invite-players-modal.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { MatButtonModule } from '@angular/material/button';
     ButtonHomeComponent,
     NotFoundComponent,
     UserModalComponent,
+    InvitePlayersModalComponent,
   ],
   imports: [
     BrowserModule,

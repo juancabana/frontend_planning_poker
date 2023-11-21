@@ -1,4 +1,8 @@
-<a routerLink="/" class="wrapper_logo">
+<a
+  routerLink="/"
+  class="wrapper_logo"
+  [ngClass]="{ wrapper_logo_home: isHome }"
+>
   <img src="assets/pragma.png" alt="Logo" height="100px" />
-  <span class="label_logo">Crear Partida</span>
+  <span *ngIf="isHome" class="label_logo">Crear Partida</span>
 </a>
