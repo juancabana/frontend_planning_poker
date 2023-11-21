@@ -16,6 +16,10 @@ import { ButtonHomeComponent } from './components/button-home/button-home.compon
 
 import { HttpClientModule } from '@angular/common/http';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { UserModalComponent } from './components/user-modal/user-modal.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -29,12 +33,16 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
     LogoComponent,
     ButtonHomeComponent,
     NotFoundComponent,
+    UserModalComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
+    BrowserAnimationsModule,
+    MatDialogModule,
+    MatButtonModule,
   ],
   providers: [WebSocketService],
   bootstrap: [AppComponent],

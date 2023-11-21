@@ -42,14 +42,7 @@ export class FormRoomComponent implements OnInit {
       ],
     });
   }
-
-  // save() {
-  //   console.log(this.form_room);
-  // }
-
   setButtonActive(value: string): void {
-    // const val = parseInt(value);
-    // console.log(typeof val);
     const is_valid = this.form_room.get('room_name')?.status === 'VALID';
     this.is_button_active = is_valid;
   }
@@ -59,27 +52,21 @@ export class FormRoomComponent implements OnInit {
 
   async createRoom() {
     if (this.is_button_active) {
-      // TODO check if room exists
-      // if (await !this.roomExists()) {
-
-      // Ejecutar esto después de 5 segundos
       this.httpService
         .createNewRoom(this.form_room.get('room_name')?.value)
         .subscribe({
           next: (data) => {
             this.responseData = data;
-            // alert('room created');
+            localStorage.setItem(
+              'room',
+              JSON.stringify({ ...data, isRoomValid: true })
+            );
             this.router.navigateByUrl(`room/${data._id}`);
-            // alert('last room created');
-            console.log(this.responseData);
           },
           error: (error) => {
             console.log(error);
           },
         });
-      // } else {
-      //   alert('room exists');
-      // }
     }
     return;
   }

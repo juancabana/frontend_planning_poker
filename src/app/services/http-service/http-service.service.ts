@@ -18,4 +18,8 @@ export class HttpService {
   findRooms(): Observable<any> {
     return this.httpClient.get(`${this.url}/room`);
   }
+
+  findRoomById(id: string): Observable<any> {
+    return this.httpClient.get(`${this.url}/room/${id}`);
+  }
 }
