@@ -2,13 +2,13 @@
   <header-room></header-room>
   <div class="room_table_container">
     <div class="room_table_module top">
-      <card *ngIf="players[1]" [name_player]="players[1].name"></card>
-      <card *ngIf="players[2]" [name_player]="players[2].name"></card>
-      <card *ngIf="players[4]" [name_player]="players[4].name"></card>
+      <card *ngIf="players[1]" [player]="players[1]"></card>
+      <card *ngIf="players[2]" [player]="players[2]"></card>
+      <card *ngIf="players[4]" [player]="players[4]"></card>
     </div>
     <div class="room_table_module left">
-      <card *ngIf="players[6]" [name_player]="players[6].name"></card>
-      <card *ngIf="players[8]" [name_player]="players[8].name"></card>
+      <card *ngIf="players[6]" [player]="players[6]"></card>
+      <card *ngIf="players[8]" [player]="players[8]"></card>
     </div>
     <div class="room_wrapper_table">
       <div class="room_border_table">
@@ -18,13 +18,13 @@
       </div>
     </div>
     <div class="room_table_module rigth">
-      <card *ngIf="players[7]" [name_player]="players[7].name"></card>
-      <card *ngIf="players[9]" [name_player]="players[9].name"></card>
+      <card *ngIf="players[7]" [player]="players[7]"></card>
+      <card *ngIf="players[9]" [player]="players[9]"></card>
     </div>
     <div class="room_table_module bottom">
-      <card *ngIf="players[5]" [name_player]="players[5].name"></card>
-      <card *ngIf="players[3]" [name_player]="players[3].name"></card>
-      <card *ngIf="players[0]" [name_player]="players[0].name"></card>
+      <card *ngIf="players[5]" [player]="players[5]"></card>
+      <card *ngIf="players[3]" [player]="players[3]"></card>
+      <card *ngIf="players[0]" [player]="players[0]"></card>
     </div>
   </div>
   <!-- <button mat-button (click)="openDialog()">Open Dialog</button> -->

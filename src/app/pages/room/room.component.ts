@@ -22,16 +22,16 @@ export class RoomComponent {
   // Saber el parametro de la url
 
   players = [
-    { name: 'David' },
-    { name: 'Javier' },
-    { name: 'Jorge' },
-    { name: 'Jordi' },
-    { name: 'Marc' },
-    { name: 'Pau' },
-    { name: 'Pere' },
-    { name: 'Pol' },
-    { name: 'Ramon' },
-    { name: 'Raul' },
+    { name: 'David', is_viewer: true },
+    { name: 'Jordi', is_viewer: false },
+    { name: 'Marc', is_viewer: false },
+    { name: 'Javier', is_viewer: true },
+    { name: 'Pau', is_viewer: false },
+    { name: 'Pere', is_viewer: false },
+    { name: 'Pol', is_viewer: false },
+    { name: 'Jorge', is_viewer: true },
+    { name: 'Ramon', is_viewer: false },
+    { name: 'Raul', is_viewer: false },
   ];
   ngOnInit() {
     this.route.params.subscribe((params: any) => {

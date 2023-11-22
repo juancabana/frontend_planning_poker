@@ -8,7 +8,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class UserModalComponent {
   constructor(
-    public dialogRef: MatDialogRef<UserModalComponent>,
+    private dialogRef: MatDialogRef<UserModalComponent>,
     @Inject(MAT_DIALOG_DATA) public message: string
   ) {}
 

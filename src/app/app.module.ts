@@ -13,14 +13,13 @@ import { HeaderComponent } from './components/header/header.component';
 import { CardComponent } from './components/card/card.component';
 import { LogoComponent } from './components/logo/logo.component';
 import { ButtonHomeComponent } from './components/button-home/button-home.component';
+import { InvitePlayersModalComponent } from './components/invite-players-modal/invite-players-modal.component';
 
 import { HttpClientModule } from '@angular/common/http';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserModalComponent } from './components/user-modal/user-modal.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatButtonModule } from '@angular/material/button';
-import { InvitePlayersModalComponent } from './components/invite-players-modal/invite-players-modal.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +43,6 @@ import { InvitePlayersModalComponent } from './components/invite-players-modal/i
     HttpClientModule,
     BrowserAnimationsModule,
     MatDialogModule,
-    MatButtonModule,
   ],
   providers: [WebSocketService],
   bootstrap: [AppComponent],

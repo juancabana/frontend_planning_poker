@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Clipboard } from '@angular/cdk/clipboard';
-import { PlatformLocation } from '@angular/common';
+import { InvitePlayersModalComponent } from '../invite-players-modal/invite-players-modal.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'header-room',
@@ -8,14 +8,18 @@ import { PlatformLocation } from '@angular/common';
   styleUrls: ['./header.component.sass'],
 })
 export class HeaderComponent {
-  urlActual: string = this.platformLocation.href;
-  constructor(
-    private clipboard: Clipboard,
-    private platformLocation: PlatformLocation
-  ) {}
+  constructor(private dialog: MatDialog) {}
 
-  copyLink() {
-    console.log(this.urlActual);
-    this.clipboard.copy(this.urlActual);
+  openDialog() {
+    const dialogRef = this.dialog.open(InvitePlayersModalComponent, {
+      hasBackdrop: true,
+
+      width: '500px',
+      panelClass: 'custom-invite-modal',
+      backdropClass: 'blur-backdrop',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed', result);
+    });
   }
 }

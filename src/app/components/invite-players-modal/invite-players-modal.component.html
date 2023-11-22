@@ -1,1 +1,18 @@
-<p>invite-players-modal works!</p>
+<div class="invite_players_modal__header">
+  <h2 class="invite_players_modal__title">Invitar jugadores</h2>
+  <button class="invite_players_modal__close" (click)="closeModal()">
+    <img src="assets/x.png" alt="" srcset="" />
+  </button>
+</div>
+<div class="invite_players_modal__body">
+  <input
+    class="invite_players_modal__span"
+    type="text"
+    disabled
+    value="https://planningpoker.com/716343898"
+  />
+
+  <button class="invite_players_modal__button" (click)="copyLink()">
+    Copiar link
+  </button>
+</div>

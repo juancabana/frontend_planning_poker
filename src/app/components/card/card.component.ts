@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'card',
@@ -6,5 +6,10 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./card.component.sass'],
 })
 export class CardComponent {
-  @Input() name_player: string = '';
+  @Input() player: any = {};
+  name_viever: string = '';
+
+  ngOnInit() {
+    this.name_viever = this.player.name.substring(0, 2).toUpperCase();
+  }
 }

@@ -1,4 +1,12 @@
 <div class="card_container">
-  <div class="card"></div>
-  <label class="card_name" for="">{{ name_player }}</label>
+  <div class="is_player" *ngIf="!player.is_viewer">
+    <div class="card"></div>
+    <span class="card_name" for="">{{ player.name }}</span>
+  </div>
+  <div class="is_viewer_wrapper" *ngIf="player.is_viewer">
+    <div class="is_viewer">
+      <span class="is_viever_span" for="">{{ name_viever }}</span>
+    </div>
+    <span class="card_name" for="">{{ player.name }}</span>
+  </div>
 </div>
