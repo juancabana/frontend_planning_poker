@@ -39,6 +39,7 @@ export class RoomComponent {
       this.httpService.findRoomById(params.id_room).subscribe({
         next: (data) => {
           this.socketService.setupSocketConnection();
+          this.openDialog();
         },
         error: (error) => {
           console.log(error);
@@ -50,7 +51,13 @@ export class RoomComponent {
   }
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(UserModalComponent, {});
+    const dialogRef = this.dialog.open(UserModalComponent, {
+      hasBackdrop: true,
+      width: '500px',
+      panelClass: 'user-modal',
+      backdropClass: 'blur-backdrop',
+      disableClose: true,
+    });
     dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed', result);
     });

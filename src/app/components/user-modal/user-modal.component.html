@@ -1,1 +1,31 @@
-<div class="user-modal">h</div>
+<div class="user_modal__body">
+  <form action="" class="user_modal_form">
+    <div class="user_modal_wrapper_span">
+      <span class="user_modal__span">Tu nombre</span>
+      <input class="user_modal__input" type="text" />
+    </div>
+    <div class="user_modal_wrapper_visualization">
+      <div class="user_modal_wrapper_checkbox">
+        <label class="user_modal_checkbox_text" for="player">Jugador</label>
+        <input
+          class="user_modal_checkbox_input"
+          type="radio"
+          name="player"
+          id="player"
+        />
+      </div>
+      <div class="user_modal_wrapper_checkbox">
+        <label class="user_modal_checkbox_text" for="spectator"
+          >Espectador</label
+        >
+        <input
+          class="user_modal_checkbox_input"
+          type="radio"
+          name="spectator"
+          id="spectator"
+        />
+      </div>
+    </div>
+    <button class="user_modal__button" (click)="closeModal()">Continuar</button>
+  </form>
+</div>

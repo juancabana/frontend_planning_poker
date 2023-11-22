@@ -17,4 +17,7 @@ export class UserModalComponent {
   onClick(): void {
     this.dialogRef.close();
   }
+  closeModal(): void {
+    this.dialogRef.close();
+  }
 }
