@@ -46,9 +46,6 @@ export class FormRoomComponent implements OnInit {
     const is_valid = this.form_room.get('room_name')?.status === 'VALID';
     this.is_button_active = is_valid;
   }
-  private async roomExists(): Promise<boolean> {
-    return true;
-  }
 
   async createRoom() {
     if (this.is_button_active) {

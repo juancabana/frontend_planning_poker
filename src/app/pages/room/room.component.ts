@@ -39,7 +39,6 @@ export class RoomComponent {
       this.httpService.findRoomById(params.id_room).subscribe({
         next: (data) => {
           this.socketService.setupSocketConnection();
-          this.openDialog();
         },
         error: (error) => {
           console.log(error);
@@ -47,7 +46,19 @@ export class RoomComponent {
           this.router.navigateByUrl('**');
         },
       });
+      // Find user in local storage
+      this.findUserInLocalStorage();
     });
+  }
+
+  findUserInLocalStorage() {
+    if (!localStorage.getItem('user')) {
+      this.openDialog();
+    } else {
+      // Si hay un usuario guardado, enviarlo al servidor
+      console.log('Ya hay un usuario registrado');
+      // this.socketService.sendUserToServer(localStorage.getItem('user'));
+    }
   }
 
   openDialog(): void {

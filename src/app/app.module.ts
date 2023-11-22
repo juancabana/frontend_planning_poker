@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { RoomComponent } from './pages/room/room.component';
 import { HomeComponent } from './pages/home/home.component';
 import { WebSocketService } from './services/web-socket/web-socket.service';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormRoomComponent } from './components/form-room/form-room.component';
 import { FormUserComponent } from './components/form-user/form-user.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -43,6 +43,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     HttpClientModule,
     BrowserAnimationsModule,
     MatDialogModule,
+    FormsModule,
   ],
   providers: [WebSocketService],
   bootstrap: [AppComponent],

@@ -8,6 +8,13 @@
   background-color: rgba(0, 0, 0, 0.4)
   backdrop-filter: blur(8px)
 
+:root
+  --form-control-color: rebeccapurple
+*,
+*:before,
+*:after
+  box-sizing: border-box
+
 .user_modal__body
   background: #1f0d3f
   // height: 150px
@@ -44,6 +51,12 @@
   font-family: Poppins, sans-serif
   font-weight: 400
   color: white
+  &:focus
+    outline: none
+    border: 1px solid #B963FD
+    box-shadow: 0 0 5px #B963FD
+    // Dame un estilo para el background en rgb
+    background: #330072
 .user_modal_wrapper_visualization
   width: 100%
   display: flex
@@ -58,23 +71,54 @@
   font-family: Poppins, sans-serif
   font-weight: 400
   font-size: 14px
+  display: flex
+  justify-content: center
+  align-items: center
+  cursor: pointer
 .user_modal_checkbox_input
-  width: 2rem
-  height: 2rem
-  margin-right: .5rem
+  appearance: none
+  width: 1.5rem
+  height: 1.5rem
   cursor: pointer
   border: 1px solid #bb65ff
   background-color: #331569
+  border-radius: 50%
+  display: flex
+  justify-content: center
+  align-items: center
+  &:focus
+    outline: none
+    border: 1px solid #B963FD
+    box-shadow: 0 0 5px #B963FD
+    // Dame un estilo para el background en rgb
+    background: #330072
+
+.user_modal_checkbox_input:checked::before
+  content: ""
+  display: block
+  width: 60%
+  height: 60%
+  background-color: #bb65ff
+  border-radius: 50%
+  margin: 0
+  padding: 0
+
 .user_modal__button
   height: 2.2rem
   border: none
-  font-family: Poppins, sans-serif
+  font-family: Poppins,sans-serif
+  font-size: 16px
   font-weight: 600
-  font-size: 14px
-  background: white
-  color: #1f0d3f
-  border-radius: 20px
-  padding: 0 1rem
+  justify-content: center
+  align-items: center
+  border-radius: 25px
   margin-top: 2rem
-  outline: none
+  background: #56367F
+  color: #807393
+  cursor: not-allowed
+  border: none
+  padding: 0 1rem
+.form_room_button_active
+  background: white
+  color: #360474
   cursor: pointer
