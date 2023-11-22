@@ -36,16 +36,17 @@ export class RoomComponent {
   ngOnInit() {
     this.route.params.subscribe((params: any) => {
       // `params` es un objeto que contiene los parámetros de la URL
-      this.httpService.findRoomById(params.id_room).subscribe({
-        next: (data) => {
-          this.socketService.setupSocketConnection();
-        },
-        error: (error) => {
-          console.log(error);
-          // redireccionar a la pagina de error
-          this.router.navigateByUrl('**');
-        },
-      });
+      (this.id_room = params.id_room),
+        this.httpService.findRoomById(params.id_room).subscribe({
+          next: (data) => {
+            this.socketService.setupSocketConnection();
+          },
+          error: (error) => {
+            console.log(error);
+            // redireccionar a la pagina de error
+            this.router.navigateByUrl('**');
+          },
+        });
       // Find user in local storage
       this.findUserInLocalStorage();
     });
@@ -68,6 +69,7 @@ export class RoomComponent {
       panelClass: 'user-modal',
       backdropClass: 'blur-backdrop',
       disableClose: true,
+      data: { room_id: this.id_room },
     });
     dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed', result);
