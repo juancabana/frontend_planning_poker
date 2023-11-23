@@ -76,6 +76,7 @@ export class UserModalComponent {
       if (!newUser._id) {
         return;
       } else {
+        localStorage.removeItem('user');
         localStorage.setItem('user', JSON.stringify(newUser));
         this.socketService.emit('createUser', newUser);
         this.dialogRef.close(user);

@@ -17,6 +17,13 @@
           name="player"
           id="player"
           (click)="setUserType($event)"
+          cuando
+          se
+          presiona
+          una
+          tecla
+          enter
+          (keyup.enter)="setUserType($event)"
           [checked]="is_player"
         />
       </div>
@@ -30,6 +37,7 @@
           name="spectator"
           id="spectator"
           (click)="setUserType($event)"
+          (keyup.enter)="setUserType($event)"
           [checked]="is_spectator"
         />
       </div>

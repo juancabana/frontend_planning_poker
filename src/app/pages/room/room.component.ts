@@ -52,12 +52,18 @@ export class RoomComponent {
     const user: any = localStorage.getItem('user');
     const userParsed = JSON.parse(user);
 
+    const activePlayers = room.players.filter(
+      (player: any) => player.is_connected == true
+    );
+
     if (!this.exists) {
-      this.players = [userParsed, ...room.players];
+      this.players = [userParsed, ...activePlayers];
       console.log('No existe el usuario');
     } else {
       const room = await this.httpService.findRoomById(this.id_room);
-      this.players = room.players;
+      this.players = room.players.filter(
+        (player: any) => player.is_connected == true
+      );
     }
 
     // Socket services
