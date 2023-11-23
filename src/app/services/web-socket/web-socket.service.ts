@@ -53,4 +53,7 @@ export class WebSocketService {
   listenDisconnect(): Observable<any> {
     return this.onEvent('userDisconected');
   }
+  listenConnect(): Observable<any> {
+    return this.onEvent('userConnected');
+  }
 }

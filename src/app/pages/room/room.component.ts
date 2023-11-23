@@ -27,11 +27,17 @@ export class RoomComponent {
     // Get params from url
     this.route.params.subscribe((params: any) => {
       this.id_room = params.id_room;
+
+      const userFind: any = localStorage.getItem('user');
+      const user = JSON.parse(userFind);
+      if (user.room_id != this.id_room) {
+        localStorage.removeItem('user');
+      }
     });
 
     // Find room by id
     const room = await this.httpService.findRoomById(this.id_room);
-    console.log(room);
+    // console.log(room);
 
     if (!room._id) {
       this.router.navigateByUrl('**');
@@ -64,6 +70,11 @@ export class RoomComponent {
       // console.log(id);
       this.players = this.players.filter((player) => player._id != id);
     });
+    this.socketService.listenConnect().subscribe((data: any) => {
+      if (!this.exists(data)) {
+        this.players.push(data);
+      }
+    });
     // },
   }
   exists = (userToEvaluate: any) =>
@@ -79,8 +90,10 @@ export class RoomComponent {
       const dialogRef: MatDialogRef<UserModalComponent> = this.openDialog();
       await dialogRef.afterClosed().toPromise();
     } else {
+      const user = JSON.parse(localStorage.getItem('user')!);
       console.log('Ya hay un usuario registrado');
       // this.socketService.sendUserToServer(localStorage.getItem('user'));
+      this.socketService.emit('userConnected', user);
     }
   }
 
