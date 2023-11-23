@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { WebSocketService } from '../../services/web-socket/web-socket.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpService } from 'src/app/services/http-service/http-service.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { UserModalComponent } from 'src/app/components/user-modal/user-modal.component';
+import { Observable, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-room',
@@ -21,48 +22,62 @@ export class RoomComponent {
   ) {}
   // Saber el parametro de la url
 
-  players = [
-    { name: 'David', is_viewer: true },
-    { name: 'Jordi', is_viewer: false },
-    { name: 'Marc', is_viewer: false },
-    { name: 'Javier', is_viewer: true },
-    { name: 'Pau', is_viewer: false },
-    { name: 'Pere', is_viewer: false },
-    { name: 'Pol', is_viewer: false },
-    { name: 'Jorge', is_viewer: true },
-    { name: 'Ramon', is_viewer: false },
-    { name: 'Raul', is_viewer: false },
-  ];
-  ngOnInit() {
+  players: any[] = [];
+  async ngOnInit() {
+    // Get params from url
     this.route.params.subscribe((params: any) => {
-      // `params` es un objeto que contiene los parámetros de la URL
-      (this.id_room = params.id_room),
-        this.httpService.findRoomById(params.id_room).subscribe({
-          next: (data) => {
-            this.socketService.setupSocketConnection();
-          },
-          error: (error) => {
-            console.log(error);
-            // redireccionar a la pagina de error
-            this.router.navigateByUrl('**');
-          },
-        });
-      // Find user in local storage
-      this.findUserInLocalStorage();
+      this.id_room = params.id_room;
     });
+
+    // Find room by id
+    const room = await this.httpService.findRoomById(this.id_room);
+    this.socketService.setupSocketConnection(room.tittle);
+    console.log(room);
+    if (!room._id) {
+      this.router.navigateByUrl('**');
+    }
+    await this.findUserInLocalStorage();
+    console.log('Después de la función del modal');
+
+    // Get user from local storage
+    const user: any = localStorage.getItem('user');
+    const userParsed = JSON.parse(user);
+
+    if (!this.exists) {
+      this.players = [userParsed, ...room.players];
+      console.log('No existe el usuario');
+    } else {
+      const room = await this.httpService.findRoomById(this.id_room);
+      this.players = room.players;
+    }
+
+    // Socket services
+    this.socketService.getNewUser().subscribe((data: any) => {
+      if (!this.exists(data)) {
+        this.players.push(data);
+      }
+    });
+    // },
+  }
+  exists = (userToEvaluate: any) =>
+    this.players.some((element) => element._id == userToEvaluate._id);
+
+  addPlayer(player: any) {
+    this.players.push(player);
   }
 
-  findUserInLocalStorage() {
+  async findUserInLocalStorage() {
     if (!localStorage.getItem('user')) {
-      this.openDialog();
+      // Abrir el modal y esperar a que se cierre
+      const dialogRef: MatDialogRef<UserModalComponent> = this.openDialog();
+      await dialogRef.afterClosed().toPromise();
     } else {
-      // Si hay un usuario guardado, enviarlo al servidor
       console.log('Ya hay un usuario registrado');
       // this.socketService.sendUserToServer(localStorage.getItem('user'));
     }
   }
 
-  openDialog(): void {
+  openDialog(): MatDialogRef<UserModalComponent> {
     const dialogRef = this.dialog.open(UserModalComponent, {
       hasBackdrop: true,
       width: '500px',
@@ -72,7 +87,8 @@ export class RoomComponent {
       data: { room_id: this.id_room },
     });
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed', result);
+      // console.log('The dialog was closed', result);
     });
+    return dialogRef;
   }
 }

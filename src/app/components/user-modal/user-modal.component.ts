@@ -1,7 +1,8 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpService } from 'src/app/services/http-service/http-service.service';
+import { WebSocketService } from 'src/app/services/web-socket/web-socket.service';
 
 @Component({
   selector: 'user-modal',
@@ -18,7 +19,8 @@ export class UserModalComponent {
   constructor(
     private dialogRef: MatDialogRef<UserModalComponent>,
     @Inject(MAT_DIALOG_DATA) public message: string,
-    private httpService: HttpService
+    private httpService: HttpService,
+    private socketService: WebSocketService
   ) {}
 
   ngOnInit(): void {}
@@ -70,16 +72,14 @@ export class UserModalComponent {
     // obtener la data del usuario que se mandó en la config de este MatDialog
     const { room_id } = this.dialogRef._containerInstance._config.data;
     if (this.is_button_active) {
-      this.httpService.createUser({ ...user, room_id }).subscribe({
-        next: (data) => {
-          console.log(data);
-          localStorage.setItem('user', JSON.stringify(data));
-          this.dialogRef.close(user);
-        },
-        error: (error) => {
-          console.log(error);
-        },
-      });
+      const newUser = await this.httpService.createUser({ ...user, room_id });
+      if (!newUser._id) {
+        return;
+      } else {
+        localStorage.setItem('user', JSON.stringify(newUser));
+        this.socketService.emit('createUser', newUser);
+        this.dialogRef.close(user);
+      }
     }
   }
 }

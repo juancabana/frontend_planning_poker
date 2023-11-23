@@ -8,8 +8,11 @@ import { Component, Input, OnInit } from '@angular/core';
 export class CardComponent {
   @Input() player: any = {};
   name_viever: string = '';
+  is_viewer: boolean = false;
 
   ngOnInit() {
-    this.name_viever = this.player.name.substring(0, 2).toUpperCase();
+    // console.log(this.player);
+    this.name_viever = this.player.username.substring(0, 2).toUpperCase();
+    this.is_viewer = this.player.visualization === 'spectator';
   }
 }
