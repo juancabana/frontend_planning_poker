@@ -31,7 +31,6 @@ export class RoomComponent {
 
     // Find room by id
     const room = await this.httpService.findRoomById(this.id_room);
-    this.socketService.setupSocketConnection(room.tittle);
     console.log(room);
     if (!room._id) {
       this.router.navigateByUrl('**');
@@ -42,6 +41,8 @@ export class RoomComponent {
     // Get user from local storage
     const user: any = localStorage.getItem('user');
     const userParsed = JSON.parse(user);
+
+    this.socketService.setupSocketConnection(room.tittle, userParsed._id);
 
     if (!this.exists) {
       this.players = [userParsed, ...room.players];
@@ -56,6 +57,10 @@ export class RoomComponent {
       if (!this.exists(data)) {
         this.players.push(data);
       }
+    });
+    this.socketService.listenDisconnect().subscribe((id: string) => {
+      // console.log(id);
+      this.players = this.players.filter((player) => player._id != id);
     });
     // },
   }

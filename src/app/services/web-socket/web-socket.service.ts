@@ -8,10 +8,11 @@ import { io } from 'socket.io-client';
 export class WebSocketService {
   private socket: any;
   constructor() {}
-  setupSocketConnection(tittle: string) {
+  setupSocketConnection(tittle: string, id: string) {
     this.socket = io('localhost:3000', {
       query: {
         nameRoom: tittle,
+        idUser: id,
       },
     });
     // Escucha el evento de creación de usuario
@@ -36,5 +37,8 @@ export class WebSocketService {
   }
   getNewUser(): Observable<any> {
     return this.onEvent('createUser');
+  }
+  listenDisconnect(): Observable<any> {
+    return this.onEvent('userDisconected');
   }
 }
