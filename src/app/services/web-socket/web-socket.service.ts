@@ -8,13 +8,25 @@ import { io } from 'socket.io-client';
 export class WebSocketService {
   private socket: any;
   constructor() {}
-  setupSocketConnection(tittle: string, id: string) {
-    this.socket = io('localhost:3000', {
-      query: {
-        nameRoom: tittle,
-        idUser: id,
-      },
-    });
+  setupSocketConnection(tittle: string) {
+    const options = () => {
+      const user: any = localStorage.getItem('user');
+      const userParsed = JSON.parse(user);
+      if (!user) {
+        return {
+          query: {
+            nameRoom: tittle,
+          },
+        };
+      }
+      return {
+        query: {
+          nameRoom: tittle,
+          idUser: userParsed._id,
+        },
+      };
+    };
+    this.socket = io('localhost:3000', options());
     // Escucha el evento de creación de usuario
     this.socket.on('usuarioCreado', (usuario: any) => {
       console.log('Usuario creado:', usuario);

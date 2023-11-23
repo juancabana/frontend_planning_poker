@@ -32,17 +32,19 @@ export class RoomComponent {
     // Find room by id
     const room = await this.httpService.findRoomById(this.id_room);
     console.log(room);
+
     if (!room._id) {
       this.router.navigateByUrl('**');
     }
+
+    this.socketService.setupSocketConnection(room.tittle);
+
     await this.findUserInLocalStorage();
     console.log('Después de la función del modal');
 
     // Get user from local storage
     const user: any = localStorage.getItem('user');
     const userParsed = JSON.parse(user);
-
-    this.socketService.setupSocketConnection(room.tittle, userParsed._id);
 
     if (!this.exists) {
       this.players = [userParsed, ...room.players];
