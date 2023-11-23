@@ -26,7 +26,7 @@ export class WebSocketService {
         },
       };
     };
-    this.socket = io('localhost:3000', options());
+    this.socket = io('planning-pokerservice.onrender.com', options());
     // Escucha el evento de creación de usuario
     this.socket.on('usuarioCreado', (usuario: any) => {
       console.log('Usuario creado:', usuario);
