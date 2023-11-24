@@ -6,7 +6,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class HttpService {
-  private url: string = 'planning-pokerservice.onrender.com/api';
+  private url: string = 'http://localhost:3000/api';
+  // private url: string = 'https://planning-pokerservice.onrender.com/api';
 
   constructor(private httpClient: HttpClient) {}
 

@@ -8,25 +8,31 @@ import { io } from 'socket.io-client';
 export class WebSocketService {
   private socket: any;
   constructor() {}
-  setupSocketConnection(tittle: string) {
+  setupSocketConnection(room: any) {
     const options = () => {
       const user: any = localStorage.getItem('user');
       const userParsed = JSON.parse(user);
       if (!user) {
         return {
           query: {
-            nameRoom: tittle,
+            nameRoom: room.tittle,
           },
         };
       }
       return {
         query: {
-          nameRoom: tittle,
+          nameRoom: room.tittle,
           idUser: userParsed._id,
+          user,
         },
       };
     };
-    this.socket = io('planning-pokerservice.onrender.com', options());
+    this.socket = io(
+      // 'https://planning-pokerservice.onrender.com'
+      'localhost:3000',
+      options()
+    );
+
     // Escucha el evento de creación de usuario
     this.socket.on('usuarioCreado', (usuario: any) => {
       console.log('Usuario creado:', usuario);
@@ -47,13 +53,17 @@ export class WebSocketService {
   emit(event: string, data?: any): void {
     this.socket.emit(event, data);
   }
-  getNewUser(): Observable<any> {
-    return this.onEvent('createUser');
+  listenNewUser(): Observable<any> {
+    return this.onEvent('userCreated');
   }
   listenDisconnect(): Observable<any> {
     return this.onEvent('userDisconected');
   }
   listenConnect(): Observable<any> {
     return this.onEvent('userConnected');
+  }
+  disconnect(): void {
+    // localStorage.removeItem('user');
+    this.socket.disconnect(this.socket);
   }
 }

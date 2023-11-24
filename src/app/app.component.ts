@@ -7,5 +7,5 @@ import { io } from 'socket.io-client';
   styleUrls: ['./app.component.sass'],
 })
 export class AppComponent {
-  title = 'frontend_planning_poker';
+  title = 'Planning Poker';
 }

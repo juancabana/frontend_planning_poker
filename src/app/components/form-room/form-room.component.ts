@@ -58,6 +58,8 @@ export class FormRoomComponent implements OnInit {
               'room',
               JSON.stringify({ ...data, isRoomValid: true })
             );
+            localStorage.removeItem('user');
+
             this.router.navigateByUrl(`room/${data._id}`);
           },
           error: (error) => {

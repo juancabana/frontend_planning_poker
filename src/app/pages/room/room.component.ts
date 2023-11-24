@@ -13,6 +13,10 @@ import { Observable, switchMap } from 'rxjs';
 })
 export class RoomComponent {
   id_room: string = '';
+  user: any = false;
+  players: any[] = [];
+  room: any = {};
+
   constructor(
     private socketService: WebSocketService,
     private route: ActivatedRoute,
@@ -22,72 +26,92 @@ export class RoomComponent {
   ) {}
   // Saber el parametro de la url
 
-  players: any[] = [];
   async ngOnInit() {
     // Get params from url
     this.route.params.subscribe((params: any) => {
       this.id_room = params.id_room;
-
-      const userFind: any = localStorage.getItem('user');
-      const user = JSON.parse(userFind);
-      if (user.room_id != this.id_room) {
-        localStorage.removeItem('user');
-      }
     });
 
     // Find room by id
     const room = await this.httpService.findRoomById(this.id_room);
-    // console.log(room);
 
     if (!room._id) {
       this.router.navigateByUrl('**');
     }
+    this.room = room;
 
-    this.socketService.setupSocketConnection(room.tittle);
+    this.socketService.setupSocketConnection(this.room);
 
     await this.findUserInLocalStorage();
     console.log('Después de la función del modal');
 
-    // Get user from local storage
-    const user: any = localStorage.getItem('user');
-    const userParsed = JSON.parse(user);
-
-    const activePlayers = room.players.filter(
-      (player: any) => player.is_connected == true
+    const activePlayers = this.room.players.filter(
+      (player: any) => this.isConnected(player) == true
     );
+    console.log('Después de activePlayers');
 
-    if (!this.exists) {
-      this.players = [userParsed, ...activePlayers];
+    if (!this.exists(this.user) && this.isConnected(this.user)) {
+      this.players = [this.user, ...activePlayers];
       console.log('No existe el usuario');
     } else {
-      const room = await this.httpService.findRoomById(this.id_room);
-      this.players = room.players.filter(
-        (player: any) => player.is_connected == true
-      );
+      // Usuario ya existe
+      this.players = activePlayers;
     }
 
     // Socket services
-    this.socketService.getNewUser().subscribe((data: any) => {
+    this.socketService.listenNewUser().subscribe((data: any) => {
+      console.log('Nuevo usuario:', data);
       if (!this.exists(data)) {
         this.players.push(data);
       }
     });
-    this.socketService.listenDisconnect().subscribe((id: string) => {
-      // console.log(id);
-      this.players = this.players.filter((player) => player._id != id);
+    this.socketService.listenDisconnect().subscribe((data: any) => {
+      const user = JSON.parse(data);
+      console.log(user);
+      // Busco el jugador con el ID recibido
+      const playerIndex = this.players.findIndex(
+        (player) => player._id == user._id
+      );
+      const newPlayers = [...this.players];
+
+      // Si el jugador existe, elimínalo
+      if (playerIndex !== -1) {
+        newPlayers.splice(playerIndex, 1);
+      }
+      this.players = newPlayers;
     });
     this.socketService.listenConnect().subscribe((data: any) => {
-      if (!this.exists(data)) {
-        this.players.push(data);
+      const user = JSON.parse(data);
+      if (!this.exists(user)) {
+        this.players.push({ ...user, is_connected: true });
       }
     });
     // },
   }
+
   exists = (userToEvaluate: any) =>
     this.players.some((element) => element._id == userToEvaluate._id);
+  isConnected = (userToEvaluate: any) => {
+    return userToEvaluate.is_connected == true;
+  };
 
   addPlayer(player: any) {
-    this.players.push(player);
+    // Verificar si el usuario está activo
+    if (player.is_connected) {
+      // Verificar si el usuario es nuevo
+      if (!this.exists(player)) {
+        // Verificar si el usuario es el mismo
+        if (player._id == JSON.parse(localStorage.getItem('user')!)._id) {
+          // console.log('Es el mismo usuario');
+
+          this.players = [...this.players, player];
+        } else {
+          // console.log('Es un usuario nuevo');
+          this.players.push(player);
+        }
+      }
+      return;
+    }
   }
 
   async findUserInLocalStorage() {
@@ -95,11 +119,11 @@ export class RoomComponent {
       // Abrir el modal y esperar a que se cierre
       const dialogRef: MatDialogRef<UserModalComponent> = this.openDialog();
       await dialogRef.afterClosed().toPromise();
+      const user = JSON.parse(localStorage.getItem('user')!);
+      this.user = user;
     } else {
       const user = JSON.parse(localStorage.getItem('user')!);
-      console.log('Ya hay un usuario registrado');
-      // this.socketService.sendUserToServer(localStorage.getItem('user'));
-      this.socketService.emit('userConnected', user);
+      this.addPlayer(user);
     }
   }
 
@@ -112,9 +136,7 @@ export class RoomComponent {
       disableClose: true,
       data: { room_id: this.id_room },
     });
-    dialogRef.afterClosed().subscribe((result) => {
-      // console.log('The dialog was closed', result);
-    });
+    dialogRef.afterClosed().subscribe((result) => {});
     return dialogRef;
   }
 }
