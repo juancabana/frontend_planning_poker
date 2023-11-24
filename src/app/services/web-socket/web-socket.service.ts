@@ -23,6 +23,7 @@ export class WebSocketService {
         query: {
           nameRoom: room.tittle,
           idUser: userParsed._id,
+          is_registered: true,
           user,
         },
       };
@@ -64,6 +65,6 @@ export class WebSocketService {
   }
   disconnect(): void {
     // localStorage.removeItem('user');
-    this.socket.disconnect(this.socket);
+    this.socket.disconnect(this.socket.query.user);
   }
 }

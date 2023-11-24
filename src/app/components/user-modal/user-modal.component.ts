@@ -77,7 +77,7 @@ export class UserModalComponent {
         return;
       } else {
         localStorage.setItem('user', JSON.stringify(newUser));
-        this.socketService.emit('createUser', newUser);
+        // this.socketService.emit('createUser', newUser);
         this.dialogRef.close(user);
       }
     }

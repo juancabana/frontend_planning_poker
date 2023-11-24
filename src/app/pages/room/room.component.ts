@@ -35,7 +35,7 @@ export class RoomComponent {
     // Find room by id
     const room = await this.httpService.findRoomById(this.id_room);
 
-    if (!room._id) {
+    if (room == null) {
       this.router.navigateByUrl('**');
     }
     this.room = room;
@@ -45,46 +45,34 @@ export class RoomComponent {
     await this.findUserInLocalStorage();
     console.log('Después de la función del modal');
 
-    const activePlayers = this.room.players.filter(
-      (player: any) => this.isConnected(player) == true
-    );
+    const playersToCache = await this.httpService.getPlayers(this.id_room);
+    this.players = playersToCache;
+
+    // const activePlayers = this.room.players.filter(
+    //   (player: any) => this.isConnected(player) == true
+    // );
     console.log('Después de activePlayers');
 
-    if (!this.exists(this.user) && this.isConnected(this.user)) {
-      this.players = [this.user, ...activePlayers];
-      console.log('No existe el usuario');
-    } else {
-      // Usuario ya existe
-      this.players = activePlayers;
-    }
+    // if (!this.exists(this.user) && this.isConnected(this.user)) {
+    //   this.players = [this.user, ...activePlayers];
+    //   console.log('No existe el usuario');
+    // } else {
+    //   // Usuario ya existe
+    //   this.players = activePlayers;
+    // }
 
     // Socket services
     this.socketService.listenNewUser().subscribe((data: any) => {
-      console.log('Nuevo usuario:', data);
-      if (!this.exists(data)) {
-        this.players.push(data);
-      }
+      console.log('Se ha CREADO un nuevo usuario');
+      this.players = data;
     });
     this.socketService.listenDisconnect().subscribe((data: any) => {
-      const user = JSON.parse(data);
-      console.log(user);
-      // Busco el jugador con el ID recibido
-      const playerIndex = this.players.findIndex(
-        (player) => player._id == user._id
-      );
-      const newPlayers = [...this.players];
-
-      // Si el jugador existe, elimínalo
-      if (playerIndex !== -1) {
-        newPlayers.splice(playerIndex, 1);
-      }
-      this.players = newPlayers;
+      console.log('Se ha DESCONECTADO un nuevo usuario');
+      this.players = data;
     });
     this.socketService.listenConnect().subscribe((data: any) => {
-      const user = JSON.parse(data);
-      if (!this.exists(user)) {
-        this.players.push({ ...user, is_connected: true });
-      }
+      console.log('Se ha RECONECTADO un nuevo usuario');
+      this.players = data;
     });
     // },
   }
@@ -117,7 +105,8 @@ export class RoomComponent {
   async findUserInLocalStorage() {
     if (!localStorage.getItem('user')) {
       // Abrir el modal y esperar a que se cierre
-      const dialogRef: MatDialogRef<UserModalComponent> = this.openDialog();
+      const dialogRef: MatDialogRef<UserModalComponent> =
+        await this.openDialog();
       await dialogRef.afterClosed().toPromise();
       const user = JSON.parse(localStorage.getItem('user')!);
       this.user = user;

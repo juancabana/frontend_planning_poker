@@ -10,7 +10,14 @@ export class HttpService {
   // private url: string = 'https://planning-pokerservice.onrender.com/api';
 
   constructor(private httpClient: HttpClient) {}
-
+  async getPlayers(id: any) {
+    const res: any = await fetch(`${this.url}/room/${id}/players`);
+    if (res.length == 0) return [];
+    const data: any = await res.json();
+    console.log(data);
+    return data;
+    // return [];
+  }
   async findRoomById(id: string): Promise<any> {
     const res = await fetch(`${this.url}/room/${id}`);
     const data = await res.json();
