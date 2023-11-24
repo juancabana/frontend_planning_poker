@@ -40,18 +40,20 @@ export class RoomComponent {
     }
     this.room = room;
 
-    this.socketService.setupSocketConnection(this.room);
-
     await this.findUserInLocalStorage();
     console.log('Después de la función del modal');
 
+    this.socketService.setupSocketConnection(this.room);
+    console.log('Después de setupSocketConnection');
+
     const playersToCache = await this.httpService.getPlayers(this.id_room);
     this.players = playersToCache;
+    console.log('Después de getPlayers');
 
     // const activePlayers = this.room.players.filter(
     //   (player: any) => this.isConnected(player) == true
     // );
-    console.log('Después de activePlayers');
+    // console.log('Después de activePlayers');
 
     // if (!this.exists(this.user) && this.isConnected(this.user)) {
     //   this.players = [this.user, ...activePlayers];
@@ -68,6 +70,8 @@ export class RoomComponent {
     });
     this.socketService.listenDisconnect().subscribe((data: any) => {
       console.log('Se ha DESCONECTADO un nuevo usuario');
+      console.log(data);
+
       this.players = data;
     });
     this.socketService.listenConnect().subscribe((data: any) => {
@@ -105,9 +109,9 @@ export class RoomComponent {
   async findUserInLocalStorage() {
     if (!localStorage.getItem('user')) {
       // Abrir el modal y esperar a que se cierre
-      const dialogRef: MatDialogRef<UserModalComponent> =
-        await this.openDialog();
+      const dialogRef: MatDialogRef<UserModalComponent> = this.openDialog();
       await dialogRef.afterClosed().toPromise();
+      console.log('Se cerró el modal');
       const user = JSON.parse(localStorage.getItem('user')!);
       this.user = user;
     } else {

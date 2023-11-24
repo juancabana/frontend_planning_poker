@@ -7,26 +7,32 @@ import { io } from 'socket.io-client';
 })
 export class WebSocketService {
   private socket: any;
-  constructor() {}
+  private room: any;
+  private user: any;
+  constructor() {
+    this.user = localStorage.getItem('user');
+  }
   setupSocketConnection(room: any) {
+    this.room = room;
     const options = () => {
-      const user: any = localStorage.getItem('user');
-      const userParsed = JSON.parse(user);
-      if (!user) {
+      if (!this.user) {
+        console.log('!this.user');
         return {
           query: {
-            nameRoom: room.tittle,
+            nameRoom: this.room.tittle,
+            user: localStorage.getItem('user'),
+          },
+        };
+      } else {
+        console.log('else');
+        return {
+          query: {
+            nameRoom: this.room.tittle,
+            user: localStorage.getItem('user'),
+            is_registered: true,
           },
         };
       }
-      return {
-        query: {
-          nameRoom: room.tittle,
-          idUser: userParsed._id,
-          is_registered: true,
-          user,
-        },
-      };
     };
     this.socket = io(
       // 'https://planning-pokerservice.onrender.com'
@@ -65,6 +71,7 @@ export class WebSocketService {
   }
   disconnect(): void {
     // localStorage.removeItem('user');
-    this.socket.disconnect(this.socket.query.user);
+    const user = localStorage.getItem('user');
+    this.socket.disconnect(user);
   }
 }
