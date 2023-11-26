@@ -73,12 +73,13 @@ export class UserModalComponent {
     const { room_id } = this.dialogRef._containerInstance._config.data;
     if (this.is_button_active) {
       const newUser = await this.httpService.createUser({ ...user, room_id });
+
       if (!newUser._id) {
         return;
       } else {
         localStorage.setItem('user', JSON.stringify(newUser));
         // this.socketService.emit('createUser', newUser);
-        this.dialogRef.close(user);
+        this.dialogRef.close();
       }
     }
   }

@@ -1,5 +1,5 @@
 <section class="room_section">
-  <header-room></header-room>
+  <header-room [room_name]="room.tittle" *ngIf="user"></header-room>
   <div class="room_table_container">
     <div class="room_table_module top">
       <card *ngIf="players[1]" [player]="players[1]"></card>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { InvitePlayersModalComponent } from '../invite-players-modal/invite-players-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -8,7 +8,14 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./header.component.sass'],
 })
 export class HeaderComponent {
-  constructor(private dialog: MatDialog) {}
+  @Input() room_name: string = '';
+  name_viever: string = '';
+
+  constructor(private dialog: MatDialog) {
+    // name_viever es igual a las dos primeras letras del nombre del usuario
+    const user = JSON.parse(localStorage.getItem('user')!);
+    this.name_viever = user.username.substring(0, 2).toUpperCase();
+  }
 
   openDialog() {
     const dialogRef = this.dialog.open(InvitePlayersModalComponent, {

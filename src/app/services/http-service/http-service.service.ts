@@ -12,7 +12,7 @@ export class HttpService {
   constructor(private httpClient: HttpClient) {}
   async getPlayers(id: any) {
     const res: any = await fetch(`${this.url}/room/${id}/players`);
-    if (res.length == 0) return [];
+    // if (res.length == 0) return [];
     const data: any = await res.json();
     console.log(data);
     return data;
