@@ -19,32 +19,50 @@ export class CardMenuComponent {
     // Escuchar cuando un usuario selecciona una carta
     const cards = await this.httpService.getCards();
     this.card_options = cards;
-    this.webSocketService.listenCardSelected().subscribe((value: any) => {
+    this.webSocketService.listenCardSelected().subscribe((data: any) => {
       // console.log('Se seleccionó la carta:', value);
       // // agregar una propiedad a la carta que tenga este valor
-      this.card_options.map((card) => {
-        if (card.value === value) {
-          card.selected = true;
+      // this.card_options = data;
+      this.card_options.map((card, index) => {
+        if (card.value === this.cardSelected) {
+          card.selected_by_user = true;
+        } else card.selected_by_user = false;
+
+        if (!card.selected_by_user) {
+          card.selected = data[index].selected;
         }
       });
+      // this.card_options.map((card) => {
+      //   if (card.value === data.lastSelected) {
+      //     card.selected_by_user = false;
+      //   }
+      // })
     });
   }
 
   selectCard(index: number) {
     if (!this.card_options[index].selected) {
       // a la carta seleccionada se le asigna una nueva propiedad llamada selected, y se le asigna el valor true, y a las demás cartas se les asigna el valor false
-      this.card_options.map((card) => {
-        if (!card.selected) {
+      // this.card_options.map((card) => {
+      //   if (!card.selected) {
+      //     card.selected_by_user = false;
+      //   }
+      // });
+      // this.card_options[index].selected_by_user = true;
+      this.card_options.map((card, i) => {
+        if (i == index) {
+          card.selected_by_user = true;
+        } else {
           card.selected_by_user = false;
         }
       });
-      this.card_options[index].selected_by_user = true;
-      this.cardSelected = this.card_options[index].value;
+
       // emitir el valor de la carta seleccionada
-      this.webSocketService.emit(
-        'cardSelected',
-        this.card_options[index].value
-      );
+      this.webSocketService.emit('cardSelected', {
+        index: index,
+        lastSelected: this.cardSelected,
+      });
+      this.cardSelected = this.card_options[index].value;
     }
     return;
   }
