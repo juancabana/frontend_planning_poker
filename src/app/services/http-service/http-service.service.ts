@@ -24,7 +24,7 @@ export class HttpService {
     return data;
   }
   async getCards(): Promise<any> {
-    const res = await fetch(`${this.url}/room/card_options`);
+    const res = await fetch(`${this.url}/card_options`);
     const data = await res.json();
     return data;
   }

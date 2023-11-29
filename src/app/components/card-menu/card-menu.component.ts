@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { HttpService } from 'src/app/services/http-service/http-service.service';
 // import { HttpService } from 'src/app/services/http-service/http-service.service';
 import { WebSocketService } from 'src/app/services/web-socket/web-socket.service';
 
@@ -9,26 +10,15 @@ import { WebSocketService } from 'src/app/services/web-socket/web-socket.service
 })
 export class CardMenuComponent {
   constructor(
-    private webSocketService: WebSocketService // private httpService: HttpService
+    private webSocketService: WebSocketService,
+    private httpService: HttpService
   ) {}
-  card_options: any[] = [
-    { value: 0, viewValue: '0' },
-    { value: 1, viewValue: '1' },
-    { value: 3, viewValue: '3' },
-    { value: 5, viewValue: '5' },
-    { value: 8, viewValue: '8' },
-    { value: 13, viewValue: '13' },
-    { value: 21, viewValue: '21' },
-    { value: 34, viewValue: '34' },
-    { value: 55, viewValue: '55' },
-    { value: 89, viewValue: '89' },
-    { value: 144, viewValue: '?' },
-    { value: 233, viewValue: '☕' },
-  ];
-  ngOnInit() {
+  card_options: any[] = [];
+  cardSelected: number | null = null;
+  async ngOnInit() {
     // Escuchar cuando un usuario selecciona una carta
-    // const cards = await this.httpService.getCards();
-    // this.card_options = cards;
+    const cards = await this.httpService.getCards();
+    this.card_options = cards;
     this.webSocketService.listenCardSelected().subscribe((value: any) => {
       // console.log('Se seleccionó la carta:', value);
       // // agregar una propiedad a la carta que tenga este valor
@@ -49,6 +39,7 @@ export class CardMenuComponent {
         }
       });
       this.card_options[index].selected_by_user = true;
+      this.cardSelected = this.card_options[index].value;
       // emitir el valor de la carta seleccionada
       this.webSocketService.emit(
         'cardSelected',
