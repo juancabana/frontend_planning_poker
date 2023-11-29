@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HttpService } from 'src/app/services/http-service/http-service.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { UserModalComponent } from 'src/app/components/user-modal/user-modal.component';
-import { Observable, switchMap } from 'rxjs';
+// import { Observable, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-room',
@@ -38,11 +38,26 @@ export class RoomComponent {
     }
     this.room = room;
 
+    // Setup socket connection
     this.socketService.setupSocketConnection(this.room);
     console.log('Después de setupSocketConnection');
 
-    // Crear usuario
     await this.findUserInLocalStorage();
+
+    this.socketService.listenNewUser().subscribe((data: any) => {
+      console.log('Se ha CREADO un nuevo usuario', data);
+      // Poner en la posición 0 al usuario que está en el local storage
+      // pero no repeirlo si ya está en la lista
+      if (!this.exists(this.user)) {
+        // Poner en la posición 0 al usuario que está en el local storage
+
+        this.players = [this.user, ...data];
+      } else {
+        // Poner en la posición 0 al usuario que está en el local storage
+        // pero no repeirlo si ya está en la lista
+        this.players = data;
+      }
+    });
 
     const playersToCache = await this.httpService.getPlayers(this.id_room);
     // this.players = playersToCache;
@@ -78,10 +93,7 @@ export class RoomComponent {
     // }
 
     // Socket services
-    this.socketService.listenNewUser().subscribe((data: any) => {
-      console.log('Se ha CREADO un nuevo usuario', data);
-      this.players = data;
-    });
+
     this.socketService.listenDisconnect().subscribe((data: any) => {
       console.log('Se ha DESCONECTADO un nuevo usuario');
       // console.log(data);
@@ -100,25 +112,6 @@ export class RoomComponent {
   isConnected = (userToEvaluate: any) => {
     return userToEvaluate.is_connected == true;
   };
-
-  addPlayer(player: any) {
-    // Verificar si el usuario está activo
-    if (player.is_connected) {
-      // Verificar si el usuario es nuevo
-      if (!this.exists(player)) {
-        // Verificar si el usuario es el mismo
-        if (player._id == JSON.parse(localStorage.getItem('user')!)._id) {
-          // console.log('Es el mismo usuario');
-
-          this.players = [...this.players, player];
-        } else {
-          // console.log('Es un usuario nuevo');
-          this.players.push(player);
-        }
-      }
-      return;
-    }
-  }
 
   async findUserInLocalStorage() {
     if (!localStorage.getItem('user')) {

@@ -12,11 +12,10 @@ export class WebSocketService {
   constructor() {
     this.user = localStorage.getItem('user');
   }
-  setupSocketConnection(room: any) {
+  setupSocketConnection(room: any, user?: any) {
     this.room = room;
     const options = () => {
       if (!this.user) {
-        console.log('!this.user');
         return {
           query: {
             nameRoom: this.room.tittle,
@@ -24,7 +23,6 @@ export class WebSocketService {
           },
         };
       } else {
-        console.log('else');
         return {
           query: {
             nameRoom: this.room.tittle,
@@ -69,9 +67,12 @@ export class WebSocketService {
   listenConnect(): Observable<any> {
     return this.onEvent('userConnected');
   }
+  listenCardSelected(): Observable<any> {
+    return this.onEvent('cardSelected');
+  }
   disconnect(): void {
     // localStorage.removeItem('user');
-    const user = localStorage.getItem('user');
-    this.socket.disconnect(user);
+    // const user = localStorage.getItem('user');
+    this.socket.disconnect();
   }
 }

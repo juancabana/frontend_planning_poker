@@ -2,7 +2,6 @@ import { Component, Inject } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpService } from 'src/app/services/http-service/http-service.service';
-import { WebSocketService } from 'src/app/services/web-socket/web-socket.service';
 
 @Component({
   selector: 'user-modal',
@@ -19,8 +18,7 @@ export class UserModalComponent {
   constructor(
     private dialogRef: MatDialogRef<UserModalComponent>,
     @Inject(MAT_DIALOG_DATA) public message: string,
-    private httpService: HttpService,
-    private socketService: WebSocketService
+    private httpService: HttpService
   ) {}
 
   ngOnInit(): void {}
@@ -78,7 +76,6 @@ export class UserModalComponent {
         return;
       } else {
         localStorage.setItem('user', JSON.stringify(newUser));
-        // this.socketService.emit('createUser', newUser);
         this.dialogRef.close();
       }
     }

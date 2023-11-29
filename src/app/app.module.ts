@@ -20,6 +20,7 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserModalComponent } from './components/user-modal/user-modal.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { CardMenuComponent } from './components/card-menu/card-menu.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     NotFoundComponent,
     UserModalComponent,
     InvitePlayersModalComponent,
+    CardMenuComponent,
   ],
   imports: [
     BrowserModule,

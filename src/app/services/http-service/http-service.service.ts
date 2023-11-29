@@ -23,6 +23,11 @@ export class HttpService {
     const data = await res.json();
     return data;
   }
+  async getCards(): Promise<any> {
+    const res = await fetch(`${this.url}/room/card_options`);
+    const data = await res.json();
+    return data;
+  }
   async createUser(user: any): Promise<any> {
     // Hacer un post con el usuario co fetch
     const res = await fetch(`${this.url}/user`, {
