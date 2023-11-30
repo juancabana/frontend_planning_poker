@@ -46,24 +46,15 @@ export class RoomComponent {
 
     this.socketService.listenNewUser().subscribe((data: any) => {
       console.log('Se ha CREADO un nuevo usuario', data);
-      // Poner en la posición 0 al usuario que está en el local storage
-      // pero no repeirlo si ya está en la lista
       if (!this.exists(this.user)) {
-        // Poner en la posición 0 al usuario que está en el local storage
-
         this.players = [this.user, ...data];
       } else {
-        // Poner en la posición 0 al usuario que está en el local storage
-        // pero no repeirlo si ya está en la lista
         this.players = data;
       }
     });
 
     const playersToCache = await this.httpService.getPlayers(this.id_room);
-    // this.players = playersToCache;
-    // if (this.players.length == 0) {
-    //   this.players = [this.user, ...playersToCache];
-    // }
+
     this.players = [this.user, ...playersToCache];
     // if (!this.exists(this.user)) {
     if (!playersToCache.some((element: any) => element._id == this.user._id)) {
@@ -71,26 +62,6 @@ export class RoomComponent {
     } else {
       this.players = playersToCache;
     }
-    // {
-    //   }
-    //   this.players = [...playersToCache];
-    // }
-    // this.user = user;
-    // this.players = playersToCache;
-    // console.log('Después de getPlayers');
-
-    // const activePlayers = this.room.players.filter(
-    //   (player: any) => this.isConnected(player) == true
-    // );
-    // console.log('Después de activePlayers');
-
-    // if (!this.exists(this.user) && this.isConnected(this.user)) {
-    //   this.players = [this.user, ...activePlayers];
-    //   console.log('No existe el usuario');
-    // } else {
-    //   // Usuario ya existe
-    //   this.players = activePlayers;
-    // }
 
     // Socket services
 
@@ -137,5 +108,11 @@ export class RoomComponent {
     });
     dialogRef.afterClosed().subscribe((result) => {});
     return dialogRef;
+  }
+  onCardSelected(idUser: any) {
+    // Encontrar el usuario en el array de jugadores y actualizar su estado
+    const index = this.players.findIndex((player) => player._id == idUser);
+    this.players[index].selected_card = true;
+    console.log(index);
   }
 }

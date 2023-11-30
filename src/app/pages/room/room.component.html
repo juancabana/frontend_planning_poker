@@ -27,5 +27,9 @@
       <card *ngIf="players[3]" [player]="players[3]"></card>
     </div>
   </div>
-  <card-menu *ngIf="user"></card-menu>
+  <card-menu
+    *ngIf="user"
+    [user]="user"
+    (cardSelectedEvent)="onCardSelected($event)"
+  ></card-menu>
 </section>
