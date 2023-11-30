@@ -49,7 +49,19 @@ export class RoomComponent {
       if (!this.exists(this.user)) {
         this.players = [this.user, ...data];
       } else {
+        // Establecer la data
+        // pero el usuario actual debe estar en la primera posición
         this.players = data;
+        let userIndex = this.players.findIndex(
+          (player) => player._id === this.user._id
+        );
+        if (userIndex !== -1) {
+          // Eliminar el usuario del array
+          let user = this.players.splice(userIndex, 1)[0];
+
+          // Insertar el usuario en la primera posición del array
+          this.players.unshift(user);
+        }
       }
     });
 
