@@ -16,6 +16,7 @@ export class RoomComponent {
   user: any;
   players: any[] = [];
   room: any = {};
+  is_revealable_button_visible: Boolean = false;
 
   constructor(
     private socketService: WebSocketService,
@@ -45,15 +46,21 @@ export class RoomComponent {
     await this.findUserInLocalStorage();
 
     this.socketService.listenNewUser().subscribe((data: any) => {
-      console.log('Se ha CREADO un nuevo usuario', data);
+      // console.log('Se ha CREADO un nuevo usuario', data);
       if (!this.exists(this.user)) {
         this.players = [this.user, ...data];
         this.setFirstPosition();
       } else {
-        // Establecer la data
-        // pero el usuario actual debe estar en la primera posición
         this.players = data;
         this.setFirstPosition();
+      }
+      // Active Button Reveal
+      if (
+        this.user.is_owner &&
+        this.players.every((player) => player.selected_card)
+      ) {
+        // Activa la propiedad reve
+        this.is_revealable_button_visible = true;
       }
     });
 
@@ -131,6 +138,16 @@ export class RoomComponent {
     // Encontrar el usuario en el array de jugadores y actualizar su estado
     const index = this.players.findIndex((player) => player._id == idUser);
     this.players[index].selected_card = true;
-    console.log(index);
+    // console.log(index);
+  }
+  RevealCards() {
+    // Recorre el array de jugadores y devuelve un array con las cartas seleccionadas
+    const cards = this.players.map((player) => player.selected_card);
+    // Devuelve un array con los valores y la cantidad de las cartas seleccionadas
+    const cardsSelected = cards.reduce((acc, card) => {
+      acc[card] = (acc[card] || 0) + 1;
+      return acc;
+    }, {});
+    console.log(cardsSelected);
   }
 }

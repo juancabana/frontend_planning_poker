@@ -21,6 +21,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserModalComponent } from './components/user-modal/user-modal.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { CardMenuComponent } from './components/card-menu/card-menu.component';
+import { ResultsComponent } from './components/results/results.component';
+import { CardResultComponent } from './components/card-result/card-result.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +39,8 @@ import { CardMenuComponent } from './components/card-menu/card-menu.component';
     UserModalComponent,
     InvitePlayersModalComponent,
     CardMenuComponent,
+    ResultsComponent,
+    CardResultComponent,
   ],
   imports: [
     BrowserModule,

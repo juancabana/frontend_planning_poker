@@ -13,7 +13,15 @@
     <div class="room_wrapper_table">
       <div class="room_border_table">
         <div class="room_table_container">
-          <div class="room_table"></div>
+          <div class="room_table">
+            <button
+              class="room_table_button"
+              *ngIf="is_revealable_button_visible"
+              (click)="RevealCards()"
+            >
+              Revelar cartas
+            </button>
+          </div>
         </div>
       </div>
     </div>
