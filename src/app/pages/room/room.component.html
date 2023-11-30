@@ -1,4 +1,4 @@
-<section class="room_section">
+<section class="room_section" [ngClass]="{ room_section_centered: user }">
   <header-room [room_name]="room.tittle" *ngIf="user"></header-room>
   <div class="room_table_container">
     <div class="room_table_module top">

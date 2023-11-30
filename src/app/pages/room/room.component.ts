@@ -48,20 +48,12 @@ export class RoomComponent {
       console.log('Se ha CREADO un nuevo usuario', data);
       if (!this.exists(this.user)) {
         this.players = [this.user, ...data];
+        this.setFirstPosition();
       } else {
         // Establecer la data
         // pero el usuario actual debe estar en la primera posición
         this.players = data;
-        let userIndex = this.players.findIndex(
-          (player) => player._id === this.user._id
-        );
-        if (userIndex !== -1) {
-          // Eliminar el usuario del array
-          let user = this.players.splice(userIndex, 1)[0];
-
-          // Insertar el usuario en la primera posición del array
-          this.players.unshift(user);
-        }
+        this.setFirstPosition();
       }
     });
 
@@ -71,8 +63,10 @@ export class RoomComponent {
     // if (!this.exists(this.user)) {
     if (!playersToCache.some((element: any) => element._id == this.user._id)) {
       this.players = [this.user, ...playersToCache];
+      this.setFirstPosition();
     } else {
       this.players = playersToCache;
+      this.setFirstPosition();
     }
 
     // Socket services
@@ -90,6 +84,18 @@ export class RoomComponent {
     // },
   }
 
+  setFirstPosition() {
+    let userIndex = this.players.findIndex(
+      (player) => player._id === this.user._id
+    );
+    if (userIndex !== -1) {
+      // Eliminar el usuario del array
+      let user = this.players.splice(userIndex, 1)[0];
+
+      // Insertar el usuario en la primera posición del array
+      this.players.unshift(user);
+    }
+  }
   exists = (userToEvaluate: any) =>
     this.players.some((element) => element._id == userToEvaluate._id);
   isConnected = (userToEvaluate: any) => {
