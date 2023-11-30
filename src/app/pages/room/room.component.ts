@@ -17,6 +17,7 @@ export class RoomComponent {
   players: any[] = [];
   room: any = {};
   is_revealable_button_visible: Boolean = false;
+  cards_selected: any[] = [];
 
   constructor(
     private socketService: WebSocketService,
@@ -88,6 +89,9 @@ export class RoomComponent {
       console.log('Se ha RECONECTADO un nuevo usuario');
       this.players = data;
     });
+    this.socketService.listenCardRevealed().subscribe((data: any) => {
+      this.cards_selected = data;
+    });
     // },
   }
 
@@ -148,6 +152,14 @@ export class RoomComponent {
       acc[card] = (acc[card] || 0) + 1;
       return acc;
     }, {});
-    console.log(cardsSelected);
+
+    const result = Object.entries(cardsSelected).map(([value, amount]) => ({
+      value,
+      amount,
+    }));
+
+    // console.log(result);
+    this.socketService.emit('reveal-cards', result);
+    this.cards_selected = result;
   }
 }

@@ -36,8 +36,12 @@
     </div>
   </div>
   <card-menu
-    *ngIf="user"
+    *ngIf="user && cards_selected.length == 0"
     [user]="user"
     (cardSelectedEvent)="onCardSelected($event)"
   ></card-menu>
+  <results
+    *ngIf="cards_selected.length > 0"
+    [cards_selected]="cards_selected"
+  ></results>
 </section>

@@ -70,6 +70,9 @@ export class WebSocketService {
   listenCardSelected(): Observable<any> {
     return this.onEvent('cardSelected');
   }
+  listenCardRevealed(): Observable<any> {
+    return this.onEvent('reveal-cards');
+  }
   disconnect(): void {
     // localStorage.removeItem('user');
     // const user = localStorage.getItem('user');

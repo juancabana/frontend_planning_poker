@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-results',
+  selector: 'results',
   templateUrl: './results.component.html',
   styleUrls: ['./results.component.sass'],
 })
 export class ResultsComponent {
-  cards: any[] = [];
+  @Input() cards_selected: any[] = [];
 }
