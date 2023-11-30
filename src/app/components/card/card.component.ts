@@ -9,6 +9,7 @@ export class CardComponent {
   @Input() player: any = {};
   name_viever: string = '';
   visualization: string = 'false';
+  @Input() visualizate_result: Boolean = false;
 
   ngOnInit() {
     // console.log(this.player);

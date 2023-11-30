@@ -138,10 +138,11 @@ export class RoomComponent {
     dialogRef.afterClosed().subscribe((result) => {});
     return dialogRef;
   }
-  onCardSelected(idUser: any) {
+  onCardSelected(data: any) {
+    const { idUser, cardSelected } = data;
     // Encontrar el usuario en el array de jugadores y actualizar su estado
     const index = this.players.findIndex((player) => player._id == idUser);
-    this.players[index].selected_card = true;
+    this.players[index].selected_card = cardSelected;
     // console.log(index);
   }
   RevealCards() {

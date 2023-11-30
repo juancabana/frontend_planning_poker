@@ -2,8 +2,14 @@
   <div class="is_player" *ngIf="visualization == 'player'">
     <div
       class="card"
-      [ngClass]="{ card_player_selected: player.selected_card }"
-    ></div>
+      [ngClass]="{
+        card_player_selected: player.selected_card && !player.selected_card
+      }"
+    >
+      <span *ngIf="visualizate_result" class="card_selected">{{
+        player.selected_card
+      }}</span>
+    </div>
     <span class="card_name" for="">{{ player.username }}</span>
   </div>
   <div class="is_viewer_wrapper" *ngIf="visualization == 'spectator'">

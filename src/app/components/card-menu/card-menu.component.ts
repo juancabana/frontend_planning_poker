@@ -54,7 +54,7 @@ export class CardMenuComponent {
         ID_user: idUser,
       });
       this.cardSelected = this.card_options[index].value;
-      this.cardSelectedEvent.emit(idUser);
+      this.cardSelectedEvent.emit({ idUser, cardSelected: this.cardSelected });
     }
     return;
   }

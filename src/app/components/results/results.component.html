@@ -5,12 +5,18 @@
         <div class="card_to_select">
           <span class="card_value">{{ card.value }}</span>
         </div>
-        <span class="card_value"
+        <span class="card_value_description"
           >{{ card.amount }}
           <span *ngIf="card.amount > 1; else singleVote">votos</span
           ><ng-template #singleVote>voto</ng-template></span
         >
       </div>
     </ng-container>
+  </div>
+  <div class="wrapper_average">
+    <div class="average">
+      <span class="average_description">Promedio:</span>
+      <h1 class="average_value">{{ getAverageString() }}</h1>
+    </div>
   </div>
 </div>
