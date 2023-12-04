@@ -78,6 +78,7 @@ export class CardMenuComponent implements OnInit, OnDestroy {
       ID_user: idUser,
     });
   }
+  // Changes
 
   ngOnDestroy() {
     this.getCardsSubscription.unsubscribe();
