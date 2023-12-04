@@ -1,5 +1,9 @@
+@use '../../../../variables' as var
+
+$colorLight: #B963FD
+
 ::ng-deep .user-modal
-  border-radius: 25px
+  border-radius: var.$borderRadiusCorners
   overflow: hidden
   height: auto
   border: 2px solid #6429cd
@@ -22,18 +26,22 @@
   display: flex
   justify-content: center
   align-items: center
+
 .user-modal__form
   display: flex
   flex-direction: column
   justify-content: center
   align-items: center
+
 .user-modal__wrapper-span
   width: 280px
+
 .user-modal__span
   margin-bottom: 1rem
   color: white
-  font-family: Poppins, sans-serif
+  font-family: var.$appFont
   font-weight: 600
+
 .user-modal__input
   height: 2.2rem
   border: 1px solid #6429cd
@@ -44,49 +52,51 @@
   margin-top: .5rem
   padding: 0 1rem
   box-sizing: border-box
-  font-family: Poppins, sans-serif
+  font-family: var.$appFont
   font-weight: 400
   color: white
   &:focus
     outline: none
-    border: 1px solid #B963FD
-    box-shadow: 0 0 5px #B963FD
-    // Dame un estilo para el background en rgb
+    border: 1px solid $colorLight
+    box-shadow: 0 0 5px $colorLight
     background: #330072
+
 .user-modal__wrapper-visualization
   width: 100%
   display: flex
   justify-content: space-evenly
   margin-top: 1rem
+
 .user-modal__wrapper-checkbox
   display: flex
   justify-content: center
   align-items: center
+
 .user-modal__checkbox-text
   color: white
-  font-family: Poppins, sans-serif
+  font-family: var.$appFont
   font-weight: 400
   font-size: 14px
   display: flex
   justify-content: center
   align-items: center
   cursor: pointer
+
 .user-modal__checkbox-input
   appearance: none
   width: 1.5rem
   height: 1.5rem
   cursor: pointer
-  border: 1px solid #bb65ff
-  background-color: #331569
+  border: 1px solid $colorLight
+  background-color: var.$colorEnabled
   border-radius: 50%
   display: flex
   justify-content: center
   align-items: center
   &:focus
     outline: none
-    border: 1px solid #B963FD
-    box-shadow: 0 0 5px #B963FD
-    // Dame un estilo para el background en rgb
+    border: 1px solid $colorLight
+    box-shadow: 0 0 5px $colorLight
     background: #330072
 
 .user-modal__checkbox-input:checked::before
@@ -94,7 +104,7 @@
   display: block
   width: 60%
   height: 60%
-  background-color: #bb65ff
+  background-color: $colorLight
   border-radius: 50%
   margin: 0
   padding: 0
@@ -102,19 +112,20 @@
 .user-modal__button
   height: 2.2rem
   border: none
-  font-family: Poppins,sans-serif
+  font-family: var.$appFont
   font-size: 16px
   font-weight: 600
   justify-content: center
   align-items: center
-  border-radius: 25px
+  border-radius: var.$borderRadiusCorners
   margin-top: 2rem
   background: #56367F
   color: #807393
   cursor: not-allowed
   border: none
   padding: 0 1rem
+
 .user-modal__button--active
   background: white
-  color: #360474
+  color: var.$colorEnabled
   cursor: pointer

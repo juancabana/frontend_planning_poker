@@ -1,9 +1,13 @@
+@use '../../../../variables' as var
+
+$colorLight: #B963FD
+
 .form-room
   display: flex
   flex-direction: column
 
 .form-room__label
-  font-family: Poppins,sans-serif
+  font-family: var.$appFont
   color: white
   font-weight: 600
 
@@ -11,20 +15,18 @@
   width: 280px
   height: 50px
   padding: 0px 1.5rem
-  border: 1px solid #B963FD
+  border: 1px solid $colorLight
   background: transparent
-  font-family: Poppins,sans-serif
+  font-family: var.$appFont
   font-size: 15px
   color: white
   margin-top: 0.5rem
-  border-radius: 25px
-  // Styles when the input is focused
+  border-radius: var.$borderRadiusCorners
   &:focus
     outline: none
-    border: 1px solid #B963FD
-    box-shadow: 0 0 5px #B963FD
-    // Dame un estilo para el background en rgb
+    border: 1px solid $colorLight
+    box-shadow: 0 0 5px $colorLight
     background: #330072
 
-button-home
+.form-room__button
   align-self: center

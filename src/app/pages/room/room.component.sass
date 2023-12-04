@@ -1,3 +1,8 @@
+@use '../../../variables' as var
+
+$colAndRowDisposition: auto 1fr auto
+$borderRadiusTable: 250px
+
 .room
   padding: 0
   background: radial-gradient(#330072, #615578)
@@ -10,14 +15,14 @@
 
 .room__table-container
   display: grid
-  grid-template-columns: auto 1fr auto
-  grid-template-rows: auto 1fr auto
+  grid-template-columns: $colAndRowDisposition
+  grid-template-rows: $colAndRowDisposition
 
 .room__table-module
   display: flex
 
 .room__wrapper-table
-  border-radius: 250px
+  border-radius: $borderRadiusTable
   border: 2px solid #7443d6
   background: transparent
   padding: 1rem
@@ -57,7 +62,7 @@
   align-items: center
 
 .room__border-table
-  border-radius: 250px
+  border-radius: $borderRadiusTable
   border: 2px solid #9479E8
   background: transparent
   padding: .8rem
@@ -66,7 +71,7 @@
   width: 468px
   height: 224px
   background: #290C52
-  border-radius: 250px
+  border-radius: $borderRadiusTable
   border: 1px solid #6429CD
   position: relative
   display: flex
@@ -78,10 +83,10 @@
   border: none
   background: #6429cd
   color: white
-  font-family: Poppins, sans-serif
+  font-family: var.$appFont
   padding: .6rem 1.6rem
   font-size: 1.2rem
-  border-radius: 25px
+  border-radius: var.$borderRadiusCorners
   outline: none
   cursor: pointer
 

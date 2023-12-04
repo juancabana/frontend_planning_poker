@@ -1,3 +1,5 @@
+@use '../../../../variables' as var
+
 .header
   background: transparent
   width: 100vw
@@ -22,7 +24,7 @@
   margin: 0 auto
 
 .header__tittle
-  font-family: Poppins,sans-serif
+  font-family: var.$appFont
   font-size: 1.5rem
   font-weight: 600
   color: white
@@ -43,14 +45,14 @@
   align-items: center
 .header__options-name
   margin: 0
-  font-family: Poppins,sans-serif
+  font-family: var.$appFont
   font-size: 1rem
   font-weight: 700
 
 .header__button-copy
   height: 35px
-  border: 1px solid #FFF
-  font-family: Poppins,sans-serif
+  border: 1px solid white
+  font-family: var.$appFont
   border-radius: 20px
   background: transparent
   font-size: 15px
@@ -59,7 +61,7 @@
   font-weight: 500
   // hover
   &:hover
-    background: #FFF
+    background: white
     color: #290C52
     cursor: pointer
   &:focus

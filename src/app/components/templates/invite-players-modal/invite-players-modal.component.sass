@@ -1,10 +1,14 @@
+@use '../../../../variables' as var
+
+$colorDark: #240f4a
+
 ::ng-deep .custom-invitation-modal
-  border-radius: 25px
+  border-radius: var.$borderRadiusCorners
   overflow: hidden
   height: auto
   border: 2px solid #6429cd
 .invite_players_modal
-  border-radius: 25px
+  border-radius: var.$borderRadiusCorners
   overflow: hidden
 ::ng-deep .blur-backdrop
   background-color: rgba(0, 0, 0, 0.4)
@@ -20,7 +24,7 @@
   margin: 0
   font-size: 16px
   font-weight: 600
-  font-family: Poppins, sans-serif
+  font-family: var.$appFont
   color: white
 .invitation-modal__close
   background: transparent
@@ -28,7 +32,7 @@
   outline: none
   cursor: pointer
 .invitation-modal__body
-  background: #1f0d3f
+  background: $colorDark
   height: 150px
   display: flex
   flex-direction: column
@@ -38,24 +42,24 @@
 .invitation-modal__span
   height: 2.2rem
   border: 1px solid #6429cd
-  background: #240f4a
+  background: $colorDark
   border-radius: 20px
   width: 100%
   margin: 0
   padding: 0 1rem
   box-sizing: border-box
-  font-family: Poppins, sans-serif
+  font-family: var.$appFont
   font-weight: 400
   color: white
   margin-top: 1rem
 .invitation-modal__button
   height: 2.2rem
   border: none
-  font-family: Poppins, sans-serif
+  font-family: var.$appFont
   font-weight: 600
   font-size: 14px
   background: white
-  color: #1f0d3f
+  color: $colorDark
   border-radius: 20px
   padding: 0 1rem
   margin-top: 1.5rem

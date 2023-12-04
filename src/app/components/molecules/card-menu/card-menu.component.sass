@@ -1,3 +1,5 @@
+@use '../../../../variables' as var
+
 .menu-cards
   width: 100%
   height: 200px
@@ -13,7 +15,7 @@
 
 .menu-cards__title
   font-size: 1.3rem
-  font-family: Poppins, sans-serif
+  font-family: var.$appFont
   color: white
   margin: 0
   padding: 0
@@ -54,8 +56,8 @@
 .menu-cards__value
   font-size: 23px
   color: white
-  font-family: Poppins, sans-serif
+  font-family: var.$appFont
   font-weight: 600
 
 .menu-cards__text-selected
-  color: #330072
+  color: var.$colorEnabled

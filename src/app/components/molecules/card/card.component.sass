@@ -1,3 +1,7 @@
+@use '../../../../variables' as var
+
+$colorLight: #BC91FF
+
 .card
   display: flex
 
@@ -10,7 +14,7 @@
 .card__content
   height: 56px
   width: 32px
-  border: 2px solid #BC91FF
+  border: 2px solid $colorLight
   border-radius: 10px
   display: flex
   justify-content: center
@@ -18,26 +22,26 @@
 
 .card__selected
   color: white
-  font-family: 'poppins', 'sans-serif'
+  font-family: var.$appFont
   font-weight: 500
 
 .card__name
-  font-family: 'poppins', 'sans-serif'
+  font-family: var.$appFont
   font-weight: 400
   color: white
 .card__is-viewer
   height: 52px
   width: 52px
-  background: #bdbdff
+  background: $colorLight
   border-radius: 50%
   display: flex
   justify-content: center
   align-items: center
 .card__is-viever-text
-  font-family: 'poppins', 'sans-serif'
+  font-family: var.$appFont
   font-weight: 400
   color: #240f4a
   font-size: 17px
   font-weight: 700
 .card__player-selected
-  background: #bb65ff
+  background: $colorLight
