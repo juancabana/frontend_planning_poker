@@ -6,5 +6,5 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./button-home.component.sass'],
 })
 export class ButtonHomeComponent {
-  @Input() isActive: boolean = false;
+  @Input() public isActive: boolean = false;
 }

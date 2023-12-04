@@ -35,12 +35,12 @@ export class RoomComponent implements OnInit, OnDestroy {
     // Get params from url
     this.routeSuscription = this.route.params.subscribe((params: any) => {
       this.idRoom = params.id_room;
-    });
-    // Validate if room exists
-    this.validateRoom();
+      // Validate if room exists
+      this.validateRoom();
 
-    // Set socket connection
-    this.socketService.setupSocketConnection(this.room);
+      // Set socket connection
+      this.socketService.setupSocketConnection(this.room);
+    });
 
     // Create or get user to localStorage
     await this.getOrCreateUser();

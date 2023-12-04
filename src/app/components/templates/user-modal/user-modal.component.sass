@@ -10,12 +10,8 @@
 
 :root
   --form-control-color: rebeccapurple
-*,
-*:before,
-*:after
-  box-sizing: border-box
 
-.user_modal__body
+.user-modal
   background: #1f0d3f
   // height: 150px
   display: flex
@@ -26,19 +22,19 @@
   display: flex
   justify-content: center
   align-items: center
-.user_modal_form
+.user-modal__form
   display: flex
   flex-direction: column
   justify-content: center
   align-items: center
-.user_modal_wrapper_span
+.user-modal__wrapper-span
   width: 280px
-.user_modal__span
+.user-modal__span
   margin-bottom: 1rem
   color: white
   font-family: Poppins, sans-serif
   font-weight: 600
-.user_modal__input
+.user-modal__input
   height: 2.2rem
   border: 1px solid #6429cd
   background: #240f4a
@@ -57,16 +53,16 @@
     box-shadow: 0 0 5px #B963FD
     // Dame un estilo para el background en rgb
     background: #330072
-.user_modal_wrapper_visualization
+.user-modal__wrapper-visualization
   width: 100%
   display: flex
   justify-content: space-evenly
   margin-top: 1rem
-.user_modal_wrapper_checkbox
+.user-modal__wrapper-checkbox
   display: flex
   justify-content: center
   align-items: center
-.user_modal_checkbox_text
+.user-modal__checkbox-text
   color: white
   font-family: Poppins, sans-serif
   font-weight: 400
@@ -75,7 +71,7 @@
   justify-content: center
   align-items: center
   cursor: pointer
-.user_modal_checkbox_input
+.user-modal__checkbox-input
   appearance: none
   width: 1.5rem
   height: 1.5rem
@@ -93,7 +89,7 @@
     // Dame un estilo para el background en rgb
     background: #330072
 
-.user_modal_checkbox_input:checked::before
+.user-modal__checkbox-input:checked::before
   content: ""
   display: block
   width: 60%
@@ -103,7 +99,7 @@
   margin: 0
   padding: 0
 
-.user_modal__button
+.user-modal__button
   height: 2.2rem
   border: none
   font-family: Poppins,sans-serif
@@ -118,7 +114,7 @@
   cursor: not-allowed
   border: none
   padding: 0 1rem
-.form_room_button_active
-  background: white !important
+.user-modal__button--active
+  background: white
   color: #360474
   cursor: pointer

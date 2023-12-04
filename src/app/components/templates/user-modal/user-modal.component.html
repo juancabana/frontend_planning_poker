@@ -1,18 +1,18 @@
-<div class="user_modal__body">
-  <form action="" class="user_modal_form">
-    <div class="user_modal_wrapper_span">
-      <span class="user_modal__span">Tu nombre</span>
+<div class="user-modal">
+  <form action="" class="user-modal__form">
+    <div class="user-modal__wrapper-span">
+      <span class="user-modal__span">Tu nombre</span>
       <input
-        class="user_modal__input"
+        class="user-modal__input"
         type="text"
         (input)="setUserName($event)"
       />
     </div>
-    <div class="user_modal_wrapper_visualization">
-      <div class="user_modal_wrapper_checkbox">
-        <label class="user_modal_checkbox_text" for="player">Jugador </label>
+    <div class="user-modal__wrapper-visualization">
+      <div class="user-modal__wrapper-checkbox">
+        <label class="user-modal__checkbox-text" for="player">Jugador </label>
         <input
-          class="user_modal_checkbox_input"
+          class="user-modal__checkbox-input"
           type="radio"
           name="player"
           id="player"
@@ -27,12 +27,12 @@
           [checked]="is_player"
         />
       </div>
-      <div class="user_modal_wrapper_checkbox">
-        <label class="user_modal_checkbox_text" for="spectator"
+      <div class="user-modal__wrapper-checkbox">
+        <label class="user-modal__checkbox-text" for="spectator"
           >Espectador
         </label>
         <input
-          class="user_modal_checkbox_input"
+          class="user-modal__checkbox-input"
           type="radio"
           name="spectator"
           id="spectator"
@@ -43,8 +43,8 @@
       </div>
     </div>
     <button
-      class="user_modal__button"
-      [ngClass]="{ form_room_button_active: is_button_active }"
+      class="user-modal__button"
+      [ngClass]="{ 'user-modal__button--active': is_button_active }"
       (click)="createUser()"
     >
       Continuar
