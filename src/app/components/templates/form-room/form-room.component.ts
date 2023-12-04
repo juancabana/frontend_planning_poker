@@ -9,26 +9,25 @@ import { HttpService } from 'src/app/services/http-service/http-service.service'
   styleUrls: ['./form-room.component.sass'],
 })
 export class FormRoomComponent implements OnInit {
-  public form_room!: FormGroup;
-  public is_button_active: boolean = false;
-  public responseData: any;
+  public formRoom!: FormGroup;
+  public isButtonActive: boolean = false;
 
   constructor(
-    private formBuilder: FormBuilder,
-    private router: Router,
-    private httpService: HttpService
+    private readonly formBuilder: FormBuilder,
+    private readonly router: Router,
+    private readonly httpService: HttpService
   ) {
     this.createForm();
   }
 
   ngOnInit() {
-    this.form_room.get('room_name')?.valueChanges.subscribe((value) => {
-      this.setButtonActive(value);
+    this.formRoom.get('room_name')?.valueChanges.subscribe((value) => {
+      this.setButtonActive();
     });
   }
 
   createForm(): void {
-    this.form_room = this.formBuilder.group({
+    this.formRoom = this.formBuilder.group({
       room_name: [
         '',
         [
@@ -42,18 +41,17 @@ export class FormRoomComponent implements OnInit {
       ],
     });
   }
-  setButtonActive(value: string): void {
-    const is_valid = this.form_room.get('room_name')?.status === 'VALID';
-    this.is_button_active = is_valid;
+  setButtonActive(): void {
+    const isValid = this.formRoom.get('room_name')?.status === 'VALID';
+    this.isButtonActive = isValid;
   }
 
   async createRoom() {
-    if (this.is_button_active) {
+    if (this.isButtonActive) {
       this.httpService
-        .createNewRoom(this.form_room.get('room_name')?.value)
+        .createNewRoom(this.formRoom.get('room_name')?.value)
         .subscribe({
           next: (data) => {
-            this.responseData = data;
             localStorage.setItem(
               'room',
               JSON.stringify({ ...data, isRoomValid: true })

@@ -1,7 +1,7 @@
-<form class="form_room" [formGroup]="form_room" (ngSubmit)="createRoom()">
-  <label class="form_room_label" for="">Nombra la partida</label>
+<form class="form-room" [formGroup]="formRoom" (ngSubmit)="createRoom()">
+  <label class="form-room__label" for="">Nombra la partida</label>
 
-  <input class="form_room_input" type="text" formControlName="room_name" />
+  <input class="form-room__input" type="text" formControlName="room_name" />
 
-  <button-home [isActive]="is_button_active"></button-home>
+  <button-home [isActive]="isButtonActive"></button-home>
 </form>
