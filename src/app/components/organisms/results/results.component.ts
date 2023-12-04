@@ -12,10 +12,12 @@ export class ResultsComponent implements OnInit {
   ngOnInit(): void {
     // Get average
     let total = 0;
+    let amountCards = 0;
     this.cardsSelected.forEach((card) => {
       total += card.value * card.amount;
+      amountCards += card.amount;
     });
-    this.average = total / this.cardsSelected.length;
+    this.average = (total / amountCards);
   }
   getAverageString(): string {
     return this.average.toLocaleString('es', {

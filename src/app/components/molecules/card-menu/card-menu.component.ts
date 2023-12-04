@@ -56,7 +56,7 @@ export class CardMenuComponent implements OnInit, OnDestroy {
   }
 
   selectCard(index: number) {
-    if (!this.cardOptions[index].selected) {
+    // if (!this.cardOptions[index].selected) {
       const idUser = JSON.parse(localStorage.getItem('user')!)._id;
       this.cardOptions.map((card, i) => {
         i == index
@@ -67,7 +67,7 @@ export class CardMenuComponent implements OnInit, OnDestroy {
       this.emitCardSelected(index, idUser);
       this.cardSelected = this.cardOptions[index].value;
       this.cardSelectedEvent.emit({ idUser, cardSelected: this.cardSelected });
-    }
+    // }
     return;
   }
 
