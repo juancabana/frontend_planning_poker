@@ -1,5 +1,5 @@
-import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { PlatformLocation } from '@angular/common';
 
@@ -9,13 +9,12 @@ import { PlatformLocation } from '@angular/common';
   styleUrls: ['./invite-players-modal.component.sass'],
 })
 export class InvitePlayersModalComponent {
-  urlActual: string = this.platformLocation.href;
+  public readonly actualUrl: string = this.platformLocation.href;
 
   constructor(
-    private dialogRef: MatDialogRef<InvitePlayersModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public message: string,
-    private platformLocation: PlatformLocation,
-    private clipboard: Clipboard
+    private readonly dialogRef: MatDialogRef<InvitePlayersModalComponent>,
+    private readonly platformLocation: PlatformLocation,
+    private readonly clipboard: Clipboard
   ) {}
 
   onClick(): void {
@@ -23,7 +22,7 @@ export class InvitePlayersModalComponent {
   }
 
   copyLink() {
-    this.clipboard.copy(this.urlActual);
+    this.clipboard.copy(this.actualUrl);
     this.closeModal();
   }
 

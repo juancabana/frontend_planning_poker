@@ -21,7 +21,7 @@ export class HeaderComponent {
     const dialogRef = this.dialog.open(InvitePlayersModalComponent, {
       hasBackdrop: true,
       width: '500px',
-      panelClass: 'custom-invite-modal',
+      panelClass: 'custom-invitation-modal',
       backdropClass: 'blur-backdrop',
     });
     dialogRef.afterClosed().subscribe((result) => {

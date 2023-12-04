@@ -1,18 +1,18 @@
-<div class="invite_players_modal__header">
-  <h2 class="invite_players_modal__title">Invitar jugadores</h2>
-  <button class="invite_players_modal__close" (click)="closeModal()">
+<div class="invitation-modal__header">
+  <h2 class="invitation-modal__title">Invitar jugadores</h2>
+  <button class="invitation-modal__close" (click)="closeModal()">
     <img src="assets/x.png" alt="" srcset="" />
   </button>
 </div>
-<div class="invite_players_modal__body">
+<div class="invitation-modal__body">
   <input
-    class="invite_players_modal__span"
+    class="invitation-modal__span"
     type="text"
     disabled
-    [value]="urlActual"
+    [value]="actualUrl"
   />
 
-  <button class="invite_players_modal__button" (click)="copyLink()">
+  <button class="invitation-modal__button" (click)="copyLink()">
     Copiar link
   </button>
 </div>
