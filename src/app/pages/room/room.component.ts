@@ -13,12 +13,16 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./room.component.sass'],
 })
 export class RoomComponent implements OnInit, OnDestroy {
-  id_room: string = '';
-  user: any;
-  players: any[] = [];
-  room: any = {};
-  is_revealable_button_visible: Boolean = false;
-  cards_selected: any[] = [];
+  public user: any;
+  public players: any[] = [];
+  public room: any = {};
+  public is_revealable_button_visible: Boolean = false;
+  public cards_selected: any[] = [];
+
+  private id_room: string = '';
+  private routeSuscription: Subscription = new Subscription();
+  private findRoomSubscription: Subscription = new Subscription();
+  private getCachedPlayersSubscription: Subscription = new Subscription();
 
   constructor(
     private readonly socketService: WebSocketService,
@@ -27,15 +31,48 @@ export class RoomComponent implements OnInit, OnDestroy {
     private readonly httpService: HttpService,
     private readonly dialog: MatDialog
   ) {}
-  private routeSuscription: Subscription = new Subscription();
-  private findRoomSubscription: Subscription = new Subscription();
-  private getCachedPlayersSubscription: Subscription = new Subscription();
+
   async ngOnInit() {
     // Get params from url
     this.routeSuscription = this.route.params.subscribe((params: any) => {
       this.id_room = params.id_room;
     });
-    // Find room by id
+    // Validate if room exists
+    this.validateRoom();
+
+    // Set socket connection
+    this.socketService.setupSocketConnection(this.room);
+
+    // Create or get user to localStorage
+    await this.getOrCreateUser();
+
+    // Listen when there is a new user
+    this.listenNewUser();
+
+    // Get users in cache
+    this.getPlayersInCache();
+
+    // Listen when cards are revealed
+    this.listenCardRevealed();
+  }
+
+  async getOrCreateUser() {
+    if (!this.getUser()) {
+      await this.createUser();
+    } else {
+      const user = this.getUser();
+      this.user = user;
+    }
+  }
+
+  async createUser() {
+    const dialogRef: MatDialogRef<UserModalComponent> = this.openDialog();
+    await dialogRef.afterClosed().toPromise();
+    const user = this.getUser();
+    this.user = user;
+  }
+
+  validateRoom() {
     this.findRoomSubscription = this.httpService
       .findRoomById(this.id_room)
       .subscribe(
@@ -47,17 +84,9 @@ export class RoomComponent implements OnInit, OnDestroy {
           return;
         }
       );
-
-    // Set socket connection
-    this.socketService.setupSocketConnection(this.room);
-
-    await this.setOrCreateUser();
-    this.restInit();
   }
 
-  restInit() {
-    // Setup socket connection
-
+  listenNewUser() {
     this.socketService.listenNewUser().subscribe(
       (data: any) => {
         if (!this.exists(this.user)) {
@@ -82,7 +111,15 @@ export class RoomComponent implements OnInit, OnDestroy {
         console.log('completed');
       }
     );
+  }
 
+  listenCardRevealed() {
+    this.socketService.listenCardRevealed().subscribe((data: any) => {
+      this.cards_selected = data;
+    });
+  }
+
+  getPlayersInCache() {
     this.getCachedPlayersSubscription = this.httpService
       .getPlayers(this.id_room)
       .subscribe((cachedPlayers) => {
@@ -97,18 +134,6 @@ export class RoomComponent implements OnInit, OnDestroy {
           this.setFirstPosition();
         }
       });
-
-    // Socket services
-
-    this.socketService.listenDisconnect().subscribe((data: any) => {});
-    this.socketService.listenConnect().subscribe((data: any) => {
-      console.log('Se ha RECONECTADO un nuevo usuario');
-      this.players = data;
-    });
-    this.socketService.listenCardRevealed().subscribe((data: any) => {
-      this.cards_selected = data;
-    });
-    // },
   }
 
   setFirstPosition() {
@@ -125,21 +150,6 @@ export class RoomComponent implements OnInit, OnDestroy {
   }
   exists = (userToEvaluate: any) =>
     this.players.some((element) => element._id == userToEvaluate._id);
-
-  async setOrCreateUser() {
-    if (!this.getUser()) {
-      await this.createUser();
-    } else {
-      const user = this.getUser();
-      this.user = user;
-    }
-  }
-  async createUser() {
-    const dialogRef: MatDialogRef<UserModalComponent> = this.openDialog();
-    await dialogRef.afterClosed().toPromise();
-    const user = this.getUser();
-    this.user = user;
-  }
 
   getUser() {
     const userInLocalStorage = localStorage.getItem('user');
