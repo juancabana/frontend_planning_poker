@@ -1,11 +1,11 @@
-<div class="card-menu">
-  <div class="wrapper_cards">
-    <ng-container *ngFor="let card of cards_selected; let index = index">
-      <div class="card">
-        <div class="card_to_select">
-          <span class="card_value">{{ card.value }}</span>
+<div class="results">
+  <div class="results__wrapper-cards">
+    <ng-container *ngFor="let card of cardsSelected; let index = index">
+      <div class="results__card">
+        <div class="results__card-to-select">
+          <span class="results__value-card">{{ card.value }}</span>
         </div>
-        <span class="card_value_description"
+        <span class="results__value-description"
           >{{ card.amount }}
           <span *ngIf="card.amount > 1; else singleVote">votos</span
           ><ng-template #singleVote>voto</ng-template></span
@@ -13,10 +13,10 @@
       </div>
     </ng-container>
   </div>
-  <div class="wrapper_average">
-    <div class="average">
-      <span class="average_description">Promedio:</span>
-      <h1 class="average_value">{{ getAverageString() }}</h1>
+  <div class="results__wrapper-average">
+    <div class="results__average">
+      <span class="results__average-description">Promedio:</span>
+      <h1 class="results__average-value">{{ getAverageString() }}</h1>
     </div>
   </div>
 </div>

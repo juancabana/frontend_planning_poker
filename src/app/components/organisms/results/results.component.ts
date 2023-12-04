@@ -1,21 +1,21 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'results',
   templateUrl: './results.component.html',
   styleUrls: ['./results.component.sass'],
 })
-export class ResultsComponent {
-  @Input() cards_selected: any[] = [];
-  average: number = 0;
+export class ResultsComponent implements OnInit {
+  @Input() public cardsSelected: any[] = [];
+  private average: number = 0;
 
   ngOnInit(): void {
-    // Sacar el promedio
+    // Get average
     let total = 0;
-    this.cards_selected.forEach((card) => {
+    this.cardsSelected.forEach((card) => {
       total += card.value * card.amount;
     });
-    this.average = total / this.cards_selected.length;
+    this.average = total / this.cardsSelected.length;
   }
   getAverageString(): string {
     return this.average.toLocaleString('es', {

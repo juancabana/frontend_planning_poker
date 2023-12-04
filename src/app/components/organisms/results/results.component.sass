@@ -1,10 +1,25 @@
-.card-menu
+.results
   width: 100vw
   display: flex
   box-sizing: border-box
   min-height: 230px
   position: relative
-.card_to_select
+
+.results__wrapper-cards
+  display: flex
+  justify-content: center
+  align-items: center
+  padding: 1rem
+  width: 100%
+  gap: 2rem
+
+.results__card
+  display: flex
+  flex-direction: column
+  align-items: center
+  justify-content: center
+
+.results__card-to-select
   height: 96px
   width: 58px
   border: 1px solid #BC91FF
@@ -13,25 +28,15 @@
   justify-content: center
   align-items: center
   cursor: pointer
-.card
-  display: flex
-  flex-direction: column
-  align-items: center
-  justify-content: center
-.wrapper_cards
-  display: flex
-  justify-content: center
-  align-items: center
-  padding: 1rem
-  width: 100%
-  gap: 2rem
-.card_value
+
+.results__value-card
   font-size: 20px
   text-align: center
   color: white
   font-family: Poppins, sans-serif
   font-weight: 600
-.card_value_description
+
+.results__value-description
   font-size: 15px
   text-align: center
   color: white
@@ -39,7 +44,7 @@
   font-weight: 400
   margin-top: .2rem
 
-.wrapper_average
+.results__wrapper-average
   position: absolute
   top: 0
   bottom: 0
@@ -48,11 +53,11 @@
   align-items: center
   font-family: Poppins, sans-serif
   color: white
-  // Ponerlo en el final del tercer 1/4 de la pantalla
   right: 30%
-.average_description
+
+.results__average-description
   font-weight: 400
-.average_value
+.results__average-value
   font-weight: 600
   font-size: 2rem
   margin: 0
