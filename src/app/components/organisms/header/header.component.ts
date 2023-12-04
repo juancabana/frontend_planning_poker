@@ -8,10 +8,10 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./header.component.sass'],
 })
 export class HeaderComponent {
-  @Input() roomName: string = '';
-  nameViever: string = '';
+  @Input() public roomName: string = '';
+  public nameViever: string = '';
 
-  constructor(private dialog: MatDialog) {
+  constructor(private readonly dialog: MatDialog) {
     const user = JSON.parse(localStorage.getItem('user')!);
     this.nameViever = user.username.substring(0, 2).toUpperCase();
   }
