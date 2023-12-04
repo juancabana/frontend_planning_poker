@@ -12,7 +12,6 @@ export class CardComponent {
   @Input() visualizate_result: Boolean = false;
 
   ngOnInit() {
-    // console.log(this.player);
     this.name_viever = this.player.username.substring(0, 2).toUpperCase();
     this.visualization = this.player.visualization;
   }

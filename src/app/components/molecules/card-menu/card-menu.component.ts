@@ -23,7 +23,6 @@ export class CardMenuComponent {
     this.card_options = cards;
 
     this.webSocketService.listenCardSelected().subscribe((data: any) => {
-      console.log(data);
       this.card_options.map((card, index) => {
         if (card.value === this.cardSelected) {
           card.selected_by_user = true;

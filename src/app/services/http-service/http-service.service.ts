@@ -1,27 +1,21 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment as env } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HttpService {
-  private url: string = 'http://localhost:3000/api';
-  // private url: string = 'https://planning-pokerservice.onrender.com/api';
+  private url: string = env.url;
 
-  constructor(private httpClient: HttpClient) {}
-  async getPlayers(id: any) {
-    const res: any = await fetch(`${this.url}/room/${id}/players`);
-    // if (res.length == 0) return [];
-    const data: any = await res.json();
-    console.log(data);
-    return data;
-    // return [];
+  constructor(private readonly httpClient: HttpClient) {}
+
+  getPlayers(id: any): Observable<any> {
+    return this.httpClient.get(`${this.url}/room/${id}/players`);
   }
-  async findRoomById(id: string): Promise<any> {
-    const res = await fetch(`${this.url}/room/${id}`);
-    const data = await res.json();
-    return data;
+  findRoomById(id: string): Observable<any> {
+    return this.httpClient.get(`${this.url}/room/${id}`);
   }
   async getCards(): Promise<any> {
     const res = await fetch(`${this.url}/card_options`);

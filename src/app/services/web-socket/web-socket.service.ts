@@ -37,14 +37,6 @@ export class WebSocketService {
       'localhost:3000',
       options()
     );
-
-    // Escucha el evento de creación de usuario
-    this.socket.on('usuarioCreado', (usuario: any) => {
-      console.log('Usuario creado:', usuario);
-    });
-  }
-  getID(): string {
-    return this.socket.id;
   }
 
   // Método para escuchar eventos del servidor

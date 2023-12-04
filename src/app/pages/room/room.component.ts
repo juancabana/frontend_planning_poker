@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { WebSocketService } from '../../services/web-socket/web-socket.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpService } from 'src/app/services/http-service/http-service.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { UserModalComponent } from 'src/app/components/user-modal/user-modal.component';
+import { UserModalComponent } from 'src/app/components/templates/user-modal/user-modal.component';
+import { Subscription } from 'rxjs';
 // import { Observable, switchMap } from 'rxjs';
 
 @Component({
@@ -11,7 +12,7 @@ import { UserModalComponent } from 'src/app/components/user-modal/user-modal.com
   templateUrl: './room.component.html',
   styleUrls: ['./room.component.sass'],
 })
-export class RoomComponent {
+export class RoomComponent implements OnInit, OnDestroy {
   id_room: string = '';
   user: any;
   players: any[] = [];
@@ -20,71 +21,86 @@ export class RoomComponent {
   cards_selected: any[] = [];
 
   constructor(
-    private socketService: WebSocketService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private httpService: HttpService,
-    private dialog: MatDialog
+    private readonly socketService: WebSocketService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly httpService: HttpService,
+    private readonly dialog: MatDialog
   ) {}
-  // Saber el parametro de la url
-
+  private routeSuscription: Subscription = new Subscription();
+  private findRoomSubscription: Subscription = new Subscription();
+  private getCachedPlayersSubscription: Subscription = new Subscription();
   async ngOnInit() {
     // Get params from url
-    this.route.params.subscribe((params: any) => {
+    this.routeSuscription = this.route.params.subscribe((params: any) => {
       this.id_room = params.id_room;
     });
     // Find room by id
-    const room = await this.httpService.findRoomById(this.id_room);
-    if (room == null) {
-      this.router.navigateByUrl('**');
-    }
-    this.room = room;
+    this.findRoomSubscription = this.httpService
+      .findRoomById(this.id_room)
+      .subscribe(
+        (response) => {
+          this.room = response;
+        },
+        () => {
+          this.router.navigateByUrl('**');
+          return;
+        }
+      );
 
-    // Setup socket connection
+    // Set socket connection
     this.socketService.setupSocketConnection(this.room);
-    console.log('Después de setupSocketConnection');
 
-    await this.findUserInLocalStorage();
+    await this.setOrCreateUser();
+    this.restInit();
+  }
 
-    this.socketService.listenNewUser().subscribe((data: any) => {
-      // console.log('Se ha CREADO un nuevo usuario', data);
-      if (!this.exists(this.user)) {
-        this.players = [this.user, ...data];
-        this.setFirstPosition();
-      } else {
-        this.players = data;
-        this.setFirstPosition();
+  restInit() {
+    // Setup socket connection
+
+    this.socketService.listenNewUser().subscribe(
+      (data: any) => {
+        if (!this.exists(this.user)) {
+          this.players = [this.user, ...data];
+          this.setFirstPosition();
+        } else {
+          this.players = data;
+          this.setFirstPosition();
+        }
+        // Active Button Reveal
+        if (
+          this.user.is_owner &&
+          this.players.every((player) => player.selected_card)
+        ) {
+          this.is_revealable_button_visible = true;
+        }
+      },
+      (error: any) => {
+        alert(error.error.message);
+      },
+      () => {
+        console.log('completed');
       }
-      // Active Button Reveal
-      if (
-        this.user.is_owner &&
-        this.players.every((player) => player.selected_card)
-      ) {
-        // Activa la propiedad reve
-        this.is_revealable_button_visible = true;
-      }
-    });
+    );
 
-    const playersToCache = await this.httpService.getPlayers(this.id_room);
-
-    this.players = [this.user, ...playersToCache];
-    // if (!this.exists(this.user)) {
-    if (!playersToCache.some((element: any) => element._id == this.user._id)) {
-      this.players = [this.user, ...playersToCache];
-      this.setFirstPosition();
-    } else {
-      this.players = playersToCache;
-      this.setFirstPosition();
-    }
+    this.getCachedPlayersSubscription = this.httpService
+      .getPlayers(this.id_room)
+      .subscribe((cachedPlayers) => {
+        this.players = [this.user, ...cachedPlayers];
+        if (
+          !cachedPlayers.some((element: any) => element._id == this.user._id)
+        ) {
+          this.players = [this.user, ...cachedPlayers];
+          this.setFirstPosition();
+        } else {
+          this.players = cachedPlayers;
+          this.setFirstPosition();
+        }
+      });
 
     // Socket services
 
-    this.socketService.listenDisconnect().subscribe((data: any) => {
-      console.log('Se ha DESCONECTADO un nuevo usuario');
-      // console.log(data);
-
-      // this.players = data;
-    });
+    this.socketService.listenDisconnect().subscribe((data: any) => {});
     this.socketService.listenConnect().subscribe((data: any) => {
       console.log('Se ha RECONECTADO un nuevo usuario');
       this.players = data;
@@ -109,21 +125,25 @@ export class RoomComponent {
   }
   exists = (userToEvaluate: any) =>
     this.players.some((element) => element._id == userToEvaluate._id);
-  isConnected = (userToEvaluate: any) => {
-    return userToEvaluate.is_connected == true;
-  };
 
-  async findUserInLocalStorage() {
-    if (!localStorage.getItem('user')) {
-      // Abrir el modal y esperar a que se cierre
-      const dialogRef: MatDialogRef<UserModalComponent> = this.openDialog();
-      await dialogRef.afterClosed().toPromise();
-      const user = JSON.parse(localStorage.getItem('user')!);
-      this.user = user;
+  async setOrCreateUser() {
+    if (!this.getUser()) {
+      await this.createUser();
     } else {
-      const user = JSON.parse(localStorage.getItem('user')!);
+      const user = this.getUser();
       this.user = user;
     }
+  }
+  async createUser() {
+    const dialogRef: MatDialogRef<UserModalComponent> = this.openDialog();
+    await dialogRef.afterClosed().toPromise();
+    const user = this.getUser();
+    this.user = user;
+  }
+
+  getUser() {
+    const userInLocalStorage = localStorage.getItem('user');
+    return userInLocalStorage ? JSON.parse(userInLocalStorage) : null;
   }
 
   openDialog(): MatDialogRef<UserModalComponent> {
@@ -143,7 +163,6 @@ export class RoomComponent {
     // Encontrar el usuario en el array de jugadores y actualizar su estado
     const index = this.players.findIndex((player) => player._id == idUser);
     this.players[index].selected_card = cardSelected;
-    // console.log(index);
   }
   RevealCards() {
     // Recorre el array de jugadores y devuelve un array con las cartas seleccionadas
@@ -159,8 +178,13 @@ export class RoomComponent {
       amount,
     }));
 
-    // console.log(result);
     this.socketService.emit('reveal-cards', result);
     this.cards_selected = result;
+  }
+
+  ngOnDestroy(): void {
+    this.routeSuscription.unsubscribe();
+    this.findRoomSubscription.unsubscribe();
+    this.getCachedPlayersSubscription.unsubscribe();
   }
 }

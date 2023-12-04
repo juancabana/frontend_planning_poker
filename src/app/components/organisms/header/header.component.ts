@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { InvitePlayersModalComponent } from '../invite-players-modal/invite-players-modal.component';
+import { InvitePlayersModalComponent } from '../../templates/invite-players-modal/invite-players-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
