@@ -6,5 +6,5 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./logo.component.sass'],
 })
 export class LogoComponent {
-  @Input() isHome: boolean = false;
+  @Input() public isHome: boolean = false;
 }
