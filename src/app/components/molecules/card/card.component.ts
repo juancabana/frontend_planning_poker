@@ -15,5 +15,6 @@ export class CardComponent implements OnInit {
   ngOnInit() {
     this.name_viever = this.player.username.substring(0, 2).toUpperCase();
     this.visualization = this.player.visualization;
+    console.log('d');
   }
 }
