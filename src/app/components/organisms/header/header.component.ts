@@ -9,7 +9,6 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class HeaderComponent {
   @Input() public roomName: string = '';
-
   public nameViever: string = '';
 
   constructor(private readonly dialog: MatDialog) {
@@ -18,14 +17,11 @@ export class HeaderComponent {
   }
 
   openDialog() {
-    const dialogRef = this.dialog.open(InvitePlayersModalComponent, {
+    this.dialog.open(InvitePlayersModalComponent, {
       hasBackdrop: true,
       width: '500px',
       panelClass: 'custom-invitation-modal',
       backdropClass: 'blur-backdrop',
-    });
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed', result);
     });
   }
 }

@@ -18,7 +18,7 @@ import { WebSocketService } from 'src/app/services/web-socket/web-socket.service
 export class CardMenuComponent implements OnInit, OnDestroy {
   @Input() public user: any;
   @Output() public cardSelectedEvent = new EventEmitter<any>();
-  public card_options: any[] = [];
+  public cardOptions: any[] = [];
 
   private cardSelected: number | null = null;
   private getCardsSubscription: Subscription = new Subscription();
@@ -34,7 +34,7 @@ export class CardMenuComponent implements OnInit, OnDestroy {
     this.getCardsSubscription = this.httpService
       .getCards()
       .subscribe((cards) => {
-        this.card_options = cards;
+        this.cardOptions = cards;
         this.listenCardSelected();
       });
   }
@@ -43,7 +43,7 @@ export class CardMenuComponent implements OnInit, OnDestroy {
     this.listenCardSelectedSubscription = this.webSocketService
       .listenCardSelected()
       .subscribe((data: any) => {
-        this.card_options.map((card, index) => {
+        this.cardOptions.map((card, index) => {
           if (card.value === this.cardSelected) {
             card.selected_by_user = true;
           } else card.selected_by_user = false;
@@ -56,16 +56,16 @@ export class CardMenuComponent implements OnInit, OnDestroy {
   }
 
   selectCard(index: number) {
-    if (!this.card_options[index].selected) {
+    if (!this.cardOptions[index].selected) {
       const idUser = JSON.parse(localStorage.getItem('user')!)._id;
-      this.card_options.map((card, i) => {
+      this.cardOptions.map((card, i) => {
         i == index
           ? (card.selected_by_user = true)
           : (card.selected_by_user = false);
       });
       // Emit value to card selected
       this.emitCardSelected(index, idUser);
-      this.cardSelected = this.card_options[index].value;
+      this.cardSelected = this.cardOptions[index].value;
       this.cardSelectedEvent.emit({ idUser, cardSelected: this.cardSelected });
     }
     return;

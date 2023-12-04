@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { HttpService } from 'src/app/services/http-service/http-service.service';
 
 @Component({
@@ -8,7 +9,9 @@ import { HttpService } from 'src/app/services/http-service/http-service.service'
   templateUrl: './form-room.component.html',
   styleUrls: ['./form-room.component.sass'],
 })
-export class FormRoomComponent implements OnInit {
+export class FormRoomComponent implements OnInit, OnDestroy {
+  private formRoomSubscription: Subscription = new Subscription();
+  private createRoomSubscription: Subscription = new Subscription();
   public formRoom!: FormGroup;
   public isButtonActive: boolean = false;
 
@@ -21,9 +24,11 @@ export class FormRoomComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.formRoom.get('room_name')?.valueChanges.subscribe((value) => {
-      this.setButtonActive();
-    });
+    this.formRoomSubscription = this.formRoom
+      .get('room_name')!
+      .valueChanges.subscribe((value) => {
+        this.setButtonActive();
+      });
   }
 
   createForm(): void {
@@ -48,8 +53,8 @@ export class FormRoomComponent implements OnInit {
 
   async createRoom() {
     if (this.isButtonActive) {
-      this.httpService
-        .createNewRoom(this.formRoom.get('room_name')?.value)
+      this.createRoomSubscription = this.httpService
+        .createNewRoom(this.formRoom.get('room_name')!.value)
         .subscribe({
           next: (data) => {
             localStorage.setItem(
@@ -66,5 +71,9 @@ export class FormRoomComponent implements OnInit {
         });
     }
     return;
+  }
+  ngOnDestroy(): void {
+    this.formRoomSubscription.unsubscribe();
+    this.createRoomSubscription.unsubscribe();
   }
 }

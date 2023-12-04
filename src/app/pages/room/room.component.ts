@@ -16,6 +16,8 @@ export class RoomComponent implements OnInit, OnDestroy {
   private routeSuscription: Subscription = new Subscription();
   private findRoomSubscription: Subscription = new Subscription();
   private getCachedPlayersSubscription: Subscription = new Subscription();
+  private listenNewUserSubscription: Subscription = new Subscription();
+  private listenRevealedCardsSubscription: Subscription = new Subscription();
 
   public user: any;
   public players: any[] = [];
@@ -35,12 +37,13 @@ export class RoomComponent implements OnInit, OnDestroy {
     // Get params from url
     this.routeSuscription = this.route.params.subscribe((params: any) => {
       this.idRoom = params.id_room;
-      // Validate if room exists
-      this.validateRoom();
-
-      // Set socket connection
-      this.socketService.setupSocketConnection(this.room);
     });
+
+    // Validate if room exists
+    this.validateRoom();
+
+    // Set socket connection
+    this.socketService.setupSocketConnection(this.room);
 
     // Create or get user to localStorage
     await this.getOrCreateUser();
@@ -86,36 +89,40 @@ export class RoomComponent implements OnInit, OnDestroy {
   }
 
   listenNewUser() {
-    this.socketService.listenNewUser().subscribe(
-      (data: any) => {
-        if (!this.exists(this.user)) {
-          this.players = [this.user, ...data];
-          this.setFirstPosition();
-        } else {
-          this.players = data;
-          this.setFirstPosition();
+    this.listenNewUserSubscription = this.socketService
+      .listenNewUser()
+      .subscribe(
+        (data: any) => {
+          if (!this.exists(this.user)) {
+            this.players = [this.user, ...data];
+            this.setFirstPosition();
+          } else {
+            this.players = data;
+            this.setFirstPosition();
+          }
+          // Active Button Reveal
+          if (
+            this.user.is_owner &&
+            this.players.every((player) => player.selected_card)
+          ) {
+            this.isRevealable = true;
+          }
+        },
+        (error: any) => {
+          alert(error.error.message);
+        },
+        () => {
+          console.log('completed');
         }
-        // Active Button Reveal
-        if (
-          this.user.is_owner &&
-          this.players.every((player) => player.selected_card)
-        ) {
-          this.isRevealable = true;
-        }
-      },
-      (error: any) => {
-        alert(error.error.message);
-      },
-      () => {
-        console.log('completed');
-      }
-    );
+      );
   }
 
   listenCardRevealed() {
-    this.socketService.listenCardRevealed().subscribe((data: any) => {
-      this.cardsSelected = data;
-    });
+    this.listenRevealedCardsSubscription = this.socketService
+      .listenCardRevealed()
+      .subscribe((data: any) => {
+        this.cardsSelected = data;
+      });
   }
 
   getPlayersInCache() {
@@ -165,7 +172,6 @@ export class RoomComponent implements OnInit, OnDestroy {
       disableClose: true,
       data: { room_id: this.idRoom },
     });
-    dialogRef.afterClosed().subscribe((result) => {});
     return dialogRef;
   }
 
@@ -198,5 +204,7 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.routeSuscription.unsubscribe();
     this.findRoomSubscription.unsubscribe();
     this.getCachedPlayersSubscription.unsubscribe();
+    this.listenNewUserSubscription.unsubscribe();
+    this.listenRevealedCardsSubscription.unsubscribe();
   }
 }

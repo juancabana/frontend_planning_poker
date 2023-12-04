@@ -12,9 +12,9 @@ export class UserModalComponent implements OnInit, OnDestroy {
   private username: string = '';
   private getUserSubscription: Subscription = new Subscription();
 
-  public is_button_active: boolean = false;
-  public is_player: boolean = false;
-  public is_spectator: boolean = false;
+  public isButtonActive: boolean = false;
+  public isPlayer: boolean = false;
+  public isSpectator: boolean = false;
 
   constructor(
     private readonly dialogRef: MatDialogRef<UserModalComponent>,
@@ -41,11 +41,11 @@ export class UserModalComponent implements OnInit, OnDestroy {
   setUserType(event: Event): void {
     const target = event.target as HTMLInputElement;
     if (target.id === 'player') {
-      this.is_player = !this.is_player;
-      this.is_spectator = false;
+      this.isPlayer = !this.isPlayer;
+      this.isSpectator = false;
     } else if (target.id === 'spectator') {
-      this.is_spectator = !this.is_spectator;
-      this.is_player = false;
+      this.isSpectator = !this.isSpectator;
+      this.isPlayer = false;
     }
     this.setButtonActive();
   }
@@ -55,20 +55,20 @@ export class UserModalComponent implements OnInit, OnDestroy {
     if (
       this.username.length > 0 &&
       regex.test(this.username) &&
-      (this.is_player || this.is_spectator)
+      (this.isPlayer || this.isSpectator)
     ) {
-      this.is_button_active = true;
+      this.isButtonActive = true;
     } else {
-      this.is_button_active = false;
+      this.isButtonActive = false;
     }
   }
 
   createUser() {
-    if (!this.is_button_active) return;
+    if (!this.isButtonActive) return;
 
     const user: any = {
       username: this.username,
-      visualization: this.is_player ? 'player' : 'spectator',
+      visualization: this.isPlayer ? 'player' : 'spectator',
     };
 
     // get user data that there is in params

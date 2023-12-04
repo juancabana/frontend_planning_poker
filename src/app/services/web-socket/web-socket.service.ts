@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { io } from 'socket.io-client';
+import { environment as env } from './../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -32,11 +33,7 @@ export class WebSocketService {
         };
       }
     };
-    this.socket = io(
-      // 'https://planning-pokerservice.onrender.com'
-      'localhost:3000',
-      options()
-    );
+    this.socket = io(env.urlSocket, options());
   }
 
   // Método para escuchar eventos del servidor

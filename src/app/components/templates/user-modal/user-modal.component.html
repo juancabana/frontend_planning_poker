@@ -24,7 +24,7 @@
           tecla
           enter
           (keyup.enter)="setUserType($event)"
-          [checked]="is_player"
+          [checked]="isPlayer"
         />
       </div>
       <div class="user-modal__wrapper-checkbox">
@@ -38,13 +38,13 @@
           id="spectator"
           (click)="setUserType($event)"
           (keyup.enter)="setUserType($event)"
-          [checked]="is_spectator"
+          [checked]="isSpectator"
         />
       </div>
     </div>
     <button
       class="user-modal__button"
-      [ngClass]="{ 'user-modal__button--active': is_button_active }"
+      [ngClass]="{ 'user-modal__button--active': isButtonActive }"
       (click)="createUser()"
     >
       Continuar
