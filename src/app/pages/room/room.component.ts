@@ -12,16 +12,16 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./room.component.sass'],
 })
 export class RoomComponent implements OnInit, OnDestroy {
+  private idRoom: string = '';
+  private routeSuscription: Subscription = new Subscription();
+  private findRoomSubscription: Subscription = new Subscription();
+  private getCachedPlayersSubscription: Subscription = new Subscription();
+
   public user: any;
   public players: any[] = [];
   public room: any = {};
   public isRevealable: Boolean = false;
   public cardsSelected: any[] = [];
-
-  private idRoom: string = '';
-  private routeSuscription: Subscription = new Subscription();
-  private findRoomSubscription: Subscription = new Subscription();
-  private getCachedPlayersSubscription: Subscription = new Subscription();
 
   constructor(
     private readonly socketService: WebSocketService,

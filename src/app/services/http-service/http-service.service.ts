@@ -17,10 +17,8 @@ export class HttpService {
   findRoomById(id: string): Observable<any> {
     return this.httpClient.get(`${this.url}/room/${id}`);
   }
-  async getCards(): Promise<any> {
-    const res = await fetch(`${this.url}/card_options`);
-    const data = await res.json();
-    return data;
+  getCards(): Observable<any> {
+    return this.httpClient.get(`${this.url}/card_options`);
   }
   async createUser(user: any): Promise<any> {
     // Hacer un post con el usuario co fetch

@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class HeaderComponent {
   @Input() public roomName: string = '';
+
   public nameViever: string = '';
 
   constructor(private readonly dialog: MatDialog) {
