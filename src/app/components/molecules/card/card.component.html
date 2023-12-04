@@ -1,21 +1,24 @@
-<div class="card_container">
-  <div class="is_player" *ngIf="visualization == 'player'">
+<div class="card" *ngIf="visualization == 'player'">
+  <div class="card__wrapper">
     <div
-      class="card"
+      class="card__content"
       [ngClass]="{
-        card_player_selected: player.selected_card && !visualizate_result
+        'card__player-selected': player.selected_card && !visualizate_result
       }"
     >
-      <span *ngIf="visualizate_result" class="card_selected">{{
+      <span *ngIf="visualizate_result" class="card__selected">{{
         player.selected_card
       }}</span>
     </div>
-    <span class="card_name" for="">{{ player.username }}</span>
+    <span class="card__name" for="">{{ player.username }}</span>
   </div>
-  <div class="is_viewer_wrapper" *ngIf="visualization == 'spectator'">
-    <div class="is_viewer">
-      <span class="is_viever_span" for="">{{ name_viever }}</span>
+</div>
+
+<div class="card" *ngIf="visualization == 'spectator'">
+  <div class="card__wrapper">
+    <div class="card__is-viewer">
+      <span class="card__is-viever-text" for="">{{ name_viever }}</span>
     </div>
-    <span class="card_name" for="">{{ player.username }}</span>
+    <span class="card__name" for="">{{ player.username }}</span>
   </div>
 </div>
