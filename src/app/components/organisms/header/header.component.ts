@@ -8,13 +8,12 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./header.component.sass'],
 })
 export class HeaderComponent {
-  @Input() room_name: string = '';
-  name_viever: string = '';
+  @Input() roomName: string = '';
+  nameViever: string = '';
 
   constructor(private dialog: MatDialog) {
-    // name_viever es igual a las dos primeras letras del nombre del usuario
     const user = JSON.parse(localStorage.getItem('user')!);
-    this.name_viever = user.username.substring(0, 2).toUpperCase();
+    this.nameViever = user.username.substring(0, 2).toUpperCase();
   }
 
   openDialog() {

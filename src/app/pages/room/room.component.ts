@@ -5,7 +5,6 @@ import { HttpService } from 'src/app/services/http-service/http-service.service'
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { UserModalComponent } from 'src/app/components/templates/user-modal/user-modal.component';
 import { Subscription } from 'rxjs';
-// import { Observable, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-room',
@@ -16,10 +15,10 @@ export class RoomComponent implements OnInit, OnDestroy {
   public user: any;
   public players: any[] = [];
   public room: any = {};
-  public is_revealable_button_visible: Boolean = false;
-  public cards_selected: any[] = [];
+  public isRevealable: Boolean = false;
+  public cardsSelected: any[] = [];
 
-  private id_room: string = '';
+  private idRoom: string = '';
   private routeSuscription: Subscription = new Subscription();
   private findRoomSubscription: Subscription = new Subscription();
   private getCachedPlayersSubscription: Subscription = new Subscription();
@@ -35,7 +34,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     // Get params from url
     this.routeSuscription = this.route.params.subscribe((params: any) => {
-      this.id_room = params.id_room;
+      this.idRoom = params.id_room;
     });
     // Validate if room exists
     this.validateRoom();
@@ -74,7 +73,7 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   validateRoom() {
     this.findRoomSubscription = this.httpService
-      .findRoomById(this.id_room)
+      .findRoomById(this.idRoom)
       .subscribe(
         (response) => {
           this.room = response;
@@ -101,7 +100,7 @@ export class RoomComponent implements OnInit, OnDestroy {
           this.user.is_owner &&
           this.players.every((player) => player.selected_card)
         ) {
-          this.is_revealable_button_visible = true;
+          this.isRevealable = true;
         }
       },
       (error: any) => {
@@ -115,13 +114,13 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   listenCardRevealed() {
     this.socketService.listenCardRevealed().subscribe((data: any) => {
-      this.cards_selected = data;
+      this.cardsSelected = data;
     });
   }
 
   getPlayersInCache() {
     this.getCachedPlayersSubscription = this.httpService
-      .getPlayers(this.id_room)
+      .getPlayers(this.idRoom)
       .subscribe((cachedPlayers) => {
         this.players = [this.user, ...cachedPlayers];
         if (
@@ -148,6 +147,7 @@ export class RoomComponent implements OnInit, OnDestroy {
       this.players.unshift(user);
     }
   }
+
   exists = (userToEvaluate: any) =>
     this.players.some((element) => element._id == userToEvaluate._id);
 
@@ -163,17 +163,19 @@ export class RoomComponent implements OnInit, OnDestroy {
       panelClass: 'user-modal',
       backdropClass: 'blur-backdrop',
       disableClose: true,
-      data: { room_id: this.id_room },
+      data: { room_id: this.idRoom },
     });
     dialogRef.afterClosed().subscribe((result) => {});
     return dialogRef;
   }
+
   onCardSelected(data: any) {
     const { idUser, cardSelected } = data;
     // Encontrar el usuario en el array de jugadores y actualizar su estado
     const index = this.players.findIndex((player) => player._id == idUser);
     this.players[index].selected_card = cardSelected;
   }
+
   RevealCards() {
     // Recorre el array de jugadores y devuelve un array con las cartas seleccionadas
     const cards = this.players.map((player) => player.selected_card);
@@ -189,7 +191,7 @@ export class RoomComponent implements OnInit, OnDestroy {
     }));
 
     this.socketService.emit('reveal-cards', result);
-    this.cards_selected = result;
+    this.cardsSelected = result;
   }
 
   ngOnDestroy(): void {
