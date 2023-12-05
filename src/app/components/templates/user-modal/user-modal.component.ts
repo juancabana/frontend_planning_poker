@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { HttpService } from 'src/app/services/http-service/http-service.service';
+import { NewUser } from './interfaces/new-user.interface';
 
 @Component({
   selector: 'user-modal',
@@ -66,7 +67,7 @@ export class UserModalComponent implements OnInit, OnDestroy {
   createUser() {
     if (!this.isButtonActive) return;
 
-    const user: any = {
+    const user: NewUser = {
       username: this.username,
       visualization: this.isPlayer ? 'player' : 'spectator',
     };

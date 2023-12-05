@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { CardRevealed } from 'src/app/interfaces/card-revealed.interface';
+import { CardSelected } from 'src/app/interfaces/card-selected.interface';
 
 @Component({
   selector: 'results',
@@ -6,14 +8,14 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./results.component.sass'],
 })
 export class ResultsComponent implements OnInit {
-  @Input() public cardsSelected: any[] = [];
+  @Input() public cardsRevealed: CardRevealed[] = [];
   private average: number = 0;
 
   ngOnInit(): void {
     // Get average
     let total = 0;
     let amountCards = 0;
-    this.cardsSelected.forEach((card) => {
+    this.cardsRevealed.forEach((card) => {
       total += card.value * card.amount;
       amountCards += card.amount;
     });
