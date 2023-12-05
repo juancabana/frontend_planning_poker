@@ -18,6 +18,10 @@
 
 .header__wrapper-logo
   width: 220px
+  @media screen and (max-width: 768px)
+    width: auto
+    display: flex
+
 
 .header__wrapper-tittle
   margin: 0 auto
@@ -34,6 +38,10 @@
   width: 220px
   align-items: center
   justify-content: space-between
+  @media screen and (max-width: 768px)
+    width: auto
+    gap: 1rem
+
 .header__options-user
   height: 35px
   width: 35px
@@ -58,6 +66,8 @@
   color: white
   padding: 0 1rem
   font-weight: 500
+  @media screen and (max-width: 768px)
+    display: none
   // hover
   &:hover
     background: white
@@ -65,3 +75,20 @@
     cursor: pointer
   &:focus
     outline: none
+
+.header__wrapper-button-responsive-copy
+  width: 55px
+  height: 55px
+  @media screen and (max-width: 768px)
+    width: 40px
+    height: 40px
+
+
+.header__button-responsive-copy
+  widows: 100%
+  height: 100%
+  display: none
+  cursor: pointer
+  @media screen and (max-width: 768px)
+    display: flex
+
