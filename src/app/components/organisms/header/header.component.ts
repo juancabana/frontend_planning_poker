@@ -3,7 +3,7 @@ import { InvitePlayersModalComponent } from '../../templates/invite-players-moda
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
-  selector: 'header-room',
+  selector: 'header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.sass'],
 })

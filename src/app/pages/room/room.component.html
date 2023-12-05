@@ -1,5 +1,5 @@
 <section class="room" [ngClass]="{ 'room__section-centered': user }">
-  <header-room [roomName]="room.tittle" *ngIf="user"></header-room>
+  <header [roomName]="room.tittle" *ngIf="user" class="room__header"></header>
   <div class="room__table-container">
     <div class="room__table-module room__top-module">
       <card
