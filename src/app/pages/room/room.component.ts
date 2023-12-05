@@ -108,8 +108,8 @@ export class RoomComponent implements OnInit, OnDestroy {
           }
           // Active Button Reveal
           if (
-            this.user.is_owner &&
-            this.players.every((player) => player.selected_card)
+            this.user.is_owner && this.allPlayersSelectedCard(this.players)
+
           ) {
             this.isRevealable = true;
           }
@@ -118,6 +118,11 @@ export class RoomComponent implements OnInit, OnDestroy {
           alert(error.error.message);
         }
       );
+  }
+
+  allPlayersSelectedCard(players: User[]): boolean {
+    const usersTypePlayers = players.filter(({visualization}) => visualization == 'player')
+    return usersTypePlayers.every((player) => player.selected_card )
   }
 
   listenCardRevealed() {
