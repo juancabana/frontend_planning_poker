@@ -2,18 +2,24 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { io } from 'socket.io-client';
 import { environment as env } from './../../../environments/environment';
+import { Socket } from 'socket.io-client';
+
+import { User } from 'src/app/interfaces/user.interface';
+import { Card } from 'src/app/interfaces/card.interface';
+import { Room } from 'src/app/interfaces/room.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class WebSocketService {
-  private socket: any;
-  private room: any;
-  private user: any;
+  private socket!: Socket;
+  private room!: Room;
+  private user: User;
   constructor() {
-    this.user = localStorage.getItem('user');
+    const user = localStorage.getItem('user');
+  this.user = user ? JSON.parse(user) : null;
   }
-  setupSocketConnection(room: any, user?: any) {
+  setupSocketConnection(room: Room, user?: User) {
     this.room = room;
     const options = () => {
       if (!this.user) {
@@ -37,9 +43,9 @@ export class WebSocketService {
   }
 
   // Método para escuchar eventos del servidor
-  onEvent(event: string): Observable<any> {
-    return new Observable((observer) => {
-      this.socket.on(event, (data: any) => {
+  onEvent<T>(event: string): Observable<T> {
+    return new Observable<T>((observer) => {
+      this.socket.on(event, (data: T) => {
         observer.next(data);
       });
     });
@@ -47,24 +53,16 @@ export class WebSocketService {
   emit(event: string, data?: any): void {
     this.socket.emit(event, data);
   }
-  listenNewUser(): Observable<any> {
-    return this.onEvent('userCreated');
+
+  listenNewUser(): Observable<User> {
+    return this.onEvent<User>('userCreated');
   }
-  listenDisconnect(): Observable<any> {
-    return this.onEvent('userDisconected');
+
+  listenCardSelected(): Observable<Card[]> {
+    return this.onEvent<Card[]>('cardSelected');
   }
-  listenConnect(): Observable<any> {
-    return this.onEvent('userConnected');
-  }
-  listenCardSelected(): Observable<any> {
-    return this.onEvent('cardSelected');
-  }
+
   listenCardRevealed(): Observable<any> {
     return this.onEvent('reveal-cards');
-  }
-  disconnect(): void {
-    // localStorage.removeItem('user');
-    // const user = localStorage.getItem('user');
-    this.socket.disconnect();
   }
 }
