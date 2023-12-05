@@ -30,6 +30,8 @@ $borderRadiusTable: 250px
   outline: none
   box-shadow: 0 0 5px #7e2bbe
   margin: 2rem
+  @media screen and (max-width: 550px)
+    margin: 1rem
 
 .room__top-module
   grid-column: 2 / 3
@@ -77,6 +79,15 @@ $borderRadiusTable: 250px
   display: flex
   justify-content: center
   align-items: center
+  @media screen and (max-width: 768px)
+    width: 350px
+  @media screen and (max-width: 550px)
+    width: 300px
+  @media screen and (max-width: 500px)
+    width: 200px
+    height: 200px
+
+
 
 .room__table-button
   margin: 0
