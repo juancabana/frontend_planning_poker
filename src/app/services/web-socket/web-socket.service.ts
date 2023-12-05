@@ -7,6 +7,7 @@ import { Socket } from 'socket.io-client';
 import { User } from 'src/app/interfaces/user.interface';
 import { Card } from 'src/app/interfaces/card.interface';
 import { Room } from 'src/app/interfaces/room.interface';
+import { CardRevealed } from 'src/app/interfaces/card-revealed.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -62,7 +63,7 @@ export class WebSocketService {
     return this.onEvent<Card[]>('cardSelected');
   }
 
-  listenCardRevealed(): Observable<any> {
-    return this.onEvent('reveal-cards');
+  listenCardRevealed(): Observable<CardRevealed[]> {
+    return this.onEvent<CardRevealed[]>('reveal-cards');
   }
 }
