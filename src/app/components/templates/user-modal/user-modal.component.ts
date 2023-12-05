@@ -52,9 +52,10 @@ export class UserModalComponent implements OnInit, OnDestroy {
   }
 
   setButtonActive(): void {
-    const regex = /^(?!.*[_.*#/-])(?:[^\d]*[0-9]){0,3}[^\d]*.{5,20}$/;
+    const validateLength = this.username.length >= 5 && this.username.length <= 20;
+    const regex = /^(?!.*[()_,.*#/-])(\D*\d){0,3}\D*$/;
     if (
-      this.username.length > 0 &&
+      validateLength &&
       regex.test(this.username) &&
       (this.isPlayer || this.isSpectator)
     ) {

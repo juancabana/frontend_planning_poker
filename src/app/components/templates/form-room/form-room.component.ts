@@ -40,7 +40,7 @@ export class FormRoomComponent implements OnInit, OnDestroy {
           Validators.minLength(5),
           Validators.maxLength(20),
           Validators.pattern(
-            '(?!^d+$)(?!.*[_.*#/-])(?:[^0-9]*[0-9]){0,3}[^0-9]*'
+            '(?!^d+$)(?!.*[()_,.*#/-])(?:[^0-9]*[0-9]){0,3}[^0-9]*'
           ),
         ],
       ],
