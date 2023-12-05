@@ -196,7 +196,7 @@ export class RoomComponent implements OnInit, OnDestroy {
 
     // Devuelve un array con los valores y la cantidad de las cartas seleccionadas
     const cardsSelected = cards.reduce<CardCount>((acc, card) => {
-      if (card !== undefined) {
+      if (card) {
         acc[card] = (acc[card] || 0) + 1;
       }
       return acc;
