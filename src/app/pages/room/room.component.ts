@@ -5,6 +5,11 @@ import { HttpService } from 'src/app/services/http-service/http-service.service'
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { UserModalComponent } from 'src/app/components/templates/user-modal/user-modal.component';
 import { Subscription } from 'rxjs';
+import { User } from 'src/app/interfaces/user.interface';
+import { Room } from 'src/app/interfaces/room.interface';
+import { CardRevealed } from 'src/app/interfaces/card-revealed.interface';
+import { CardSelected } from 'src/app/interfaces/card-selected.interface';
+import { Card } from 'src/app/interfaces/card.interface';
 
 @Component({
   selector: 'app-room',
@@ -19,9 +24,9 @@ export class RoomComponent implements OnInit, OnDestroy {
   private listenNewUserSubscription: Subscription = new Subscription();
   private listenRevealedCardsSubscription: Subscription = new Subscription();
 
-  public user: any;
-  public players: any[] = [];
-  public room: any = {};
+  public user!: User ;
+  public players: User[] = [];
+  public room!: Room ;
   public isRevealable: Boolean = false;
   public cardsSelected: any[] = [];
 
@@ -35,15 +40,13 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     // Get params from url
-    this.routeSuscription = this.route.params.subscribe((params: any) => {
-      this.idRoom = params.id_room;
+    this.routeSuscription = this.route.params.subscribe((params) => {
+      this.idRoom = params['id_room'];
+
+      // Validate if room exists
+      this.validateRoom();
+
     });
-
-    // Validate if room exists
-    this.validateRoom();
-
-    // Set socket connection
-    this.socketService.setupSocketConnection(this.room);
 
     // Create or get user to localStorage
     await this.getOrCreateUser();
@@ -80,6 +83,8 @@ export class RoomComponent implements OnInit, OnDestroy {
       .subscribe(
         (response) => {
           this.room = response;
+          // Set socket connection
+          this.socketService.setupSocketConnection(this.room);
         },
         () => {
           this.router.navigateByUrl('**');
@@ -92,7 +97,7 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.listenNewUserSubscription = this.socketService
       .listenNewUser()
       .subscribe(
-        (data: any) => {
+        (data: User[]) => {
           if (!this.exists(this.user)) {
             this.players = [this.user, ...data];
             this.setFirstPosition();
@@ -108,11 +113,8 @@ export class RoomComponent implements OnInit, OnDestroy {
             this.isRevealable = true;
           }
         },
-        (error: any) => {
+        (error) => {
           alert(error.error.message);
-        },
-        () => {
-          console.log('completed');
         }
       );
   }
@@ -120,7 +122,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   listenCardRevealed() {
     this.listenRevealedCardsSubscription = this.socketService
       .listenCardRevealed()
-      .subscribe((data: any) => {
+      .subscribe((data: CardRevealed[]) => {
         this.cardsSelected = data;
       });
   }
@@ -131,7 +133,7 @@ export class RoomComponent implements OnInit, OnDestroy {
       .subscribe((cachedPlayers) => {
         this.players = [this.user, ...cachedPlayers];
         if (
-          !cachedPlayers.some((element: any) => element._id == this.user._id)
+          !cachedPlayers.some((element: User) => element._id == this.user._id)
         ) {
           this.players = [this.user, ...cachedPlayers];
           this.setFirstPosition();
@@ -155,7 +157,7 @@ export class RoomComponent implements OnInit, OnDestroy {
     }
   }
 
-  exists = (userToEvaluate: any) =>
+  exists = (userToEvaluate: User) =>
     this.players.some((element) => element._id == userToEvaluate._id);
 
   getUser() {
@@ -175,7 +177,7 @@ export class RoomComponent implements OnInit, OnDestroy {
     return dialogRef;
   }
 
-  onCardSelected(data: any) {
+  onCardSelected(data: CardSelected) {
     const { idUser, cardSelected } = data;
     // Encontrar el usuario en el array de jugadores y actualizar su estado
     const index = this.players.findIndex((player) => player._id == idUser);
@@ -186,7 +188,7 @@ export class RoomComponent implements OnInit, OnDestroy {
     // Recorre el array de jugadores y devuelve un array con las cartas seleccionadas
     const cards = this.players.map((player) => player.selected_card);
     // Devuelve un array con los valores y la cantidad de las cartas seleccionadas
-    const cardsSelected = cards.reduce((acc, card) => {
+    const cardsSelected = cards.reduce((acc: any, card: any) => {
       acc[card] = (acc[card] || 0) + 1;
       return acc;
     }, {});

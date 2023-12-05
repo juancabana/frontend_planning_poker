@@ -7,6 +7,9 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { CardSelected } from 'src/app/interfaces/card-selected.interface';
+import { Card } from 'src/app/interfaces/card.interface';
+import { User } from 'src/app/interfaces/user.interface';
 import { HttpService } from 'src/app/services/http-service/http-service.service';
 import { WebSocketService } from 'src/app/services/web-socket/web-socket.service';
 
@@ -16,9 +19,9 @@ import { WebSocketService } from 'src/app/services/web-socket/web-socket.service
   styleUrls: ['./card-menu.component.sass'],
 })
 export class CardMenuComponent implements OnInit, OnDestroy {
-  @Input() public user: any;
-  @Output() public cardSelectedEvent = new EventEmitter<any>();
-  public cardOptions: any[] = [];
+  @Input() public user!: User;
+  @Output() public cardSelectedEvent = new EventEmitter<CardSelected>();
+  public cardOptions: Card[] = [];
 
   private cardSelected: number | null = null;
   private getCardsSubscription: Subscription = new Subscription();
@@ -42,7 +45,7 @@ export class CardMenuComponent implements OnInit, OnDestroy {
   listenCardSelected() {
     this.listenCardSelectedSubscription = this.webSocketService
       .listenCardSelected()
-      .subscribe((data: any) => {
+      .subscribe((data: Card[]) => {
         this.cardOptions.map((card, index) => {
           if (card.value === this.cardSelected) {
             card.selected_by_user = true;
@@ -71,7 +74,7 @@ export class CardMenuComponent implements OnInit, OnDestroy {
     return;
   }
 
-  emitCardSelected(index: any, idUser: any) {
+  emitCardSelected(index: number, idUser: string) {
     this.webSocketService.emit('cardSelected', {
       index: index,
       lastSelected: this.cardSelected,

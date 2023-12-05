@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { User } from 'src/app/interfaces/user.interface';
 
 @Component({
   selector: 'card',
@@ -6,7 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./card.component.sass'],
 })
 export class CardComponent implements OnInit {
-  @Input() public player: any = {};
+  @Input() public player!: User;
   @Input() public visualizate_result: Boolean = false;
 
   public visualization: string = 'false';

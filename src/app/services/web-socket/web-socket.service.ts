@@ -55,8 +55,8 @@ export class WebSocketService {
     this.socket.emit(event, data);
   }
 
-  listenNewUser(): Observable<User> {
-    return this.onEvent<User>('userCreated');
+  listenNewUser(): Observable<User[]> {
+    return this.onEvent<User[]>('userCreated');
   }
 
   listenCardSelected(): Observable<Card[]> {
