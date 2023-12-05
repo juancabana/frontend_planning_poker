@@ -10,6 +10,7 @@ import { Room } from 'src/app/interfaces/room.interface';
 import { CardRevealed } from 'src/app/interfaces/card-revealed.interface';
 import { CardSelected } from 'src/app/interfaces/card-selected.interface';
 import { Card } from 'src/app/interfaces/card.interface';
+import { CardCount } from './interfaces/card-count.interface';
 
 @Component({
   selector: 'app-room',
@@ -187,9 +188,12 @@ export class RoomComponent implements OnInit, OnDestroy {
   RevealCards() {
     // Recorre el array de jugadores y devuelve un array con las cartas seleccionadas
     const cards = this.players.map((player) => player.selected_card);
+
     // Devuelve un array con los valores y la cantidad de las cartas seleccionadas
-    const cardsSelected = cards.reduce((acc: any, card: any) => {
-      acc[card] = (acc[card] || 0) + 1;
+    const cardsSelected = cards.reduce<CardCount>((acc, card) => {
+      if (card !== undefined) {
+        acc[card] = (acc[card] || 0) + 1;
+      }
       return acc;
     }, {});
 
