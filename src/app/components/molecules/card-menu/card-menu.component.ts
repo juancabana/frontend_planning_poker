@@ -68,6 +68,7 @@ export class CardMenuComponent implements OnInit, OnDestroy {
       });
       // Emit value to card selected
       this.emitCardSelected(index, idUser);
+      console.log({index, idUser})
       this.cardSelected = this.cardOptions[index].value;
       this.cardSelectedEvent.emit({ idUser, cardSelected: this.cardSelected });
     // }

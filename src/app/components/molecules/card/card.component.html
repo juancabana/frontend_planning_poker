@@ -3,7 +3,7 @@
     <div
       class="card__content"
       [ngClass]="{
-        'card__player-selected': player.selected_card && !visualizate_result
+        'card__player-selected': player.selected_card! >= 0 && !visualizate_result
       }"
     >
       <span *ngIf="visualizate_result" class="card__selected">{{

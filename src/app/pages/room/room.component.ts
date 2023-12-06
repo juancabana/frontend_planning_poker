@@ -9,7 +9,6 @@ import { User } from 'src/app/interfaces/user.interface';
 import { Room } from 'src/app/interfaces/room.interface';
 import { CardRevealed } from 'src/app/interfaces/card-revealed.interface';
 import { CardSelected } from 'src/app/interfaces/card-selected.interface';
-import { Card } from 'src/app/interfaces/card.interface';
 import { CardCount } from './interfaces/card-count.interface';
 
 @Component({
@@ -122,7 +121,7 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   allPlayersSelectedCard(players: User[]): boolean {
     const usersTypePlayers = players.filter(({visualization}) => visualization == 'player')
-    return usersTypePlayers.every((player) => player.selected_card )
+    return usersTypePlayers.every((player) => player.selected_card !== -1 )
   }
 
   listenCardRevealed() {
@@ -193,16 +192,14 @@ export class RoomComponent implements OnInit, OnDestroy {
   RevealCards() {
     // Recorre el array de jugadores y devuelve un array con las cartas seleccionadas
     const cards = this.players.map((player) => player.selected_card);
-
     // Devuelve un array con los valores y la cantidad de las cartas seleccionadas
-    const cardsSelected = cards.reduce<CardCount>((acc, card) => {
-      if (card) {
-        acc[card] = (acc[card] || 0) + 1;
-      }
-      return acc;
-    }, {});
+    let values: any = {}
+    cards.map(value => {
+        values[`${value}`] = (values[`${value}`] || 0) + 1;
+    })
 
-    const result = Object.entries(cardsSelected).map(([value, amount]) => ({
+
+    const result = Object.entries(values).map(([value, amount]) => ({
       value,
       amount,
     }));
