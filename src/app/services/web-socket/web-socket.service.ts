@@ -66,4 +66,8 @@ export class WebSocketService {
   listenCardRevealed(): Observable<CardRevealed[]> {
     return this.onEvent<CardRevealed[]>('reveal-cards');
   }
+
+  listenRestartGame(): Observable<User[]> {
+    return this.onEvent<User[]>('restart');
+  }
 }

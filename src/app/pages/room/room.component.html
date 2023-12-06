@@ -41,6 +41,14 @@
             >
               Revelar cartas
             </button>
+            <button
+              class="room__table-button"
+              *ngIf="isAvaliableToRestart"
+              (click)="restart()"
+
+            >
+              Nueva votación
+            </button>
           </div>
         </div>
       </div>

@@ -22,12 +22,14 @@ export class RoomComponent implements OnInit, OnDestroy {
   private getCachedPlayersSubscription: Subscription = new Subscription();
   private listenNewUserSubscription: Subscription = new Subscription();
   private listenRevealedCardsSubscription: Subscription = new Subscription();
+  private listenRestartGameSubscription: Subscription = new Subscription();
 
   public user!: User ;
   public players: User[] = [];
+  public cardsSelected: any[] = [];
   public room!: Room ;
   public isRevealable: Boolean = false;
-  public cardsSelected: any[] = [];
+  public isAvaliableToRestart: Boolean = false
 
   constructor(
     private readonly socketService: WebSocketService,
@@ -58,6 +60,9 @@ export class RoomComponent implements OnInit, OnDestroy {
 
     // Listen when cards are revealed
     this.listenCardRevealed();
+
+    // Listen when game is restarted
+    this.listenRestartGame();
   }
 
   async getOrCreateUser() {
@@ -74,22 +79,6 @@ export class RoomComponent implements OnInit, OnDestroy {
     await dialogRef.afterClosed().toPromise();
     const user = this.getUser();
     this.user = user;
-  }
-
-  validateRoom() {
-    this.findRoomSubscription = this.httpService
-      .findRoomById(this.idRoom)
-      .subscribe(
-        (response) => {
-          this.room = response;
-          // Set socket connection
-          this.socketService.setupSocketConnection(this.room);
-        },
-        () => {
-          this.router.navigateByUrl('**');
-          return;
-        }
-      );
   }
 
   listenNewUser() {
@@ -118,9 +107,13 @@ export class RoomComponent implements OnInit, OnDestroy {
       );
   }
 
-  allPlayersSelectedCard(players: User[]): boolean {
-    const usersTypePlayers = players.filter(({visualization}) => visualization == 'player')
-    return usersTypePlayers.every((player) => player.selected_card! > -3 )
+  listenRestartGame() {
+    this.listenRestartGameSubscription = this.socketService.listenRestartGame().subscribe((players) => {
+      this.players = players;
+      this.isAvaliableToRestart = false;
+      this.isRevealable = false;
+      this.cardsSelected = [];
+    })
   }
 
   listenCardRevealed() {
@@ -129,6 +122,27 @@ export class RoomComponent implements OnInit, OnDestroy {
       .subscribe((data: CardRevealed[]) => {
         this.cardsSelected = data;
       });
+  }
+
+  allPlayersSelectedCard(players: User[]): boolean {
+    const usersTypePlayers = players.filter(({visualization}) => visualization == 'player')
+    return usersTypePlayers.every((player) => player.selected_card! > -3 )
+  }
+
+  validateRoom() {
+    this.findRoomSubscription = this.httpService
+      .findRoomById(this.idRoom)
+      .subscribe(
+        (response) => {
+          this.room = response;
+          // Set socket connection
+          this.socketService.setupSocketConnection(this.room);
+        },
+        () => {
+          this.router.navigateByUrl('**');
+          return;
+        }
+      );
   }
 
   getPlayersInCache() {
@@ -197,7 +211,6 @@ export class RoomComponent implements OnInit, OnDestroy {
         values[`${value}`] = (values[`${value}`] || 0) + 1;
     })
 
-
     const result = Object.entries(values).map(([value, amount]) => ({
       value,
       amount,
@@ -205,6 +218,20 @@ export class RoomComponent implements OnInit, OnDestroy {
 
     this.socketService.emit('reveal-cards', result);
     this.cardsSelected = result;
+    this.isRevealable = false;
+    this.isAvaliableToRestart = true;
+
+  }
+
+  restart() {
+    this.socketService.emit('restart');
+    this.isAvaliableToRestart = false;
+    this.isRevealable = false;
+    this.cardsSelected = [];
+    this.players = this.players.map((player) => {
+      player.selected_card = -3;
+      return player;
+    });
   }
 
   ngOnDestroy(): void {
@@ -213,5 +240,6 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.getCachedPlayersSubscription.unsubscribe();
     this.listenNewUserSubscription.unsubscribe();
     this.listenRevealedCardsSubscription.unsubscribe();
+    this.listenRestartGameSubscription.unsubscribe();
   }
 }
