@@ -2,84 +2,60 @@
 
 $colorLight: #B963FD
 
-::ng-deep .user-modal
+::ng-deep .admin-modal
   border-radius: var.$borderRadiusCorners
   overflow: hidden
   height: auto
-  border: 2px solid #6429cd
-
-::ng-deep .blur-backdrop
-  background-color: rgba(0, 0, 0, 0.4)
-  backdrop-filter: blur(8px)
-
-.user-modal
-  background: #1f0d3f
-  // height: 150px
-  display: flex
-  flex-direction: column
-  justify-content: center
-  align-items: center
-  padding: 4rem 0px
-  display: flex
-  justify-content: center
-  align-items: center
-
-.user-modal__form
-  display: flex
-  flex-direction: column
-  justify-content: center
-  align-items: center
-
-.user-modal__wrapper-span
-  width: 280px
-
-.user-modal__span
-  margin-bottom: 1rem
-  color: white
-  font-family: var.$appFont
-  font-weight: 600
-
-.user-modal__input
-  height: 2.2rem
   border: 1px solid #6429cd
-  background: #240f4a
-  border-radius: 20px
-  width: 100%
-  margin: 0
-  margin-top: .5rem
-  padding: 0 1rem
-  box-sizing: border-box
-  font-family: var.$appFont
-  font-weight: 400
-  color: white
-  &:focus
-    outline: none
-    border: 1px solid $colorLight
-    box-shadow: 0 0 5px $colorLight
-    background: #330072
-
-.user-modal__wrapper-visualization
-  width: 100%
+  background: #1f0d3f
   display: flex
-  justify-content: space-evenly
-  margin-top: 1rem
+  flex-direction: column
+  justify-content: center
+  align-items: center
+  padding: 0px
 
-.user-modal__wrapper-checkbox
+.admin-modal__wrapper
+  padding: 2rem
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+
+.admin-modal__tittle
+  text-align: center
+  color: white
+  font-family: Poppins, sans-serif
+  font-weight: 400
+  font-size: 1.3rem
+
+.admin-modal__list
+  padding: 0
+  width: 180px
+  display: flex
+  justify-content: center
+  align-items: flex-start
+  flex-direction: column
+
+.admin-modal__item
+  list-style: none
+
+.admin-modal__wrapper-checkbox
   display: flex
   justify-content: center
   align-items: center
 
-.user-modal__checkbox-text
+.admin-modal__checkbox-text
   color: white
   font-family: var.$appFont
   font-weight: 400
-  font-size: 14px
+  font-size: 1rem
   display: flex
   justify-content: center
   align-items: center
   cursor: pointer
+  margin-left: .5rem
 
-.user-modal__checkbox-input
+.admin-modal__checkbox-input
   appearance: none
   width: 1.5rem
   height: 1.5rem
@@ -96,7 +72,7 @@ $colorLight: #B963FD
     box-shadow: 0 0 5px $colorLight
     background: #330072
 
-.user-modal__checkbox-input:checked::before
+.admin-modal__checkbox-input:checked::before
   content: ""
   display: block
   width: 60%
@@ -106,7 +82,7 @@ $colorLight: #B963FD
   margin: 0
   padding: 0
 
-.user-modal__button
+.admin-modal__submit-button
   height: 2.2rem
   border: none
   font-family: var.$appFont
@@ -122,7 +98,7 @@ $colorLight: #B963FD
   border: none
   padding: 0 1rem
 
-.user-modal__button--active
+.admin-modal__submit-button--active
   background: white
   color: var.$colorEnabled
   cursor: pointer

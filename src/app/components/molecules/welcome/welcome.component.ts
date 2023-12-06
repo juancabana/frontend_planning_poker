@@ -10,7 +10,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
     trigger('fadeInOut', [
 
       transition(':leave', [
-        animate(700, style({ opacity: 0 }))
+        animate(500, style({ opacity: 0 }))
       ])
     ])
   ]

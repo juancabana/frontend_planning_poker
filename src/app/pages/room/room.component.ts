@@ -9,6 +9,7 @@ import { User } from 'src/app/interfaces/user.interface';
 import { Room } from 'src/app/interfaces/room.interface';
 import { CardRevealed } from 'src/app/interfaces/card-revealed.interface';
 import { CardSelected } from 'src/app/interfaces/card-selected.interface';
+import { AdminModalComponent } from 'src/app/components/templates/admin-modal/admin-modal.component';
 
 @Component({
   selector: 'app-room',
@@ -117,6 +118,12 @@ export class RoomComponent implements OnInit, OnDestroy {
       .listenRestartGame()
       .subscribe((players) => {
         this.players = players;
+        players.map((player) => {
+          player._id == this.user._id
+            ? (this.user.is_owner = player.is_owner)
+            : false;
+        });
+
         this.isAvaliableToRestart = false;
         this.isRevealable = false;
         this.cardsSelected = [];
@@ -211,7 +218,7 @@ export class RoomComponent implements OnInit, OnDestroy {
     // Encontrar el usuario en el array de jugadores y actualizar su estado
     const index = this.players.findIndex((player) => player._id == idUser);
     this.players[index].selected_card = cardSelected;
-    this.activateCountingOrReveal()
+    this.activateCountingOrReveal();
   }
 
   RevealCards() {
@@ -220,7 +227,9 @@ export class RoomComponent implements OnInit, OnDestroy {
     // Devuelve un array con los valores y la cantidad de las cartas seleccionadas
     let values: any = {};
     cards.map((value) => {
-      values[`${value}`] = (values[`${value}`] || 0) + 1;
+      if (value != -3) {
+        values[`${value}`] = (values[`${value}`] || 0) + 1;
+      }
     });
 
     const result = Object.entries(values).map(([value, amount]) => ({
@@ -235,17 +244,30 @@ export class RoomComponent implements OnInit, OnDestroy {
   }
 
   restart() {
-    this.socketService.emit('restart');
-    this.isAvaliableToRestart = false;
-    this.isRevealable = false;
-    this.cardsSelected = [];
-    this.countingVotes = false;
-    this.players = this.players.map((player) => {
-      player.selected_card = -3;
-      return player;
+    const dialogRef = this.dialog.open(AdminModalComponent, {
+      data: this.players,
+      disableClose: true,
+      panelClass: 'admin-modal',
+    });
+    dialogRef.afterClosed().subscribe((idUser: string) => {
+      debugger;
+      this.socketService.emit('restart', idUser);
+      this.isAvaliableToRestart = false;
+      this.isRevealable = false;
+      this.cardsSelected = [];
+      this.countingVotes = false;
+      this.players = this.players.map((player) => {
+        player.selected_card = -3;
+        if (player._id == idUser) {
+          player.is_owner = true;
+        } else {
+          player.is_owner = false;
+        }
+        this.user._id == idUser ? this.user.is_owner = true : this.user.is_owner = false;
+        return player;
+      });
     });
   }
-
 
   ngOnDestroy(): void {
     this.routeSuscription.unsubscribe();

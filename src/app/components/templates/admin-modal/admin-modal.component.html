@@ -1,0 +1,35 @@
+<div class="admin-modal">
+  <div class="admin-modal__wrapper">
+    <h2 class="admin-modal__tittle">
+      ¿Quien será el administrador de la nueva partida?
+    </h2>
+    <ul class="admin-modal__list">
+      <li class="admin-modal__item" *ngFor="let item of data">
+        <div class="admin-modal__wrapper-checkbox">
+          <input
+            class="admin-modal__checkbox-input"
+            type="radio"
+            name="player"
+            id="player"
+            [checked]="idUserSelected === item._id"
+            (click)="setUserAdmin(item._id!)"
+          />
+          <label class="admin-modal__checkbox-text" for="player">
+            {{
+              item._id == idThisUser
+                ? "Yo (" + item.username + ")"
+                : item.username
+            }}
+          </label>
+        </div>
+      </li>
+    </ul>
+    <button
+      class="admin-modal__submit-button"
+      (click)="submitAdminData()"
+      [ngClass]="{ 'admin-modal__submit-button--active': isButtonEnabled }"
+    >
+      Aceptar
+    </button>
+  </div>
+</div>

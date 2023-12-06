@@ -22,6 +22,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { CardMenuComponent } from './components/organisms/card-menu/card-menu.component';
 import { ResultsComponent } from './components/organisms/results/results.component';
 import { WelcomeComponent } from './components/molecules/welcome/welcome.component';
+import { AdminModalComponent } from './components/templates/admin-modal/admin-modal.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { WelcomeComponent } from './components/molecules/welcome/welcome.compone
     CardMenuComponent,
     ResultsComponent,
     WelcomeComponent,
+    AdminModalComponent,
   ],
   imports: [
     BrowserModule,
