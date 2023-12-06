@@ -24,12 +24,13 @@ export class RoomComponent implements OnInit, OnDestroy {
   private listenRevealedCardsSubscription: Subscription = new Subscription();
   private listenRestartGameSubscription: Subscription = new Subscription();
 
-  public user!: User ;
+  public user!: User;
   public players: User[] = [];
   public cardsSelected: any[] = [];
-  public room!: Room ;
+  public room!: Room;
   public isRevealable: Boolean = false;
-  public isAvaliableToRestart: Boolean = false
+  public isAvaliableToRestart: Boolean = false;
+  public countingVotes: Boolean = false;
 
   constructor(
     private readonly socketService: WebSocketService,
@@ -46,7 +47,6 @@ export class RoomComponent implements OnInit, OnDestroy {
 
       // Validate if room exists
       this.validateRoom();
-
     });
 
     // Create or get user to localStorage
@@ -81,6 +81,16 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.user = user;
   }
 
+  activateCountingOrReveal() {
+    if (this.allPlayersSelectedCard()) {
+      if (this.user.is_owner) {
+        this.isRevealable = true;
+      } else {
+        this.countingVotes = true;
+      }
+    }
+  }
+
   listenNewUser() {
     this.listenNewUserSubscription = this.socketService
       .listenNewUser()
@@ -93,13 +103,8 @@ export class RoomComponent implements OnInit, OnDestroy {
             this.players = data;
             this.setFirstPosition();
           }
-          // Active Button Reveal
-          if (
-            this.user.is_owner && this.allPlayersSelectedCard(this.players)
-
-          ) {
-            this.isRevealable = true;
-          }
+          // Active Button Reveal or Counting Votes
+          this.activateCountingOrReveal();
         },
         (error) => {
           alert(error.error.message);
@@ -108,12 +113,15 @@ export class RoomComponent implements OnInit, OnDestroy {
   }
 
   listenRestartGame() {
-    this.listenRestartGameSubscription = this.socketService.listenRestartGame().subscribe((players) => {
-      this.players = players;
-      this.isAvaliableToRestart = false;
-      this.isRevealable = false;
-      this.cardsSelected = [];
-    })
+    this.listenRestartGameSubscription = this.socketService
+      .listenRestartGame()
+      .subscribe((players) => {
+        this.players = players;
+        this.isAvaliableToRestart = false;
+        this.isRevealable = false;
+        this.cardsSelected = [];
+        this.countingVotes = false;
+      });
   }
 
   listenCardRevealed() {
@@ -121,12 +129,15 @@ export class RoomComponent implements OnInit, OnDestroy {
       .listenCardRevealed()
       .subscribe((data: CardRevealed[]) => {
         this.cardsSelected = data;
+        this.countingVotes = false;
       });
   }
 
-  allPlayersSelectedCard(players: User[]): boolean {
-    const usersTypePlayers = players.filter(({visualization}) => visualization == 'player')
-    return usersTypePlayers.every((player) => player.selected_card! > -3 )
+  allPlayersSelectedCard(): boolean {
+    const usersTypePlayers = this.players.filter(
+      ({ visualization }) => visualization == 'player'
+    );
+    return usersTypePlayers.every((player) => player.selected_card! > -3);
   }
 
   validateRoom() {
@@ -200,16 +211,17 @@ export class RoomComponent implements OnInit, OnDestroy {
     // Encontrar el usuario en el array de jugadores y actualizar su estado
     const index = this.players.findIndex((player) => player._id == idUser);
     this.players[index].selected_card = cardSelected;
+    this.activateCountingOrReveal()
   }
 
   RevealCards() {
     // Recorre el array de jugadores y devuelve un array con las cartas seleccionadas
     const cards = this.players.map((player) => player.selected_card);
     // Devuelve un array con los valores y la cantidad de las cartas seleccionadas
-    let values: any = {}
-    cards.map(value => {
-        values[`${value}`] = (values[`${value}`] || 0) + 1;
-    })
+    let values: any = {};
+    cards.map((value) => {
+      values[`${value}`] = (values[`${value}`] || 0) + 1;
+    });
 
     const result = Object.entries(values).map(([value, amount]) => ({
       value,
@@ -220,7 +232,6 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.cardsSelected = result;
     this.isRevealable = false;
     this.isAvaliableToRestart = true;
-
   }
 
   restart() {
@@ -228,11 +239,13 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.isAvaliableToRestart = false;
     this.isRevealable = false;
     this.cardsSelected = [];
+    this.countingVotes = false;
     this.players = this.players.map((player) => {
       player.selected_card = -3;
       return player;
     });
   }
+
 
   ngOnDestroy(): void {
     this.routeSuscription.unsubscribe();

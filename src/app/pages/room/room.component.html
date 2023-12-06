@@ -49,6 +49,10 @@
             >
               Nueva votación
             </button>
+            <div class="room__wrapper-counting" *ngIf="countingVotes">
+              <img class="room__counting-image" width="200" alt="Counting votes" src="./../../../assets/load-image.png">
+              <span class="room__counting-text">Contando votos</span>
+            </div>
           </div>
         </div>
       </div>
