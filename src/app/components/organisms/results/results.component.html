@@ -1,4 +1,10 @@
 <div class="results">
+  <div class="results__wrapper-average">
+    <div class="results__average">
+      <span class="results__average-description">Promedio:</span>
+      <h1 class="results__average-value">{{ getAverageString() }}</h1>
+    </div>
+  </div>
   <div class="results__wrapper-cards">
     <ng-container *ngFor="let card of cardsRevealed; let index = index">
       <div class="results__card">
@@ -13,10 +19,5 @@
       </div>
     </ng-container>
   </div>
-  <div class="results__wrapper-average">
-    <div class="results__average">
-      <span class="results__average-description">Promedio:</span>
-      <h1 class="results__average-value">{{ getAverageString() }}</h1>
-    </div>
-  </div>
+
 </div>

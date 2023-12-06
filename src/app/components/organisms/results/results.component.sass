@@ -4,8 +4,9 @@
   width: 100vw
   display: flex
   box-sizing: border-box
-  min-height: 230px
+  // min-height: 230px
   position: relative
+  flex-direction: column
 
 .results__wrapper-cards
   display: flex
@@ -14,6 +15,7 @@
   padding: 1rem
   width: 100%
   gap: 2rem
+  box-sizing: border-box
 
 .results__card
   display: flex
@@ -56,6 +58,10 @@
   font-family: var.$appFont
   color: white
   right: 30%
+  // Responsive design
+  @media (max-width: 835px)
+    position: relative
+    right: auto
 
 .results__average-description
   font-weight: 400
