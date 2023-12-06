@@ -26,7 +26,7 @@ export class FormRoomComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.formRoomSubscription = this.formRoom
       .get('room_name')!
-      .valueChanges.subscribe((value) => {
+      .valueChanges.subscribe(() => {
         this.setButtonActive();
       });
   }

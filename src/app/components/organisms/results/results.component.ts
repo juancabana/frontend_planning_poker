@@ -16,8 +16,10 @@ export class ResultsComponent implements OnInit {
     let total = 0;
     let amountCards = 0;
     this.cardsRevealed.forEach((card) => {
-      total += card.value * card.amount;
-      amountCards += card.amount;
+      if (card.value >= 0) {
+        total += card.value * card.amount;
+        amountCards += card.amount;
+      }
     });
     this.average = (total / amountCards);
   }
@@ -26,5 +28,8 @@ export class ResultsComponent implements OnInit {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     });
+  }
+  isNumber(): boolean {
+    return this.average >= 0;
   }
 }

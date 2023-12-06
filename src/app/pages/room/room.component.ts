@@ -9,7 +9,6 @@ import { User } from 'src/app/interfaces/user.interface';
 import { Room } from 'src/app/interfaces/room.interface';
 import { CardRevealed } from 'src/app/interfaces/card-revealed.interface';
 import { CardSelected } from 'src/app/interfaces/card-selected.interface';
-import { CardCount } from './interfaces/card-count.interface';
 
 @Component({
   selector: 'app-room',
@@ -121,7 +120,7 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   allPlayersSelectedCard(players: User[]): boolean {
     const usersTypePlayers = players.filter(({visualization}) => visualization == 'player')
-    return usersTypePlayers.every((player) => player.selected_card !== -1 )
+    return usersTypePlayers.every((player) => player.selected_card! > -3 )
   }
 
   listenCardRevealed() {
