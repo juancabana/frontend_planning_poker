@@ -1,18 +1,24 @@
 <div class="card" *ngIf="visualization == 'player'">
   <div class="card__wrapper">
-    <div class="card__content"
-    [ngClass]="{
-      'card__player-selected': player.selected_card! > -3 && !visualizate_result
-    }"
-  >
-    <span *ngIf="visualizate_result" class="card__selected">
-      <ng-container *ngIf="player.selected_card == -2; else notCoffee">☕</ng-container>
-      <ng-template #notCoffee>
-        <ng-container *ngIf="player.selected_card == -1; else default">?</ng-container>
-        <ng-template #default>{{ player.selected_card }}</ng-template>
-      </ng-template>
-    </span>
-  </div>
+    <div
+      class="card__content"
+      [ngClass]="{
+        'card__player-selected':
+          player.selected_card! > -3 && !visualizate_result
+      }"
+    >
+      <span *ngIf="visualizate_result" class="card__selected">
+        <ng-container *ngIf="player.selected_card == -2; else notCoffee"
+          >☕</ng-container
+        >
+        <ng-template #notCoffee>
+          <ng-container *ngIf="player.selected_card == -1; else default"
+            >?</ng-container
+          >
+          <ng-template #default>{{ player.selected_card }}</ng-template>
+        </ng-template>
+      </span>
+    </div>
     <span class="card__name" for="">{{ player.username }}</span>
   </div>
 </div>

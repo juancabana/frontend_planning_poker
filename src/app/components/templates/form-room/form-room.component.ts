@@ -51,7 +51,7 @@ export class FormRoomComponent implements OnInit, OnDestroy {
     this.isButtonActive = isValid;
   }
 
-  async createRoom() {
+  createRoom() {
     if (this.isButtonActive) {
       this.createRoomSubscription = this.httpService
         .createNewRoom(this.formRoom.get('room_name')!.value)

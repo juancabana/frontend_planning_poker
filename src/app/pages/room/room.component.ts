@@ -15,9 +15,11 @@ import { AdminModalComponent } from 'src/app/components/templates/admin-modal/ad
   selector: 'app-room',
   templateUrl: './room.component.html',
   styleUrls: ['./room.component.sass'],
+
 })
 export class RoomComponent implements OnInit, OnDestroy {
   private idRoom: string = '';
+  private createUserSubscription: Subscription = new Subscription();
   private routeSuscription: Subscription = new Subscription();
   private findRoomSubscription: Subscription = new Subscription();
   private getCachedPlayersSubscription: Subscription = new Subscription();
@@ -41,7 +43,7 @@ export class RoomComponent implements OnInit, OnDestroy {
     private readonly dialog: MatDialog
   ) {}
 
-  async ngOnInit() {
+  ngOnInit() {
     // Get params from url
     this.routeSuscription = this.route.params.subscribe((params) => {
       this.idRoom = params['id_room'];
@@ -51,35 +53,52 @@ export class RoomComponent implements OnInit, OnDestroy {
     });
 
     // Create or get user to localStorage
-    await this.getOrCreateUser();
+    this.createUserSubscription = this.createUser()
+      .afterClosed()
+      .subscribe(() => {
+        const user = this.getUser();
+        this.user = user;
 
-    // Listen when there is a new user
-    this.listenNewUser();
+        // Listen when there is a new user
+        this.listenNewUser();
 
-    // Get users in cache
-    this.getPlayersInCache();
+        // Get users in cache
+        this.getPlayersInCache();
 
-    // Listen when cards are revealed
-    this.listenCardRevealed();
+        // Listen when cards are revealed
+        this.listenCardRevealed();
 
-    // Listen when game is restarted
-    this.listenRestartGame();
+        // Listen when game is restarted
+        this.listenRestartGame();
+      });
   }
 
-  async getOrCreateUser() {
-    if (!this.getUser()) {
-      await this.createUser();
-    } else {
-      const user = this.getUser();
-      this.user = user;
-    }
+  createUser(): MatDialogRef<UserModalComponent> {
+    const dialogRef = this.dialog.open(UserModalComponent, {
+      hasBackdrop: true,
+      width: '500px',
+      panelClass: 'user-modal',
+      backdropClass: 'blur-backdrop',
+      disableClose: true,
+      data: { room_id: this.idRoom },
+    });
+    return dialogRef;
   }
 
-  async createUser() {
-    const dialogRef: MatDialogRef<UserModalComponent> = this.openDialog();
-    await dialogRef.afterClosed().toPromise();
-    const user = this.getUser();
-    this.user = user;
+  validateRoom() {
+    this.findRoomSubscription = this.httpService
+      .findRoomById(this.idRoom)
+      .subscribe(
+        (response) => {
+          this.room = response;
+          // Set socket connection
+          this.socketService.setupSocketConnection(this.room);
+        },
+        () => {
+          this.router.navigateByUrl('**');
+          return;
+        }
+      );
   }
 
   activateCountingOrReveal() {
@@ -147,22 +166,6 @@ export class RoomComponent implements OnInit, OnDestroy {
     return usersTypePlayers.every((player) => player.selected_card! > -3);
   }
 
-  validateRoom() {
-    this.findRoomSubscription = this.httpService
-      .findRoomById(this.idRoom)
-      .subscribe(
-        (response) => {
-          this.room = response;
-          // Set socket connection
-          this.socketService.setupSocketConnection(this.room);
-        },
-        () => {
-          this.router.navigateByUrl('**');
-          return;
-        }
-      );
-  }
-
   getPlayersInCache() {
     this.getCachedPlayersSubscription = this.httpService
       .getPlayers(this.idRoom)
@@ -185,10 +188,10 @@ export class RoomComponent implements OnInit, OnDestroy {
       (player) => player._id === this.user._id
     );
     if (userIndex !== -1) {
-      // Eliminar el usuario del array
+      // Remove user from array
       let user = this.players.splice(userIndex, 1)[0];
 
-      // Insertar el usuario en la primera posición del array
+      // Insert user in first position
       this.players.unshift(user);
     }
   }
@@ -201,30 +204,17 @@ export class RoomComponent implements OnInit, OnDestroy {
     return userInLocalStorage ? JSON.parse(userInLocalStorage) : null;
   }
 
-  openDialog(): MatDialogRef<UserModalComponent> {
-    const dialogRef = this.dialog.open(UserModalComponent, {
-      hasBackdrop: true,
-      width: '500px',
-      panelClass: 'user-modal',
-      backdropClass: 'blur-backdrop',
-      disableClose: true,
-      data: { room_id: this.idRoom },
-    });
-    return dialogRef;
-  }
-
   onCardSelected(data: CardSelected) {
     const { idUser, cardSelected } = data;
-    // Encontrar el usuario en el array de jugadores y actualizar su estado
+    // find index of object with id
     const index = this.players.findIndex((player) => player._id == idUser);
     this.players[index].selected_card = cardSelected;
     this.activateCountingOrReveal();
   }
 
   RevealCards() {
-    // Recorre el array de jugadores y devuelve un array con las cartas seleccionadas
     const cards = this.players.map((player) => player.selected_card);
-    // Devuelve un array con los valores y la cantidad de las cartas seleccionadas
+    // return the number of times each value appears in the array
     let values: any = {};
     cards.map((value) => {
       if (value != -3) {
@@ -250,7 +240,6 @@ export class RoomComponent implements OnInit, OnDestroy {
       panelClass: 'admin-modal',
     });
     dialogRef.afterClosed().subscribe((idUser: string) => {
-      debugger;
       this.socketService.emit('restart', idUser);
       this.isAvaliableToRestart = false;
       this.isRevealable = false;
@@ -263,7 +252,9 @@ export class RoomComponent implements OnInit, OnDestroy {
         } else {
           player.is_owner = false;
         }
-        this.user._id == idUser ? this.user.is_owner = true : this.user.is_owner = false;
+        this.user._id == idUser
+          ? (this.user.is_owner = true)
+          : (this.user.is_owner = false);
         return player;
       });
     });
@@ -276,5 +267,6 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.listenNewUserSubscription.unsubscribe();
     this.listenRevealedCardsSubscription.unsubscribe();
     this.listenRestartGameSubscription.unsubscribe();
+    this.createUserSubscription.unsubscribe();
   }
 }

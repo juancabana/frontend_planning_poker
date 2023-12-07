@@ -52,7 +52,8 @@ export class UserModalComponent implements OnInit, OnDestroy {
   }
 
   setButtonActive(): void {
-    const validateLength = this.username.length >= 5 && this.username.length <= 20;
+    const validateLength =
+      this.username.length >= 5 && this.username.length <= 20;
     const regex = /^(?!.*[()_,.*#/-])(\D*\d){0,3}\D*$/;
     if (
       validateLength &&

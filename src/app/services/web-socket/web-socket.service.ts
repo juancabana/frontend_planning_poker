@@ -43,7 +43,6 @@ export class WebSocketService {
     this.socket = io(env.urlSocket, options());
   }
 
-  // Método para escuchar eventos del servidor
   onEvent<T>(event: string): Observable<T> {
     return new Observable<T>((observer) => {
       this.socket.on(event, (data: T) => {

@@ -10,11 +10,11 @@
             class="admin-modal__checkbox-input"
             type="radio"
             name="player"
-            id="player"
+            id="{{ item._id }}"
             [checked]="idUserSelected === item._id"
             (click)="setUserAdmin(item._id!)"
           />
-          <label class="admin-modal__checkbox-text" for="player">
+          <label class="admin-modal__checkbox-text" for="{{ item._id }}">
             {{
               item._id == idThisUser
                 ? "Yo (" + item.username + ")"

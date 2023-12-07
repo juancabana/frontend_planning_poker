@@ -32,7 +32,7 @@ export class CardMenuComponent implements OnInit, OnDestroy {
     private readonly httpService: HttpService
   ) {}
 
-  async ngOnInit() {
+  ngOnInit() {
     // Listen when another user select card
     this.getCardsSubscription = this.httpService
       .getCards()
@@ -60,17 +60,17 @@ export class CardMenuComponent implements OnInit, OnDestroy {
 
   selectCard(index: number) {
     // if (!this.cardOptions[index].selected) {
-      const idUser = JSON.parse(localStorage.getItem('user')!)._id;
-      this.cardOptions.map((card, i) => {
-        i == index
-          ? (card.selected_by_user = true)
-          : (card.selected_by_user = false);
-      });
-      // Emit value to card selected
-      this.emitCardSelected(index, idUser);
-      console.log({index, idUser})
-      this.cardSelected = this.cardOptions[index].value;
-      this.cardSelectedEvent.emit({ idUser, cardSelected: this.cardSelected });
+    const idUser = JSON.parse(localStorage.getItem('user')!)._id;
+    this.cardOptions.map((card, i) => {
+      i == index
+        ? (card.selected_by_user = true)
+        : (card.selected_by_user = false);
+    });
+    // Emit value to card selected
+    this.emitCardSelected(index, idUser);
+    console.log({ index, idUser });
+    this.cardSelected = this.cardOptions[index].value;
+    this.cardSelectedEvent.emit({ idUser, cardSelected: this.cardSelected });
     // }
     return;
   }

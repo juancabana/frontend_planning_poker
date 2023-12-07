@@ -5,6 +5,7 @@ import { CardRevealed } from 'src/app/interfaces/card-revealed.interface';
   selector: 'results',
   templateUrl: './results.component.html',
   styleUrls: ['./results.component.sass'],
+
 })
 export class ResultsComponent implements OnInit {
   @Input() public cardsRevealed: CardRevealed[] = [];
@@ -20,7 +21,7 @@ export class ResultsComponent implements OnInit {
         amountCards += card.amount;
       }
     });
-    this.average = (total / amountCards);
+    this.average = total / amountCards;
   }
   getAverageString(): string {
     return this.average.toLocaleString('es', {
