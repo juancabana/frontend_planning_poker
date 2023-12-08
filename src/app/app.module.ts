@@ -11,7 +11,6 @@ import { FormRoomComponent } from './components/templates/form-room/form-room.co
 import { HeaderComponent } from './components/organisms/header/header.component';
 import { CardComponent } from './components/molecules/card/card.component';
 import { LogoComponent } from './components/atoms/logo/logo.component';
-import { ButtonHomeComponent } from './components/atoms/button-home/button-home.component';
 import { InvitePlayersModalComponent } from './components/templates/invite-players-modal/invite-players-modal.component';
 
 import { HttpClientModule } from '@angular/common/http';
@@ -23,6 +22,8 @@ import { CardMenuComponent } from './components/organisms/card-menu/card-menu.co
 import { ResultsComponent } from './components/organisms/results/results.component';
 import { WelcomeComponent } from './components/molecules/welcome/welcome.component';
 import { AdminModalComponent } from './components/templates/admin-modal/admin-modal.component';
+import { ButtonSubmitComponent } from './components/atoms/button-submit/button-submit.component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,6 @@ import { AdminModalComponent } from './components/templates/admin-modal/admin-mo
     HeaderComponent,
     CardComponent,
     LogoComponent,
-    ButtonHomeComponent,
     NotFoundComponent,
     UserModalComponent,
     InvitePlayersModalComponent,
@@ -41,8 +41,10 @@ import { AdminModalComponent } from './components/templates/admin-modal/admin-mo
     ResultsComponent,
     WelcomeComponent,
     AdminModalComponent,
+    ButtonSubmitComponent,
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,

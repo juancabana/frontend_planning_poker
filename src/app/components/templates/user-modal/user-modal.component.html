@@ -36,12 +36,10 @@
         />
       </div>
     </div>
-    <button
-      class="user-modal__button"
-      [ngClass]="{ 'user-modal__button--active': isButtonActive }"
-      (click)="createUser()"
-    >
-      Continuar
-    </button>
+    <button-submit
+    [isActive]="isButtonActive"
+    [isPlayerSubmit]="true"
+    (submit)="createUser()"
+  ></button-submit>
   </form>
 </div>

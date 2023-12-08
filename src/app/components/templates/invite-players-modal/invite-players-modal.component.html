@@ -14,4 +14,9 @@
   <button class="invitation-modal__button" (click)="copyLink()">
     Copiar link
   </button>
+  <button-submit
+    [isActive]="true"
+    [isInvite]="true"
+    (submit)="copyLink()"
+  ></button-submit>
 </div>

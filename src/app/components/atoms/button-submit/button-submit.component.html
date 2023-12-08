@@ -1,0 +1,8 @@
+<button
+  class="button-submit"
+  [ngClass]="{ 'button-submit--active': isActive }"
+  type="submit"
+  (click)="onClick()"
+>
+  {{setText()}}
+</button>
