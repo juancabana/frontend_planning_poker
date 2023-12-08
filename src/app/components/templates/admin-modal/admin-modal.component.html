@@ -24,12 +24,10 @@
         </div>
       </li>
     </ul>
-    <button
-      class="admin-modal__submit-button"
-      (click)="submitAdminData()"
-      [ngClass]="{ 'admin-modal__submit-button--active': isButtonEnabled }"
-    >
-      Aceptar
-    </button>
+    <button-submit
+    [isActive]="isButtonEnabled"
+    [isAdminModal]="true"
+    (submit)="submitAdminData()"
+  ></button-submit>
   </div>
 </div>
