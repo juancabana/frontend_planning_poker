@@ -83,11 +83,11 @@
       ></card>
     </div>
   </div>
-  <card-menu
+  <options-cards
     *ngIf="user && cardsSelected.length == 0"
     [user]="user"
     (cardSelectedEvent)="onCardSelected($event)"
-  ></card-menu>
+  ></options-cards>
   <results
     *ngIf="cardsSelected.length > 0"
     [cardsRevealed]="cardsSelected"

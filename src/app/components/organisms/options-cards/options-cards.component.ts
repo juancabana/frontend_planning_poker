@@ -7,18 +7,20 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { CardSelected } from 'src/app/interfaces/card-selected.interface';
-import { Card } from 'src/app/interfaces/card.interface';
-import { User } from 'src/app/interfaces/user.interface';
-import { HttpService } from 'src/app/services/http-service/http-service.service';
-import { WebSocketService } from 'src/app/services/web-socket/web-socket.service';
+
+import { HttpService } from '../../../services/http-service/http-service.service';
+import { WebSocketService } from '../../../services/web-socket/web-socket.service';
+
+import { CardSelected } from '../../../interfaces/card-selected.interface';
+import { Card } from '../../../interfaces/card.interface';
+import { User } from '../../../interfaces/user.interface';
 
 @Component({
-  selector: 'card-menu',
-  templateUrl: './card-menu.component.html',
-  styleUrls: ['./card-menu.component.sass'],
+  selector: 'options-cards',
+  templateUrl: './options-cards.component.html',
+  styleUrls: ['./options-cards.component.sass'],
 })
-export class CardMenuComponent implements OnInit, OnDestroy {
+export class optionsCards implements OnInit, OnDestroy {
   @Input() public user!: User;
   @Output() public cardSelectedEvent = new EventEmitter<CardSelected>();
   public cardOptions: Card[] = [];

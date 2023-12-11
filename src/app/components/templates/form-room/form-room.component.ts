@@ -2,7 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { HttpService } from 'src/app/services/http-service/http-service.service';
+
+import { HttpService } from './../../../services/http-service/http-service.service';
 
 @Component({
   selector: 'form-room',

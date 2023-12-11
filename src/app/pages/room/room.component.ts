@@ -1,15 +1,18 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { WebSocketService } from '../../services/web-socket/web-socket.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpService } from 'src/app/services/http-service/http-service.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { UserModalComponent } from 'src/app/components/templates/user-modal/user-modal.component';
 import { Subscription } from 'rxjs';
-import { User } from 'src/app/interfaces/user.interface';
-import { Room } from 'src/app/interfaces/room.interface';
-import { CardRevealed } from 'src/app/interfaces/card-revealed.interface';
-import { CardSelected } from 'src/app/interfaces/card-selected.interface';
-import { AdminModalComponent } from 'src/app/components/templates/admin-modal/admin-modal.component';
+
+import { WebSocketService } from '../../services/web-socket/web-socket.service';
+import { HttpService } from './../../services/http-service/http-service.service';
+
+import { UserModalComponent } from './../../components/templates/user-modal/user-modal.component';
+import { AdminModalComponent } from './../../components/templates/admin-modal/admin-modal.component';
+
+import { User } from './../../interfaces/user.interface';
+import { Room } from './../../interfaces/room.interface';
+import { CardRevealed } from './../../interfaces/card-revealed.interface';
+import { CardSelected } from './../../interfaces/card-selected.interface';
 
 @Component({
   selector: 'app-room',

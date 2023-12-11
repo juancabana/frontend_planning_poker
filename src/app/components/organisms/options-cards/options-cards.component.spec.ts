@@ -1,21 +1,21 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CardMenuComponent } from './card-menu.component';
+import { optionsCards } from './options-cards.component';
 
 describe('CardMenuComponent', () => {
-  let component: CardMenuComponent;
-  let fixture: ComponentFixture<CardMenuComponent>;
+  let component: optionsCards;
+  let fixture: ComponentFixture<optionsCards>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [CardMenuComponent]
+      declarations: [optionsCards]
     });
-    fixture = TestBed.createComponent(CardMenuComponent);
+    fixture = TestBed.createComponent(optionsCards);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  test('should create', () => {
     expect(component).toBeTruthy();
   });
 });

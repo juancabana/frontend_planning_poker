@@ -18,12 +18,13 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserModalComponent } from './components/templates/user-modal/user-modal.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { CardMenuComponent } from './components/organisms/card-menu/card-menu.component';
+import { optionsCards } from './components/organisms/options-cards/options-cards.component';
 import { ResultsComponent } from './components/organisms/results/results.component';
 import { WelcomeComponent } from './components/molecules/welcome/welcome.component';
 import { AdminModalComponent } from './components/templates/admin-modal/admin-modal.component';
 import { ButtonSubmitComponent } from './components/atoms/button-submit/button-submit.component';
 import { CommonModule } from '@angular/common';
+import { CardOptionComponent } from './components/molecules/card-option/card-option.component';
 
 @NgModule({
   declarations: [
@@ -37,11 +38,12 @@ import { CommonModule } from '@angular/common';
     NotFoundComponent,
     UserModalComponent,
     InvitePlayersModalComponent,
-    CardMenuComponent,
+    optionsCards,
     ResultsComponent,
     WelcomeComponent,
     AdminModalComponent,
     ButtonSubmitComponent,
+    CardOptionComponent,
   ],
   imports: [
     CommonModule,
