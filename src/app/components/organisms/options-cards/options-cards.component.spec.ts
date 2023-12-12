@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+
 
 import { optionsCards } from './options-cards.component';
 
@@ -8,6 +10,7 @@ describe('CardMenuComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
       declarations: [optionsCards]
     });
     fixture = TestBed.createComponent(optionsCards);

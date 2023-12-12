@@ -1,11 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
+import { WelcomeComponent } from './components/molecules/welcome/welcome.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ButtonSubmitComponent } from './components/atoms/button-submit/button-submit.component';
 
 describe('AppComponent', () => {
   beforeEach(() => TestBed.configureTestingModule({
-    imports: [RouterTestingModule],
-    declarations: [AppComponent]
+    imports: [RouterTestingModule, BrowserAnimationsModule],
+    declarations: [AppComponent, WelcomeComponent]
   }));
 
   test('should create the app', () => {
@@ -20,10 +23,5 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('Planning Poker');
   });
 
-  test('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('frontend_planning_poker app is running!');
-  });
+
 });

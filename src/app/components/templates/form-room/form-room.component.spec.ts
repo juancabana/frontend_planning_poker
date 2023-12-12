@@ -1,6 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { FormRoomComponent } from './form-room.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ButtonSubmitComponent } from '../../atoms/button-submit/button-submit.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 describe('FormRoomComponent', () => {
   let component: FormRoomComponent;
@@ -8,7 +12,12 @@ describe('FormRoomComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [FormRoomComponent]
+      declarations: [FormRoomComponent, ButtonSubmitComponent],
+      imports: [HttpClientTestingModule, ReactiveFormsModule],
+      providers: [
+        { provide: MatDialogRef, useValue: {} },
+        { provide: MAT_DIALOG_DATA, useValue: {} }, // si también necesitas MAT_DIALOG_DATA
+      ]
     });
     fixture = TestBed.createComponent(FormRoomComponent);
     component = fixture.componentInstance;

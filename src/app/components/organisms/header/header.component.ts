@@ -13,7 +13,7 @@ export class HeaderComponent {
 
   constructor(private readonly dialog: MatDialog) {
     const user = JSON.parse(localStorage.getItem('user')!);
-    this.nameViever = user.username.substring(0, 2).toUpperCase();
+    this.nameViever = user?.username.substring(0, 2).toUpperCase();
   }
 
   openDialog() {
