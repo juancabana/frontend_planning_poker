@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 
-import { optionsCards } from './options-cards.component';
+import { optionsCards } from './../../../../src/app/components/organisms/options-cards/options-cards.component';
 
 describe('CardMenuComponent', () => {
   let component: optionsCards;

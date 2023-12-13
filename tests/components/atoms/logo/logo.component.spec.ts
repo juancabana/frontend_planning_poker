@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LogoComponent } from './logo.component';
+import { LogoComponent } from './../../../../src/app/components/atoms/logo/logo.component';
 
 describe('LogoComponent', () => {
   let component: LogoComponent;
@@ -15,7 +15,7 @@ describe('LogoComponent', () => {
     fixture.detectChanges();
   });
 
-  test('should create', () => {
+  test('atoms - logo - should create', () => {
     expect(component).toBeTruthy();
   });
 });

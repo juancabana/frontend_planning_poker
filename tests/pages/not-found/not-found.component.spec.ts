@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NotFoundComponent } from './not-found.component';
-import { LogoComponent } from './../../components/atoms/logo/logo.component';
+import { NotFoundComponent } from './../../../src/app/pages/not-found/not-found.component';
+import { LogoComponent } from './../../../src/app/components/atoms/logo/logo.component';
 
 describe('NotFoundComponent', () => {
   let component: NotFoundComponent;

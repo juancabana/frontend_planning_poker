@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment as env } from '../../../environments/environment';
-import { User } from 'src/app/interfaces/user.interface';
-import { Room } from 'src/app/interfaces/room.interface';
-import { Card } from 'src/app/interfaces/card.interface';
+import { User } from './../../interfaces/user.interface';
+import { Room } from './../../interfaces/room.interface';
+import { Card } from './../../interfaces/card.interface';
 
 @Injectable({
   providedIn: 'root',

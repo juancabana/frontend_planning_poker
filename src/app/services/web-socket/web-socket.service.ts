@@ -4,10 +4,10 @@ import { io } from 'socket.io-client';
 import { environment as env } from './../../../environments/environment';
 import { Socket } from 'socket.io-client';
 
-import { User } from 'src/app/interfaces/user.interface';
-import { Card } from 'src/app/interfaces/card.interface';
-import { Room } from 'src/app/interfaces/room.interface';
-import { CardRevealed } from 'src/app/interfaces/card-revealed.interface';
+import { User } from './../../interfaces/user.interface';
+import { Card } from './../../interfaces/card.interface';
+import { Room } from './../../interfaces/room.interface';
+import { CardRevealed } from './../../interfaces/card-revealed.interface';
 
 @Injectable({
   providedIn: 'root',

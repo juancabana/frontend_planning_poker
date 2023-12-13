@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CardOptionComponent } from './card-option.component';
+import { CardOptionComponent } from './../../../../src/app/components/molecules/card-option/card-option.component';
 
 describe('CardOptionComponent', () => {
   let component: CardOptionComponent;
