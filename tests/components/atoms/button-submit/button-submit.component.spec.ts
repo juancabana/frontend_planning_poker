@@ -32,6 +32,14 @@ describe('ButtonSubmitComponent', () => {
     expect(className).toContain('button-submit--active');
   });
 
+  test('atoms - button-submit - emit event', () => {
+    const emitSpy = jest.spyOn(component.submit, 'emit')
+
+    button.click()
+
+    expect(emitSpy).toHaveBeenCalled()
+  })
+
   test(`atoms - button-subit - isn't active`, () => {
     component.isActive = false;
     fixture.detectChanges();
