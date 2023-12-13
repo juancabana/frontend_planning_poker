@@ -5,20 +5,18 @@ import { ButtonSubmitComponent } from './../../../../src/app/components/atoms/bu
 describe('ButtonSubmitComponent', () => {
   let component: ButtonSubmitComponent;
   let fixture: ComponentFixture<ButtonSubmitComponent>;
-  let compiled: HTMLElement
-  let button: HTMLButtonElement | null;
-
-
+  let compiled: HTMLElement;
+  let button: HTMLButtonElement;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ButtonSubmitComponent]
+      declarations: [ButtonSubmitComponent],
     });
     fixture = TestBed.createComponent(ButtonSubmitComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    compiled = fixture.nativeElement
-    button = compiled.querySelector('.button-submit')
+    compiled = fixture.nativeElement;
+    button = compiled.querySelector('.button-submit')!;
   });
 
   test('atoms - button-submit - should create', () => {
@@ -26,64 +24,60 @@ describe('ButtonSubmitComponent', () => {
   });
 
   test('atoms - button-subit - is active', () => {
-    component.isActive = true
-    fixture.detectChanges()
+    component.isActive = true;
+    fixture.detectChanges();
 
-    const className = button?.className
+    const className = button?.className;
 
-    expect(className).toContain('button-submit--active')
-  })
+    expect(className).toContain('button-submit--active');
+  });
 
   test(`atoms - button-subit - isn't active`, () => {
-    component.isActive = false
-    fixture.detectChanges()
+    component.isActive = false;
+    fixture.detectChanges();
 
-    const className = button?.className
+    const className = button?.className;
 
-    expect(className).not.toContain('button-submit--active')
-  })
+    expect(className).not.toContain('button-submit--active');
+  });
 
   test('atoms - button-submit - isHome', () => {
-    component.isHome = true
+    component.isHome = true;
     fixture.detectChanges();
 
-    const text = button?.textContent
+    const text = button?.textContent;
 
-    expect(component.setText()).toBe('Crear partida')
-    expect(text).toBe('Crear partida')
-
-  })
+    expect(component.setText()).toBe('Crear partida');
+    expect(text).toBe('Crear partida');
+  });
 
   test('atoms - button-submit - isPlayerSubmit', () => {
-    component.isPlayerSubmit = true
+    component.isPlayerSubmit = true;
     fixture.detectChanges();
 
-    const text = button?.textContent
+    const text = button?.textContent;
 
-    expect(component.setText()).toBe('Continuar')
-    expect(text).toBe('Continuar')
-
-  })
+    expect(component.setText()).toBe('Continuar');
+    expect(text).toBe('Continuar');
+  });
 
   test('atoms - button-submit - isInvite', () => {
-    component.isInvite = true
+    component.isInvite = true;
     fixture.detectChanges();
 
-    const text = button?.textContent
+    const text = button?.textContent;
 
-    expect(component.setText()).toBe('Copiar link')
-    expect(text).toBe('Copiar link')
-
-  })
+    expect(component.setText()).toBe('Copiar link');
+    expect(text).toBe('Copiar link');
+  });
 
   test('atoms - button-submit - isAdminModal', () => {
-    component.isAdminModal = true
+    component.isAdminModal = true;
     fixture.detectChanges();
 
-    const text = button?.textContent
+    const text = button?.textContent;
 
-    expect(component.setText()).toBe('Aceptar')
-    expect(text).toBe('Aceptar')
-
-  })
+    expect(component.setText()).toBe('Aceptar');
+    expect(text).toBe('Aceptar');
+  });
 });
