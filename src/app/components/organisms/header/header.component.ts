@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { InvitePlayersModalComponent } from '../../templates/invite-players-modal/invite-players-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -7,11 +7,13 @@ import { MatDialog } from '@angular/material/dialog';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.sass'],
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   @Input() public roomName: string = '';
   public nameViever: string = '';
 
-  constructor(private readonly dialog: MatDialog) {
+  constructor(private readonly dialog: MatDialog) {}
+
+  ngOnInit(): void {
     const user = JSON.parse(localStorage.getItem('user')!);
     this.nameViever = user?.username.substring(0, 2).toUpperCase();
   }
