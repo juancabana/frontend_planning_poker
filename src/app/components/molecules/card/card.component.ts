@@ -10,11 +10,11 @@ export class CardComponent implements OnInit {
   @Input() public player!: User;
   @Input() public visualizate_result: Boolean = false;
 
-  public visualization: string = 'false';
-  public nameViever: string = '';
+  public visualization: string = '';
+  public nameViewer: string = '';
 
   ngOnInit() {
-    this.nameViever = this.player?.username.substring(0, 2).toUpperCase();
+    this.nameViewer = this.player?.username.substring(0, 2).toUpperCase();
     this.visualization = this.player?.visualization;
   }
 }

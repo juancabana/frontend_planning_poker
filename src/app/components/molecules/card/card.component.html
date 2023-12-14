@@ -1,4 +1,4 @@
-<div class="card" *ngIf="visualization == 'player'">
+<div class="card card--player" *ngIf="visualization == 'player'">
   <div class="card__wrapper">
     <div
       class="card__content"
@@ -23,10 +23,10 @@
   </div>
 </div>
 
-<div class="card" *ngIf="visualization == 'spectator'">
+<div class="card card--spectator" *ngIf="visualization == 'spectator'">
   <div class="card__wrapper">
     <div class="card__is-viewer">
-      <span class="card__is-viever-text" for="">{{ nameViever }}</span>
+      <span class="card__is-viever-text" for="">{{ nameViewer }}</span>
     </div>
     <span class="card__name" for="">{{ player.username }}</span>
   </div>
