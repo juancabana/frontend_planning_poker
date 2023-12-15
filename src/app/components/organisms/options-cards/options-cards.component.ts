@@ -21,13 +21,14 @@ import { User } from '../../../interfaces/user.interface';
   styleUrls: ['./options-cards.component.sass'],
 })
 export class optionsCards implements OnInit, OnDestroy {
-  @Input() public user!: User;
+  @Input() public visualization!: string;
   @Output() public cardSelectedEvent = new EventEmitter<CardSelected>();
   public cardOptions: Card[] = [];
+  public cardSelected: number | null = null;
+  public selectedCard = -1;
 
-  private cardSelected: number | null = null;
-  private getCardsSubscription: Subscription = new Subscription();
-  private listenCardSelectedSubscription: Subscription = new Subscription();
+  public getCardsSubscription: Subscription = new Subscription();
+  public listenCardSelectedSubscription: Subscription = new Subscription();
 
   constructor(
     private readonly webSocketService: WebSocketService,
@@ -60,18 +61,20 @@ export class optionsCards implements OnInit, OnDestroy {
       });
   }
 
-  selectCard(index: number) {
+  selectCard(cardId: number) {
+    this.selectedCard = cardId;
+
     // if (!this.cardOptions[index].selected) {
     const idUser = JSON.parse(localStorage.getItem('user')!)._id;
     this.cardOptions.map((card, i) => {
-      i == index
+      i == cardId
         ? (card.selected_by_user = true)
         : (card.selected_by_user = false);
     });
     // Emit value to card selected
-    this.emitCardSelected(index, idUser);
-    console.log({ index, idUser });
-    this.cardSelected = this.cardOptions[index].value;
+    this.emitCardSelected(cardId, idUser);
+    console.log({ index: cardId, idUser });
+    this.cardSelected = this.cardOptions[cardId].value;
     this.cardSelectedEvent.emit({ idUser, cardSelected: this.cardSelected });
     // }
     return;

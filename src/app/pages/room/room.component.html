@@ -85,7 +85,7 @@
   </div>
   <options-cards
     *ngIf="user && cardsSelected.length == 0"
-    [user]="user"
+    [visualization]="user.visualization"
     (cardSelectedEvent)="onCardSelected($event)"
   ></options-cards>
   <results

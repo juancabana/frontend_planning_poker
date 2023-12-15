@@ -22,6 +22,7 @@ export class ButtonSubmitComponent {
   onClick(){
     this.submit.emit()
   }
+
   setText() {
     return this.isHome ? 'Crear partida' :
     this.isPlayerSubmit ? 'Continuar' :

@@ -9,7 +9,7 @@ import { User } from './../../../interfaces/user.interface';
 })
 export class AdminModalComponent {
   constructor(
-    public readonly dialogRef: MatDialogRef<AdminModalComponent>,
+    public dialogRef: MatDialogRef<AdminModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: User[]
   ) {}
   public idUserSelected: string = '';

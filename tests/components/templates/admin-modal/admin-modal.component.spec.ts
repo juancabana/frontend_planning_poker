@@ -20,6 +20,7 @@ describe('AdminModalComponent', () => {
     fixture = TestBed.createComponent(AdminModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+
   });
 
   localStorage.setItem('user', JSON.stringify({ _id: 'testId' }));
@@ -27,4 +28,15 @@ describe('AdminModalComponent', () => {
   test('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  test('checkButton() should set isButtonEnabled to true', () => {
+    component.idUserSelected = 'testId';
+
+    component.checkButton();
+
+    expect(component.isButtonEnabled).toBeTruthy();
+  })
+
+
+
 });

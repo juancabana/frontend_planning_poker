@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {  Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { io } from 'socket.io-client';
 import { environment as env } from './../../../environments/environment';
@@ -13,34 +13,20 @@ import { CardRevealed } from './../../interfaces/card-revealed.interface';
   providedIn: 'root',
 })
 export class WebSocketService {
-  private socket!: Socket;
+  public socket!: Socket;
+
   private room!: Room;
-  private user: User;
-  constructor() {
-    const user = localStorage.getItem('user');
-  this.user = user ? JSON.parse(user) : null;
-  }
-  setupSocketConnection(room: Room, user?: User) {
+
+  setupSocketConnection(room: Room) {
     this.room = room;
-    const options = () => {
-      if (!this.user) {
-        return {
-          query: {
-            nameRoom: this.room.tittle,
-            user: localStorage.getItem('user'),
-          },
-        };
-      } else {
-        return {
-          query: {
-            nameRoom: this.room.tittle,
-            user: localStorage.getItem('user'),
-            is_registered: true,
-          },
-        };
+    const options = {
+      query: {
+        nameRoom: this.room.tittle,
+        user: localStorage.getItem('user'),
       }
     };
-    this.socket = io(env.urlSocket, options());
+
+    this.socket = io(env.urlSocket, options);
   }
 
   onEvent<T>(event: string): Observable<T> {
@@ -50,6 +36,7 @@ export class WebSocketService {
       });
     });
   }
+
   emit(event: string, data?: any): void {
     this.socket.emit(event, data);
   }
