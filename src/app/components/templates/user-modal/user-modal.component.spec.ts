@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-import { UserModalComponent } from './../../../../src/app/components/templates/user-modal/user-modal.component';
+import { UserModalComponent } from './user-modal.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ButtonSubmitComponent } from './../../../../src/app/components/atoms/button-submit/button-submit.component';
+import { ButtonSubmitComponent } from '../../atoms/button-submit/button-submit.component';
 
 describe('UserModalComponent', () => {
   let component: UserModalComponent;

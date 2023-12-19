@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HeaderComponent } from './../../../../src/app/components/organisms/header/header.component';
+import { HeaderComponent } from './header.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { LogoComponent } from './../../../../src/app/components/atoms/logo/logo.component';
+import { LogoComponent } from '../../atoms/logo/logo.component';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;

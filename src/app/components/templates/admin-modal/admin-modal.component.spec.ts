@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 
-import { AdminModalComponent } from './../../../../src/app/components/templates/admin-modal/admin-modal.component';
-import { ButtonSubmitComponent } from './../../../../src/app/components/atoms/button-submit/button-submit.component';
+import { AdminModalComponent } from './admin-modal.component';
+import { ButtonSubmitComponent } from '../../atoms/button-submit/button-submit.component';
 
 describe('AdminModalComponent', () => {
   let component: AdminModalComponent;

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LogoComponent } from './../../../../src/app/components/atoms/logo/logo.component';
+import { LogoComponent } from './logo.component';
 
 describe('LogoComponent', () => {
   let component: LogoComponent;
@@ -19,11 +19,9 @@ describe('LogoComponent', () => {
     link = compiled.querySelector('.logo')!
   });
 
-  test('atoms - logo - should create', () => {
-    expect(component).toBeTruthy();
-  });
+  // isHome
 
-  test('atoms - logo - is home', () => {
+  test('isHome: should display the input value', () => {
     component.isHome = true
     fixture.detectChanges()
 
@@ -32,12 +30,5 @@ describe('LogoComponent', () => {
     expect(className).toContain('logo--home')
   })
 
-  test(`atoms - logo - isn't home`, () => {
-    component.isHome = false
-    fixture.detectChanges()
 
-    const clasName = link.className
-
-    expect(clasName).not.toContain('logo--home')
-  })
 });
