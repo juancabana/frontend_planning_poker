@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { NgZone } from '@angular/core';
 
 import { HttpService } from './../../../services/http-service/http-service.service';
 
@@ -18,13 +19,18 @@ export class FormRoomComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly formBuilder: FormBuilder,
-    private readonly router: Router,
+    private ngZone: NgZone,
+    public readonly router: Router,
     private readonly httpService: HttpService
   ) {
     this.createForm();
   }
 
   ngOnInit() {
+    this.subscribeValueChanges();
+  }
+
+  subscribeValueChanges() {
     this.formRoomSubscription = this.formRoom
       .get('room_name')!
       .valueChanges.subscribe(() => {
@@ -47,6 +53,7 @@ export class FormRoomComponent implements OnInit, OnDestroy {
       ],
     });
   }
+
   setButtonActive(): void {
     const isValid = this.formRoom.get('room_name')?.status === 'VALID';
     this.isButtonActive = isValid;
@@ -58,21 +65,25 @@ export class FormRoomComponent implements OnInit, OnDestroy {
         .createNewRoom(this.formRoom.get('room_name')!.value)
         .subscribe({
           next: (data) => {
-            localStorage.setItem(
-              'room',
-              JSON.stringify({ ...data, isRoomValid: true })
-            );
+            this.setInLocalStorage('room', JSON.stringify(data));
             localStorage.removeItem('user');
+            this.navigate(`room/${data._id}`);
+          },
 
-            this.router.navigateByUrl(`room/${data._id}`);
-          },
-          error: (error) => {
-            console.log(error);
-          },
         });
     }
     return;
   }
+
+  setInLocalStorage(key: string, data: string) {
+    localStorage.setItem(key, data)
+  }
+
+  navigate(url: string) {
+    this.ngZone.run(() => {
+      this.router.navigateByUrl(url);
+    });  }
+
   ngOnDestroy(): void {
     this.formRoomSubscription.unsubscribe();
     this.createRoomSubscription.unsubscribe();

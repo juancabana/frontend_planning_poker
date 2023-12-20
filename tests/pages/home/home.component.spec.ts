@@ -23,5 +23,5 @@ describe('HomeComponent', () => {
 
   test('should create', () => {
     expect(component).toBeTruthy();
-  });
+  })
 });

@@ -13,7 +13,6 @@ import { WebSocketService } from '../../../services/web-socket/web-socket.servic
 
 import { CardSelected } from '../../../interfaces/card-selected.interface';
 import { Card } from '../../../interfaces/card.interface';
-import { User } from '../../../interfaces/user.interface';
 
 @Component({
   selector: 'options-cards',
@@ -28,10 +27,9 @@ export class optionsCards implements OnInit, OnDestroy {
   public selectedCard = -1;
 
   public getCardsSubscription: Subscription = new Subscription();
-  public listenCardSelectedSubscription: Subscription = new Subscription();
 
   constructor(
-    private readonly webSocketService: WebSocketService,
+    public readonly webSocketService: WebSocketService,
     private readonly httpService: HttpService
   ) {}
 
@@ -41,56 +39,36 @@ export class optionsCards implements OnInit, OnDestroy {
       .getCards()
       .subscribe((cards) => {
         this.cardOptions = cards;
-        this.listenCardSelected();
       });
   }
 
-  listenCardSelected() {
-    this.listenCardSelectedSubscription = this.webSocketService
-      .listenCardSelected()
-      .subscribe((data: Card[]) => {
-        this.cardOptions.map((card, index) => {
-          if (card.value === this.cardSelected) {
-            card.selected_by_user = true;
-          } else card.selected_by_user = false;
-
-          if (!card.selected_by_user) {
-            card.selected = data[index].selected;
-          }
-        });
-      });
-  }
 
   selectCard(cardId: number) {
     this.selectedCard = cardId;
 
-    // if (!this.cardOptions[index].selected) {
     const idUser = JSON.parse(localStorage.getItem('user')!)._id;
-    this.cardOptions.map((card, i) => {
-      i == cardId
+    this.cardOptions.map((card) => {
+      card.id == cardId
         ? (card.selected_by_user = true)
         : (card.selected_by_user = false);
     });
+
     // Emit value to card selected
-    this.emitCardSelected(cardId, idUser);
-    console.log({ index: cardId, idUser });
     this.cardSelected = this.cardOptions[cardId].value;
     this.cardSelectedEvent.emit({ idUser, cardSelected: this.cardSelected });
-    // }
+    this.emitCardSelected(cardId, idUser);
     return;
   }
 
-  emitCardSelected(index: number, idUser: string) {
+  emitCardSelected(idCard: number, idUser: string) {
     this.webSocketService.emit('cardSelected', {
-      index: index,
+      index: idCard,
       lastSelected: this.cardSelected,
       ID_user: idUser,
     });
   }
-  // Changes
 
   ngOnDestroy() {
     this.getCardsSubscription.unsubscribe();
-    this.listenCardSelectedSubscription.unsubscribe();
   }
 }

@@ -12,9 +12,9 @@ import { NewUser } from './interfaces/new-user.interface';
   styleUrls: ['./user-modal.component.sass'],
 })
 export class UserModalComponent implements OnInit, OnDestroy {
-  private username: string = '';
   private getUserSubscription: Subscription = new Subscription();
 
+  public username: string = '';
   public isButtonActive: boolean = false;
   public isPlayer: boolean = false;
   public isSpectator: boolean = false;
@@ -25,10 +25,6 @@ export class UserModalComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {}
-
-  onClick(): void {
-    this.dialogRef.close();
-  }
 
   closeModal(): void {
     this.dialogRef.close();
@@ -44,27 +40,22 @@ export class UserModalComponent implements OnInit, OnDestroy {
   setUserType(event: Event): void {
     const target = event.target as HTMLInputElement;
     if (target.id === 'player') {
-      this.isPlayer = !this.isPlayer;
+      this.isPlayer = true;
       this.isSpectator = false;
     } else if (target.id === 'spectator') {
-      this.isSpectator = !this.isSpectator;
+      this.isSpectator = true;
       this.isPlayer = false;
     }
     this.setButtonActive();
   }
 
   setButtonActive(): void {
-    const validateLength =
-      this.username.length >= 5 && this.username.length <= 20;
+    const validateLength = this.username.length >= 5 && this.username.length <= 20;
     const regex = /^(?!.*[()_,.*#/-])(\D*\d){0,3}\D*$/;
-    if (
-      validateLength &&
-      regex.test(this.username) &&
-      (this.isPlayer || this.isSpectator)
-    ) {
-      this.isButtonActive = true;
+    if ( validateLength && regex.test(this.username) && (this.isPlayer || this.isSpectator)) {
+      this.isButtonActive = true
     } else {
-      this.isButtonActive = false;
+      this.isButtonActive = false
     }
   }
 
@@ -73,7 +64,7 @@ export class UserModalComponent implements OnInit, OnDestroy {
 
     const user: NewUser = {
       username: this.username,
-      visualization: this.isPlayer ? 'player' : 'spectator',
+      visualization: this.visualization()
     };
 
     // get user data that there is in params
@@ -83,12 +74,11 @@ export class UserModalComponent implements OnInit, OnDestroy {
       .createUser({ ...user, room_id })
       .subscribe((newUser) => {
         localStorage.setItem('user', JSON.stringify(newUser));
-        this.dialogRef.close();
+        this.closeModal()
       });
-    (error: Error) => {
-      console.log(error);
-    };
   }
+
+  visualization () { return this.isPlayer ? 'player' : 'spectator'}
 
   ngOnDestroy(): void {
     this.getUserSubscription.unsubscribe();

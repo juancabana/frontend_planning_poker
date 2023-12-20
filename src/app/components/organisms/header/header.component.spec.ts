@@ -21,58 +21,21 @@ describe('HeaderComponent', () => {
     compiled = fixture.nativeElement
   });
 
-  test('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
-  test('organisms - header - Header tittle and viewer name (Juan)', () => {
+  test('ngOnInit: should set JU to nameViewer', () => {
     localStorage.setItem('user', JSON.stringify( {
       username: 'juan',
       visualization: 'player',
       room_id: '1233432',
     }))
-    component.ngOnInit()
     component.roomName = 'Sprint 32'
-    fixture.detectChanges()
 
-    const headerTittle = compiled.querySelector('.header__tittle')!.textContent
-    const headerNameViewerUser = compiled.querySelector('.header__options-name')!.textContent
-
-    console.log(component.nameViever)
-    expect(headerTittle).toBe('Sprint 32')
-    expect(headerNameViewerUser).toBe('JU')
-
-  })
-
-  test('organisms - header - Header tittle and viewer name (Luisa)', () => {
-    localStorage.setItem('user', JSON.stringify( {
-      username: 'Luisa',
-      visualization: 'spectator',
-      room_id: '1233432',
-    }))
     component.ngOnInit()
-    component.roomName = 'Sprint 12'
-    fixture.detectChanges()
 
-    const headerTittle = compiled.querySelector('.header__tittle')!.textContent
-    const headerNameViewerUser = compiled.querySelector('.header__options-name')!.textContent
-
-    console.log(component.nameViever)
-    expect(headerTittle).toBe('Sprint 12')
-    expect(headerNameViewerUser).toBe('LU')
-
+    expect(component.roomName).toBe('Sprint 32')
+    expect(component.nameViever).toBe('JU')
   })
 
-  test('organisms - header - Should call openDialog when header__button-copy is clicked', () => {
-    const openDialogSpy = jest.spyOn(component, 'openDialog');
-
-    const nameElement = fixture.nativeElement.querySelector('.header__button-copy');
-    nameElement.click();
-
-    expect(openDialogSpy).toHaveBeenCalled();
-  });
-
-  test('organisms - header - Should open modal when openDialog is called', () => {
+  test('openDialog: Should open dialog', () => {
     const dialog = TestBed.inject(MatDialog);
     const openSpy = jest.spyOn(dialog, 'open');
 

@@ -18,7 +18,6 @@ export class AdminModalComponent {
 
   submitAdminData() {
     if (this.idUserSelected.length !== 0) {
-      // Close the dialog and send the data back to the parent component
       this.dialogRef.close(this.idUserSelected);
     }
   }

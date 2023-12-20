@@ -5,14 +5,16 @@ import { CardRevealed } from './../../../interfaces/card-revealed.interface';
   selector: 'results',
   templateUrl: './results.component.html',
   styleUrls: ['./results.component.sass'],
-
 })
 export class ResultsComponent implements OnInit {
   @Input() public cardsRevealed: CardRevealed[] = [];
-  private average: number = 0;
+  public average: number = 0;
 
   ngOnInit(): void {
-    // Get average
+    this.setAverage();
+  }
+
+  setAverage() {
     let total = 0;
     let amountCards = 0;
     this.cardsRevealed.forEach((card) => {
@@ -23,12 +25,14 @@ export class ResultsComponent implements OnInit {
     });
     this.average = total / amountCards;
   }
+
   getAverageString(): string {
     return this.average.toLocaleString('es', {
-      minimumFractionDigits: 2,
+      minimumFractionDigits: 0,
       maximumFractionDigits: 2,
     });
   }
+
   isNumber(): boolean {
     return this.average >= 0;
   }

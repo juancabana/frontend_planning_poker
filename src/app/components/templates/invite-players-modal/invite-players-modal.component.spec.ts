@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Clipboard } from '@angular/cdk/clipboard';
 
 
 import { InvitePlayersModalComponent } from './invite-players-modal.component';
@@ -8,21 +9,42 @@ import { ButtonSubmitComponent } from '../../atoms/button-submit/button-submit.c
 describe('InvitePlayersModalComponent', () => {
   let component: InvitePlayersModalComponent;
   let fixture: ComponentFixture<InvitePlayersModalComponent>;
+  let dialogRef: MatDialogRef<InvitePlayersModalComponent>;
+  let clipboard: Clipboard;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [InvitePlayersModalComponent, ButtonSubmitComponent],
       providers: [
-        { provide: MatDialogRef, useValue: {} },
+        { provide: MatDialogRef, useValue: { close: jest.fn()} },
         { provide: MAT_DIALOG_DATA, useValue: {} },
+        { provide: Clipboard, useValue: { copy: jest.fn() } },
       ]
     });
     fixture = TestBed.createComponent(InvitePlayersModalComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    dialogRef = TestBed.inject(MatDialogRef);
+    clipboard = TestBed.inject(Clipboard) as jest.Mocked<Clipboard>;
   });
 
-  test('should create', () => {
-    expect(component).toBeTruthy();
+  // closeModal
+  test('closeModal: should close modal', () => {
+    const spy = jest.spyOn(dialogRef, 'close');
+    component.closeModal();
+    expect(spy).toHaveBeenCalled();
+  })
+
+
+
+  it('copyLink: should copy link and close modal', () => {
+    component.actualUrl = 'http://localhost:4200';
+    const copySpy = jest.spyOn(clipboard, 'copy');
+    const closeModalSpy = jest.spyOn(component, 'closeModal');
+
+    component.copyLink();
+
+    expect(copySpy).toHaveBeenCalledWith('http://localhost:4200');
+    expect(closeModalSpy).toHaveBeenCalled();
   });
+
 });

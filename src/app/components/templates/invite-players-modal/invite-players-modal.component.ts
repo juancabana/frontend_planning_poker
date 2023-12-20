@@ -9,17 +9,13 @@ import { PlatformLocation } from '@angular/common';
   styleUrls: ['./invite-players-modal.component.sass'],
 })
 export class InvitePlayersModalComponent {
-  public readonly actualUrl: string = this.platformLocation.href;
+  public actualUrl: string = this.platformLocation.href;
 
   constructor(
     private readonly dialogRef: MatDialogRef<InvitePlayersModalComponent>,
     private readonly platformLocation: PlatformLocation,
     private readonly clipboard: Clipboard
   ) {}
-
-  onClick(): void {
-    this.dialogRef.close();
-  }
 
   copyLink() {
     this.clipboard.copy(this.actualUrl);
