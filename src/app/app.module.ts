@@ -25,6 +25,7 @@ import { AdminModalComponent } from './components/templates/admin-modal/admin-mo
 import { ButtonSubmitComponent } from './components/atoms/button-submit/button-submit.component';
 import { CommonModule } from '@angular/common';
 import { CardOptionComponent } from './components/molecules/card-option/card-option.component';
+import { ShortNamePipe } from './pipes/short-name.pipe';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { CardOptionComponent } from './components/molecules/card-option/card-opt
     AdminModalComponent,
     ButtonSubmitComponent,
     CardOptionComponent,
+    ShortNamePipe,
   ],
   imports: [
     CommonModule,

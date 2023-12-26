@@ -32,26 +32,25 @@ describe('CardComponent', () => {
 
 
   // ngOnInit
-  test('ngOnInit: should return in nameViewer JU', () => {
+  test('ngOnInit: should return in username juan', () => {
     component.player = {...players[0], selected_card: -3};
     component.visualizate_result = false
     component.ngOnInit();
 
-    const nameViewer = component.nameViewer;
     const visualization = component.visualization;
 
-    expect(nameViewer).toBe('JU');
+    expect(component.player.username).toBe('juan');
     expect(visualization).toBe('player');
 
   });
 
-  test('ngOnInit: should return in nameViewer DA', () => {
+  test('ngOnInit: should return in username daniel', () => {
     component.player = {...players[1], selected_card: -3};
     component.visualizate_result = false
 
     component.ngOnInit();
 
-    expect(component.nameViewer).toBe('DA');
+    expect(component.player.username).toBe('daniel');
     expect(component.visualization).toBe('spectator');
 
   });

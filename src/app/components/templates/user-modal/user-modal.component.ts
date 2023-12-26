@@ -73,9 +73,13 @@ export class UserModalComponent implements OnInit, OnDestroy {
     this.getUserSubscription = this.httpService
       .createUser({ ...user, room_id })
       .subscribe((newUser) => {
-        localStorage.setItem('user', JSON.stringify(newUser));
+        this.setLocalStorage('user', JSON.stringify(newUser));
         this.closeModal()
       });
+  }
+
+  setLocalStorage(key: string, data: string) {
+    localStorage.setItem(key, data);
   }
 
   visualization () { return this.isPlayer ? 'player' : 'spectator'}

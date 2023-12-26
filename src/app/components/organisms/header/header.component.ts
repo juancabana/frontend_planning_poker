@@ -9,13 +9,13 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class HeaderComponent implements OnInit {
   @Input() public roomName: string = '';
-  public nameViever: string = '';
+  public username: string = '';
 
   constructor(private readonly dialog: MatDialog) {}
 
   ngOnInit(): void {
     const user = JSON.parse(localStorage.getItem('user')!);
-    this.nameViever = user?.username.substring(0, 2).toUpperCase();
+    this.username = user?.username;
   }
 
   openDialog() {

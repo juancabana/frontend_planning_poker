@@ -26,7 +26,7 @@
 <div class="card card--spectator" *ngIf="visualization == 'spectator'">
   <div class="card__wrapper">
     <div class="card__is-viewer">
-      <span class="card__is-viever-text" for="">{{ nameViewer }}</span>
+      <span class="card__is-viever-text" for="">{{ player.username | shortName }}</span>
     </div>
     <span class="card__name" for="">{{ player.username }}</span>
   </div>

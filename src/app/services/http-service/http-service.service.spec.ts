@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 
-import { HttpService } from '../../../src/app/services/http-service/http-service.service';
+import { HttpService } from './http-service.service';
 import { HttpClientModule } from '@angular/common/http';
-import { User } from './../../../src/app/interfaces/user.interface';
+import { User } from 'src/app/interfaces/user.interface';
 
 
 describe('HttpServiceService', () => {

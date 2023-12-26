@@ -1,7 +1,7 @@
 import { Room } from 'src/app/interfaces/room.interface';
-import { WebSocketService } from './../../../src/app/services/web-socket/web-socket.service';
+import { WebSocketService } from './web-socket.service';
 import { TestBed } from '@angular/core/testing';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { User } from 'src/app/interfaces/user.interface';
 import { CardRevealed } from 'src/app/interfaces/card-revealed.interface';
 

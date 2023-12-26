@@ -7,7 +7,6 @@ import { LogoComponent } from '../../atoms/logo/logo.component';
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
-  let compiled: HTMLElement
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -18,10 +17,9 @@ describe('HeaderComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     localStorage.removeItem('user')
-    compiled = fixture.nativeElement
   });
 
-  test('ngOnInit: should set JU to nameViewer', () => {
+  test('ngOnInit: should set juan to username', () => {
     localStorage.setItem('user', JSON.stringify( {
       username: 'juan',
       visualization: 'player',
@@ -32,7 +30,7 @@ describe('HeaderComponent', () => {
     component.ngOnInit()
 
     expect(component.roomName).toBe('Sprint 32')
-    expect(component.nameViever).toBe('JU')
+    expect(component.username).toBe('juan')
   })
 
   test('openDialog: Should open dialog', () => {

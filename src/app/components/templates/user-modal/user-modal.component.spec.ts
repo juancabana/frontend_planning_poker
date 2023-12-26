@@ -144,7 +144,7 @@ describe('UserModalComponent', () => {
 
   test('createUser: should create user', () => {
     component.isButtonActive = true;
-    const localStorageSpy = jest.spyOn(Storage.prototype, 'setItem');
+    const localStorageSpy = jest.spyOn(component, 'setLocalStorage');
     const spy = jest.spyOn(service, 'createUser')
     component.createUser()
     const request = httpMock.expectOne('http://localhost:3000/api/user');

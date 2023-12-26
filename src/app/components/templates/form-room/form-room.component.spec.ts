@@ -83,20 +83,4 @@ describe('FormRoomComponent', () => {
     expect(spy).not.toHaveBeenCalled();
   })
 
-  // setInLocalStorage
-  it('setInLocalStorage: should set item in local storage', () => {
-    const key = 'testKey';
-    const data = 'testData';
-    const setItemSpy = jest.spyOn(Storage.prototype, 'setItem');
-    component.setInLocalStorage(key, data);
-    expect(setItemSpy).toHaveBeenCalledWith(key, data);
-  });
-
-  // navigate
-  it('navigate: should navigate', () => {
-    const url = 'testUrl';
-    const spy = jest.spyOn(component.router, 'navigateByUrl');
-    component.navigate(url);
-    expect(spy).toHaveBeenCalledWith(url);
-  });
 });

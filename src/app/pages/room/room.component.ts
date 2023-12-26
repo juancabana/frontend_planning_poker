@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
@@ -18,10 +18,9 @@ import { CardSelected } from './../../interfaces/card-selected.interface';
   selector: 'app-room',
   templateUrl: './room.component.html',
   styleUrls: ['./room.component.sass'],
-
 })
 export class RoomComponent implements OnInit, OnDestroy {
-  private idRoom: string = '';
+  public idRoom: string = '';
   private createUserSubscription: Subscription = new Subscription();
   private routeSuscription: Subscription = new Subscription();
   private findRoomSubscription: Subscription = new Subscription();
@@ -37,41 +36,30 @@ export class RoomComponent implements OnInit, OnDestroy {
   public isRevealable: Boolean = false;
   public isAvaliableToRestart: Boolean = false;
   public countingVotes: Boolean = false;
+  public ngZone: NgZone = new NgZone({});
 
   constructor(
     private readonly socketService: WebSocketService,
-    private readonly route: ActivatedRoute,
+    public readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly httpService: HttpService,
-    private readonly dialog: MatDialog
+    public  dialog: MatDialog
   ) {}
 
   ngOnInit() {
-    // Get params from url
     this.routeSuscription = this.route.params.subscribe((params) => {
       this.idRoom = params['id_room'];
-
-      // Validate if room exists
       this.validateRoom();
     });
 
-    // Create or get user to localStorage
     this.createUserSubscription = this.createUser()
       .afterClosed()
       .subscribe(() => {
         const user = this.getUser();
         this.user = user;
-
-        // Listen when there is a new user
         this.listenNewUser();
-
-        // Get users in cache
         this.getPlayersInCache();
-
-        // Listen when cards are revealed
         this.listenCardRevealed();
-
-        // Listen when game is restarted
         this.listenRestartGame();
       });
   }
@@ -94,14 +82,22 @@ export class RoomComponent implements OnInit, OnDestroy {
       .subscribe(
         (response) => {
           this.room = response;
-          // Set socket connection
           this.socketService.setupSocketConnection(this.room);
         },
         () => {
-          this.router.navigateByUrl('**');
-          return;
+          this.ngZone.run(() => {
+            this.router.navigateByUrl('**');
+            return;
+          });
         }
       );
+  }
+
+  allPlayersSelectedCard(): boolean {
+    const usersTypePlayers = this.players.filter(
+      ({ visualization }) => visualization == 'player'
+    );
+    return usersTypePlayers.every((player) => player.selected_card! > -3);
   }
 
   activateCountingOrReveal() {
@@ -162,13 +158,6 @@ export class RoomComponent implements OnInit, OnDestroy {
       });
   }
 
-  allPlayersSelectedCard(): boolean {
-    const usersTypePlayers = this.players.filter(
-      ({ visualization }) => visualization == 'player'
-    );
-    return usersTypePlayers.every((player) => player.selected_card! > -3);
-  }
-
   getPlayersInCache() {
     this.getCachedPlayersSubscription = this.httpService
       .getPlayers(this.idRoom)
@@ -193,7 +182,6 @@ export class RoomComponent implements OnInit, OnDestroy {
     if (userIndex !== -1) {
       // Remove user from array
       let user = this.players.splice(userIndex, 1)[0];
-
       // Insert user in first position
       this.players.unshift(user);
     }
@@ -215,7 +203,7 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.activateCountingOrReveal();
   }
 
-  RevealCards() {
+  revealCards() {
     const cards = this.players.map((player) => player.selected_card);
     // return the number of times each value appears in the array
     let values: any = {};
@@ -237,30 +225,33 @@ export class RoomComponent implements OnInit, OnDestroy {
   }
 
   restart() {
-    const dialogRef = this.dialog.open(AdminModalComponent, {
+    const config = {
       data: this.players,
       disableClose: true,
       panelClass: 'admin-modal',
-    });
-    dialogRef.afterClosed().subscribe((idUser: string) => {
-      this.socketService.emit('restart', idUser);
-      this.isAvaliableToRestart = false;
-      this.isRevealable = false;
-      this.cardsSelected = [];
-      this.countingVotes = false;
-      this.players = this.players.map((player) => {
-        player.selected_card = -3;
-        if (player._id == idUser) {
-          player.is_owner = true;
-        } else {
-          player.is_owner = false;
-        }
-        this.user._id == idUser
-          ? (this.user.is_owner = true)
-          : (this.user.is_owner = false);
-        return player;
+    };
+    this.dialog
+      .open(AdminModalComponent, config)
+      .afterClosed()
+      .subscribe((idUser: string) => {
+        this.socketService.emit('restart', idUser);
+        this.isAvaliableToRestart = false;
+        this.isRevealable = false;
+        this.cardsSelected = [];
+        this.countingVotes = false;
+        this.players = this.players.map((player) => {
+          player.selected_card = -3;
+          if (player._id == idUser) {
+            player.is_owner = true;
+          } else {
+            player.is_owner = false;
+          }
+          this.user._id == idUser
+            ? (this.user.is_owner = true)
+            : (this.user.is_owner = false);
+          return player;
+        });
       });
-    });
   }
 
   ngOnDestroy(): void {
