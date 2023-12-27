@@ -20,13 +20,10 @@ describe('LogoComponent', () => {
   });
 
   // isHome
-
   test('isHome: should display the input value', () => {
     component.isHome = true
     fixture.detectChanges()
-
     const className = link.className
-
     expect(className).toContain('logo--home')
   })
 

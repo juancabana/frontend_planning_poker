@@ -11,8 +11,7 @@ import { NewUser } from './interfaces/new-user.interface';
   templateUrl: './user-modal.component.html',
   styleUrls: ['./user-modal.component.sass'],
 })
-export class UserModalComponent implements OnInit, OnDestroy {
-  private getUserSubscription: Subscription = new Subscription();
+export class UserModalComponent implements OnInit {
 
   public username: string = '';
   public isButtonActive: boolean = false;
@@ -70,7 +69,7 @@ export class UserModalComponent implements OnInit, OnDestroy {
     // get user data that there is in params
     const { room_id } = this.dialogRef._containerInstance._config.data;
 
-    this.getUserSubscription = this.httpService
+    this.httpService
       .createUser({ ...user, room_id })
       .subscribe((newUser) => {
         this.setLocalStorage('user', JSON.stringify(newUser));
@@ -84,7 +83,4 @@ export class UserModalComponent implements OnInit, OnDestroy {
 
   visualization () { return this.isPlayer ? 'player' : 'spectator'}
 
-  ngOnDestroy(): void {
-    this.getUserSubscription.unsubscribe();
-  }
 }

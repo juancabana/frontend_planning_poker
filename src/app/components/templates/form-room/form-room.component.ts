@@ -13,7 +13,6 @@ import { HttpService } from './../../../services/http-service/http-service.servi
 })
 export class FormRoomComponent implements OnInit, OnDestroy {
   private formRoomSubscription: Subscription = new Subscription();
-  private createRoomSubscription: Subscription = new Subscription();
   public formRoom!: FormGroup;
   public isButtonActive: boolean = false;
 
@@ -61,7 +60,7 @@ export class FormRoomComponent implements OnInit, OnDestroy {
 
   createRoom() {
     if (this.isButtonActive) {
-      this.createRoomSubscription = this.httpService
+      this.httpService
         .createNewRoom(this.formRoom.get('room_name')!.value)
         .subscribe({
           next: (data) => {
@@ -86,6 +85,5 @@ export class FormRoomComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.formRoomSubscription.unsubscribe();
-    this.createRoomSubscription.unsubscribe();
   }
 }

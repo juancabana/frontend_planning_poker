@@ -1,12 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  OnInit,
-  OnDestroy,
-} from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 
 import { HttpService } from '../../../services/http-service/http-service.service';
 import { WebSocketService } from '../../../services/web-socket/web-socket.service';
@@ -19,14 +11,12 @@ import { Card } from '../../../interfaces/card.interface';
   templateUrl: './options-cards.component.html',
   styleUrls: ['./options-cards.component.sass'],
 })
-export class optionsCards implements OnInit, OnDestroy {
+export class optionsCards implements OnInit {
   @Input() public visualization!: string;
   @Output() public cardSelectedEvent = new EventEmitter<CardSelected>();
   public cardOptions: Card[] = [];
   public cardSelected: number | null = null;
   public selectedCard = -1;
-
-  public getCardsSubscription: Subscription = new Subscription();
 
   constructor(
     public readonly webSocketService: WebSocketService,
@@ -34,14 +24,10 @@ export class optionsCards implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    // Listen when another user select card
-    this.getCardsSubscription = this.httpService
-      .getCards()
-      .subscribe((cards) => {
-        this.cardOptions = cards;
-      });
+    this.httpService.getCards().subscribe((cards) => {
+      this.cardOptions = cards;
+    });
   }
-
 
   selectCard(cardId: number) {
     this.selectedCard = cardId;
@@ -66,9 +52,5 @@ export class optionsCards implements OnInit, OnDestroy {
       lastSelected: this.cardSelected,
       ID_user: idUser,
     });
-  }
-
-  ngOnDestroy() {
-    this.getCardsSubscription.unsubscribe();
   }
 }

@@ -23,8 +23,6 @@ export class RoomComponent implements OnInit, OnDestroy {
   public idRoom: string = '';
   private createUserSubscription: Subscription = new Subscription();
   private routeSuscription: Subscription = new Subscription();
-  private findRoomSubscription: Subscription = new Subscription();
-  private getCachedPlayersSubscription: Subscription = new Subscription();
   private listenNewUserSubscription: Subscription = new Subscription();
   private listenRevealedCardsSubscription: Subscription = new Subscription();
   private listenRestartGameSubscription: Subscription = new Subscription();
@@ -77,7 +75,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   }
 
   validateRoom() {
-    this.findRoomSubscription = this.httpService
+    this.httpService
       .findRoomById(this.idRoom)
       .subscribe(
         (response) => {
@@ -159,7 +157,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   }
 
   getPlayersInCache() {
-    this.getCachedPlayersSubscription = this.httpService
+    this.httpService
       .getPlayers(this.idRoom)
       .subscribe((cachedPlayers) => {
         this.players = [this.user, ...cachedPlayers];
@@ -256,8 +254,6 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.routeSuscription.unsubscribe();
-    this.findRoomSubscription.unsubscribe();
-    this.getCachedPlayersSubscription.unsubscribe();
     this.listenNewUserSubscription.unsubscribe();
     this.listenRevealedCardsSubscription.unsubscribe();
     this.listenRestartGameSubscription.unsubscribe();

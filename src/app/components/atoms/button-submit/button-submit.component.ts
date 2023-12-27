@@ -9,7 +9,6 @@ export class ButtonSubmitComponent {
   @Output() submit = new EventEmitter<void>()
 
   @Input() public isActive: boolean = false;
-
   @Input() public isHome: boolean = false;
   @Input() public isPlayerSubmit: boolean = false;
   @Input() public isInvite: boolean = false;
