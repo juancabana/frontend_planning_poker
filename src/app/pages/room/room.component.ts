@@ -37,7 +37,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   public ngZone: NgZone = new NgZone({});
 
   constructor(
-    private readonly socketService: WebSocketService,
+    public socketService: WebSocketService,
     public readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly httpService: HttpService,
@@ -117,7 +117,7 @@ export class RoomComponent implements OnInit, OnDestroy {
             this.players = [this.user, ...data];
             this.setFirstPosition();
           } else {
-            this.players = data;
+            this.players = [...data];
             this.setFirstPosition();
           }
           // Active Button Reveal or Counting Votes
@@ -159,8 +159,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   getPlayersInCache() {
     this.httpService
       .getPlayers(this.idRoom)
-      .subscribe((cachedPlayers) => {
-        this.players = [this.user, ...cachedPlayers];
+      .subscribe({next: (cachedPlayers) => {
         if (
           !cachedPlayers.some((element: User) => element._id == this.user._id)
         ) {
@@ -170,7 +169,7 @@ export class RoomComponent implements OnInit, OnDestroy {
           this.players = cachedPlayers;
           this.setFirstPosition();
         }
-      });
+      }});
   }
 
   setFirstPosition() {

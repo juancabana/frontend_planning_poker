@@ -45,14 +45,14 @@ describe('UserModalComponent', () => {
   });
 
   // closeModal
-  test('closeModal: should close the modal', () => {
+  it('closeModal: should close the modal', () => {
     const spy = jest.spyOn(dialogRef, 'close');
     component.closeModal();
     expect(spy).toHaveBeenCalled();
   });
 
   // setUserName
-  test('setUserName: should set juan as userName', () => {
+  it('setUserName: should set juan as userName', () => {
     const event = { target: { value: 'juan' } } as unknown as Event;
     const spy = jest.spyOn(component, 'setButtonActive');
     component.setUserName(event);
@@ -61,7 +61,7 @@ describe('UserModalComponent', () => {
   });
 
   // setUserType
-  test('setUserType: should set isPlayer to true', () => {
+  it('setUserType: should set isPlayer to true', () => {
     const event = { target: { id: 'player' } } as unknown as Event;
     const spy = jest.spyOn(component, 'setButtonActive');
     component.setUserType(event);
@@ -70,7 +70,7 @@ describe('UserModalComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  test('setUserType: should set isSpectator to true', () => {
+  it('setUserType: should set isSpectator to true', () => {
     const event = { target: { id: 'spectator' } } as unknown as Event;
     const spy = jest.spyOn(component, 'setButtonActive');
     component.setUserType(event);
@@ -80,28 +80,28 @@ describe('UserModalComponent', () => {
   });
 
   // setButtonActive
-  test('setButtonActive: should set isButtonActive to false because username.length is less than 5', () => {
+  it('setButtonActive: should set isButtonActive to false because username.length is less than 5', () => {
     component.username = 'juan';
     component.isPlayer = true;
     component.setButtonActive();
     expect(component.isButtonActive).toBe(false);
   });
 
-  test('setButtonActive: should set isButtonActive to false because username.length is greater than 20', () => {
+  it('setButtonActive: should set isButtonActive to false because username.length is greater than 20', () => {
     component.username = 'juan67891011121314151';
     component.isSpectator = true;
     component.setButtonActive();
     expect(component.isButtonActive).toBe(false);
   });
 
-  test(`setButtonActive: should set isButtonActive to false because username doesn't match with regex`, () => {
+  it(`setButtonActive: should set isButtonActive to false because username doesn't match with regex`, () => {
     component.username = 'juan678910*111';
     component.isSpectator = true;
     component.setButtonActive();
     expect(component.isButtonActive).toBe(false);
   });
 
-  test(`setButtonActive: should set isButtonActive to false because neither isPlayer nor isSpectator was selected`, () => {
+  it(`setButtonActive: should set isButtonActive to false because neither isPlayer nor isSpectator was selected`, () => {
     component.username = 'juan678';
     component.isSpectator = false;
     component.isPlayer = false;
@@ -109,14 +109,14 @@ describe('UserModalComponent', () => {
     expect(component.isButtonActive).toBe(false);
   });
 
-  test(`setButtonActive: should set isButtonActive to false because there is more tha 3 numbers into the username`, () => {
+  it(`setButtonActive: should set isButtonActive to false because there is more tha 3 numbers into the username`, () => {
     component.username = 'juan678910111';
     component.isPlayer = true;
     component.setButtonActive();
     expect(component.isButtonActive).toBe(false);
   });
 
-  test(`setButtonActive: should set isButtonActive to true because username is valid and is player or is spectator`, () => {
+  it(`setButtonActive: should set isButtonActive to true because username is valid and is player or is spectator`, () => {
     component.username = 'juan678';
     component.isPlayer = true;
     component.setButtonActive();
@@ -124,25 +124,25 @@ describe('UserModalComponent', () => {
   });
 
   // visualization
-  test('visualization: should return player', () => {
+  it('visualization: should return player', () => {
     component.isPlayer = true;
     expect(component.visualization()).toBe('player');
   });
 
-  test('visualization: should return spectator', () => {
+  it('visualization: should return spectator', () => {
     component.isSpectator = true;
     expect(component.visualization()).toBe('spectator');
   });
 
   // createUser
-  test('createUser: should not make any changes to the component', () => {
+  it('createUser: should not make any changes to the component', () => {
     component.isButtonActive = false;
     const spy = jest.spyOn(service, 'createUser');
     component.createUser();
     expect(spy).not.toHaveBeenCalled();
   });
 
-  test('createUser: should create user', () => {
+  it('createUser: should create user', () => {
     component.isButtonActive = true;
     const localStorageSpy = jest.spyOn(component, 'setLocalStorage');
     const spy = jest.spyOn(service, 'createUser')

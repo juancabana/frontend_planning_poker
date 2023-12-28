@@ -40,9 +40,6 @@
     "mock-socket": "^9.3.1",
     "typescript": "~5.2.0"
   },
-  "engines": {
-    "node": ">=18 <19"
-  },
   "jest": {
     "preset": "jest-preset-angular",
     "setupFilesAfterEnv": [

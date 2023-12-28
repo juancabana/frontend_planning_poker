@@ -28,40 +28,40 @@ describe('FormRoomComponent', () => {
   });
 
   // ngOnInit
-  test('ngOnInit: should subscribe to value changes', () => {
+  it('ngOnInit: should subscribe to value changes', () => {
     const spySubscribe = jest.spyOn(component, 'subscribeValueChanges');
     component.ngOnInit();
     expect(spySubscribe).toHaveBeenCalled();
   })
 
   // subscribeValueChanges
-  test('ngOnInit: should call get to subscribe', () => {
+  it('ngOnInit: should call get to subscribe', () => {
    const spyGet = jest.spyOn(formRoom, 'get');
    component.subscribeValueChanges();
    expect(spyGet).toHaveBeenCalledWith('room_name');
   })
 
   // createForm
-  test('createForm: should create form', () => {
+  it('createForm: should create form', () => {
     component.createForm();
     expect(formRoom).toBeTruthy();
   })
 
   // setButtonActive
-  test('setButtonActive: should set isButtonActive to false', () => {
+  it('setButtonActive: should set isButtonActive to false', () => {
     formRoom.get('room_name')?.setValue('test');
     component.setButtonActive();
     expect(component.isButtonActive).toBe(false);
   })
 
-  test('setButtonActive: should set isButtonActive to true', () => {
+  it('setButtonActive: should set isButtonActive to true', () => {
     formRoom.get('room_name')?.setValue('testing');
     component.setButtonActive();
     expect(component.isButtonActive).toBe(true);
   })
 
   // createRoom
-  test(`createRoom: should call createRoom`, () => {
+  it(`createRoom: should call createRoom`, () => {
     const mockRoom ={
       room_name: 'test',
       room_id: '1',
@@ -76,7 +76,7 @@ describe('FormRoomComponent', () => {
     expect(spy).toHaveBeenCalled();
   })
 
-  test(`createRoom: shouldn't call createRoom`, () => {
+  it(`createRoom: shouldn't call createRoom`, () => {
     component.isButtonActive = false
     const spy = jest.spyOn(service, 'createNewRoom');
     component.createRoom();

@@ -17,19 +17,19 @@ describe('AppComponent', () => {
   component = fixture.componentInstance;
 });
 
-  test('should create the app', () => {
+  it('should create the app', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
   });
 
-  test(`should have as title 'Planning Poker'`, () => {
+  it(`should have as title 'Planning Poker'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
     expect(app.title).toEqual('Planning Poker');
   });
 
-  test('should close welcome message after 1 second', fakeAsync(() => {
+  it('should close welcome message after 1 second', fakeAsync(() => {
     component.ngOnInit();
     expect(component.showWelcomeMessage).toBe(true);
 

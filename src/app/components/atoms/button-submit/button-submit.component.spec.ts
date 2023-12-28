@@ -16,32 +16,32 @@ describe('ButtonSubmitComponent', () => {
   });
 
   // onClick
-  test('onClick: should emit submit', () => {
+  it('onClick: should emit submit', () => {
     const spy = jest.spyOn(component.submit, 'emit');
     component.onClick();
     expect(spy).toHaveBeenCalled();
   });
 
   // SetText()
-  test('setText: sould return Crear partida', () => {
+  it('setText: sould return Crear partida', () => {
     component.isHome = true;
     const text = component.setText();
     expect(text).toBe('Crear partida');
   });
 
-  test('setText: Continuar', () => {
+  it('setText: Continuar', () => {
     component.isPlayerSubmit = true;
     const text = component.setText();
     expect(text).toBe('Continuar');
   });
 
-  test('setText: Copiar link', () => {
+  it('setText: Copiar link', () => {
     component.isInvite = true;
     const text = component.setText();
     expect(text).toBe('Copiar link');
   });
 
-  test(`setText: isAdminModal`, () => {
+  it(`setText: isAdminModal`, () => {
     component.isAdminModal = true;
     const text = component.setText();
     expect(text).toBe('Aceptar');

@@ -7,12 +7,12 @@ import { User } from './../../../interfaces/user.interface';
   styleUrls: ['./card.component.sass'],
 })
 export class CardComponent implements OnInit {
-  @Input() public player!: User;
+  @Input() public player?: User;
   @Input() public visualizate_result: Boolean = false;
-
-  public visualization: string = '';
+  @Input() public selected_card: number = -3;
+  public isSpectator: boolean = false;
 
   ngOnInit() {
-    this.visualization = this.player?.visualization;
+    this.isSpectator = this.player?.visualization == 'spectator';
   }
 }

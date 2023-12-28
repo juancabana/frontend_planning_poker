@@ -15,7 +15,7 @@ describe('WelcomeComponent', () => {
     fixture.detectChanges();
   });
 
-  test('@Input: should be equal to prop', () => {
+  it('@Input: should be equal to prop', () => {
     component.showWelcomeMessage = true;
     expect(component.showWelcomeMessage).toBe(true)
 

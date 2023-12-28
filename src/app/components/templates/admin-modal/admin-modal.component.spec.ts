@@ -41,19 +41,19 @@ describe('AdminModalComponent', () => {
 
 
   // setUserAdmin
-  test('setUserAdmin: should set idUserSelected', () => {
+  it('setUserAdmin: should set idUserSelected', () => {
     component.setUserAdmin('testId');
     expect(component.idUserSelected).toBe('testId');
   })
 
   // ChecButton
-  test('checkButton: should set isButtonEnabled to true', () => {
+  it('checkButton: should set isButtonEnabled to true', () => {
     component.idUserSelected = 'testId';
     component.checkButton();
     expect(component.isButtonEnabled).toBeTruthy();
   })
 
-  test('checkButton: should set isButtonEnabled to false', () => {
+  it('checkButton: should set isButtonEnabled to false', () => {
     component.idUserSelected = '';
     component.checkButton();
     expect(component.isButtonEnabled).toBeFalsy();

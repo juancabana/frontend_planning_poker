@@ -23,12 +23,12 @@ describe('WebSocketService', () => {
     service.socket = {emit: jest.fn()} as any;
   });
 
-  test('should be created', () => {
+  it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
   // Test connection
-  test('service - should connect to WebSocket successfully', () => {
+  it('service - should connect to WebSocket successfully', () => {
     const spyConnect = jest.spyOn(service, 'setupSocketConnection');
 
     service.setupSocketConnection(room);
@@ -37,7 +37,7 @@ describe('WebSocketService', () => {
   });
 
   // Test emit events
-  test('should emit events (cardSelected)', (done) => {
+  it('should emit events (cardSelected)', (done) => {
     service.setupSocketConnection(room);
     const spy = jest.spyOn(service.socket, 'emit');
 
@@ -53,7 +53,7 @@ describe('WebSocketService', () => {
     done();
   });
 
-  test('should emit events (cardSelected)', (done) => {
+  it('should emit events (cardSelected)', (done) => {
     service.setupSocketConnection(room);
     const spy = jest.spyOn(service.socket, 'emit');
 
@@ -69,7 +69,7 @@ describe('WebSocketService', () => {
     done();
   });
 
-  test('should emit events (restart)', (done) => {
+  it('should emit events (restart)', (done) => {
     service.setupSocketConnection(room);
     const spy = jest.spyOn(service.socket, 'emit');
 
@@ -79,7 +79,7 @@ describe('WebSocketService', () => {
     done();
   });
 
-  test('should emit events (restart)', (done) => {
+  it('should emit events (restart)', (done) => {
     service.setupSocketConnection(room);
     const spy = jest.spyOn(service.socket, 'emit');
 
@@ -89,7 +89,7 @@ describe('WebSocketService', () => {
     done();
   });
 
-  test('should emit events (reveal-cards)', (done) => {
+  it('should emit events (reveal-cards)', (done) => {
     service.setupSocketConnection(room);
     const spy = jest.spyOn(service.socket, 'emit');
 
@@ -117,7 +117,7 @@ describe('WebSocketService', () => {
     done();
   });
 
-  test('should emit events (reveal-cards)', (done) => {
+  it('should emit events (reveal-cards)', (done) => {
     service.setupSocketConnection(room);
     const spy = jest.spyOn(service.socket, 'emit');
 
@@ -146,7 +146,7 @@ describe('WebSocketService', () => {
   });
 
   // Test listen
-  test('should listen for new users', (done) => {
+  it('should listen for new users', (done) => {
     const newUser = {
       username: 'Juanda',
       visualization: 'player',
@@ -166,7 +166,7 @@ describe('WebSocketService', () => {
     subscription.unsubscribe();
   });
 
-  test('should listen for new users', (done) => {
+  it('should listen for new users', (done) => {
     const newUser: User = {
       username: 'Danicin',
       visualization: 'spectator',
@@ -186,7 +186,7 @@ describe('WebSocketService', () => {
     subscription.unsubscribe();
   });
 
-  test('should listen for card selected', (done) => {
+  it('should listen for card selected', (done) => {
     const newCard = {
       value: 5,
       viewValue: '5',
@@ -205,7 +205,7 @@ describe('WebSocketService', () => {
     subscription.unsubscribe();
   });
 
-  test('should listen for card selected', (done) => {
+  it('should listen for card selected', (done) => {
     const newCard = {
       value: 0,
       viewValue: '0',
@@ -225,7 +225,7 @@ describe('WebSocketService', () => {
   });
 
   // Test listenCardRevealed
-  test('should listen for revealed cards', (done) => {
+  it('should listen for revealed cards', (done) => {
     const revealedCards: CardRevealed[] = [
       { value: 3, amount: 2 },
       { value: 0, amount: 1 },
@@ -243,7 +243,7 @@ describe('WebSocketService', () => {
   });
 
   // Test listenRestartGame
-  test('should listen for game restart', (done) => {
+  it('should listen for game restart', (done) => {
     const restartData: User[] = [
       {
         username: 'Player1',
@@ -275,7 +275,7 @@ describe('WebSocketService', () => {
   });
 
   // Test onEvent
-  test('should emit event data', (done) => {
+  it('should emit event data', (done) => {
     service.setupSocketConnection(room);
     const eventData = 'test data';
     const eventName = 'testEvent';
@@ -297,7 +297,7 @@ describe('WebSocketService', () => {
   });
 
   // Emit
-  test('should emit event with data', () => {
+  it('should emit event with data', () => {
     const eventName = 'userCreated';
     const eventData: User = {username: 'Juanda', visualization: 'player', room_id: '657aebb1ca215a091b8027ae', is_owner: true, is_connected: true, selected_card: -3};
     service.setupSocketConnection(room);

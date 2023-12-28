@@ -15,9 +15,15 @@ describe('ResultsComponent', () => {
     fixture.detectChanges();
   });
 
+  // ngOnInit
+  it('ngOnInit: should call setAverage', () => {
+    const spy = jest.spyOn(component, 'setAverage')
+    component.ngOnInit()
+    expect(spy).toHaveBeenCalled()
+  })
 
-
-  test('setAverage: should return average and count only positive values', () => {
+  // setAverage
+  it('setAverage: should return average and count only positive values', () => {
     component.cardsRevealed = [
       { value: 5, amount: 1 },
       { value: 13, amount: 2 },
@@ -28,19 +34,25 @@ describe('ResultsComponent', () => {
     component.setAverage();
     expect(component.average).toBe(13);
   })
-  test('getAverageString: should return average with maximum 2 fraction digits', () => {
+
+  // getAverageString
+  it('getAverageString: should return average with maximum 2 fraction digits', () => {
     component.average = 5;
     expect(component.getAverageString()).toBe('5');
-
+  })
+  it('getAverageString: should return average with maximum 2 fraction digits', () => {
     component.average = 1.123456789;
     expect(component.getAverageString()).toBe('1,12');
 
   })
 
-  test('isNumber: should return true if average is greater than 0', () => {
+  // isNumber
+  it('isNumber: should return TRUE because average is greater than 0', () => {
     component.average = 1;
     expect(component.isNumber()).toBeTruthy();
+  })
 
+  it(`isNumber: should return FALSE because average isn't greater than 0`, () => {
     component.average = -1;
     expect(component.isNumber()).toBeFalsy();
   })

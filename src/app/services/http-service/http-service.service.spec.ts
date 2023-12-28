@@ -16,12 +16,12 @@ describe('HttpServiceService', () => {
     service = TestBed.inject(HttpService);
   });
 
-  test('should be created', () => {
+  it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
     // Create room
-    test('services - http-service - have to get ', (done) => {
+    it('services - http-service - have to get ', (done) => {
       service.createNewRoom('Sprint 90').subscribe(room => {
         expect(room.tittle).toBe('Sprint 90');
         localStorage.setItem('room_id-1', room._id!);
@@ -30,7 +30,7 @@ describe('HttpServiceService', () => {
       })
     });
 
-    test('services - http-service - have to get ', (done) => {
+    it('services - http-service - have to get ', (done) => {
       service.createNewRoom('Sprint 67').subscribe(room => {
         expect(room.tittle).toBe('Sprint 67');
         localStorage.setItem('room_id-2', room._id!);
@@ -39,7 +39,7 @@ describe('HttpServiceService', () => {
     });
 
   // Find room by id
-  test('services - http-service - have to get ', (done) => {
+  it('services - http-service - have to get ', (done) => {
     const idRoom = localStorage.getItem('room_id-1')!;
     service.findRoomById(idRoom).subscribe((room) => {
       expect(room.tittle).toBe('Sprint 90');
@@ -47,7 +47,7 @@ describe('HttpServiceService', () => {
     });
   });
 
-  test('services - http-service - have to get ', (done) => {
+  it('services - http-service - have to get ', (done) => {
     const idRoom = localStorage.getItem('room_id-2')!;
     service.findRoomById(idRoom).subscribe((room) => {
       expect(room.tittle).toBe('Sprint 67');
@@ -56,7 +56,7 @@ describe('HttpServiceService', () => {
   });
 
   // Create user
-  test('services - http-service - createUser', (done) => {
+  it('services - http-service - createUser', (done) => {
     const idRoom = localStorage.getItem('room_id-1')!;
     const dummyUser: User = { username: 'Juanda', visualization: 'player', room_id: idRoom };
 
@@ -66,7 +66,7 @@ describe('HttpServiceService', () => {
     });
   });
 
-  test('services - http-service - createUser', (done) => {
+  it('services - http-service - createUser', (done) => {
     const idRoom = localStorage.getItem('room_id-1')!;
     const dummyUser: User = { username: 'Daniel', visualization: 'spectator', room_id: idRoom };
 
@@ -77,7 +77,7 @@ describe('HttpServiceService', () => {
   });
 
   // Get players
-  test('services - http-service - getPlayers', (done) => {
+  it('services - http-service - getPlayers', (done) => {
     const idRoom = localStorage.getItem('room_id-1')!;
 
     service.getPlayers(idRoom).subscribe(players => {
@@ -90,7 +90,7 @@ describe('HttpServiceService', () => {
   });
 
   // Get cards
-  test('services - http-service - getCards', (done) => {
+  it('services - http-service - getCards', (done) => {
     service.getCards().subscribe(cards => {
       expect(cards.length).toBe(12);
       expect(cards[0].viewValue).toEqual('0');

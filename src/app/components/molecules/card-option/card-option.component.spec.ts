@@ -6,7 +6,6 @@ describe('CardOptionComponent', () => {
   let component: CardOptionComponent;
   let fixture: ComponentFixture<CardOptionComponent>;
 
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [CardOptionComponent]
@@ -18,20 +17,19 @@ describe('CardOptionComponent', () => {
 
 
   // Inputs
-
-  it('@Inputs: should be the same as what is sent by props', () => {
+  it('@Inputs: should be the same as what is sent by props (true)', () => {
     component.selected_by_user = true;
     expect(component.selected_by_user).toBe(true);
+  });
 
+  it('@Inputs: should be the same as what is sent by props (false)', () => {
     component.selected_by_user = false;
     expect(component.selected_by_user).toBe(false);
   });
 
-  it('@Inputs: should be the same as what is sent by props', () => {
-    const testValue = 'test value';
-
+  it('@Inputs: should be the same as what is sent by props (13)', () => {
+    const testValue = '13';
     component.value = testValue;
-
     expect(component.value).toBe(testValue);
   });
 

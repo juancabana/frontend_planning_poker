@@ -28,7 +28,7 @@ describe('InvitePlayersModalComponent', () => {
   });
 
   // closeModal
-  test('closeModal: should close modal', () => {
+  it('closeModal: should close modal', () => {
     const spy = jest.spyOn(dialogRef, 'close');
     component.closeModal();
     expect(spy).toHaveBeenCalled();

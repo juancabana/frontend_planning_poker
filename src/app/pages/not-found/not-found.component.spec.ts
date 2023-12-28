@@ -15,7 +15,7 @@ describe('NotFoundComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
-  test('should create', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   })
 });

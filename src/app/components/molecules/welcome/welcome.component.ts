@@ -8,7 +8,6 @@ import { trigger, transition, style, animate } from '@angular/animations';
   styleUrls: ['./welcome.component.sass'],
   animations: [
     trigger('fadeInOut', [
-
       transition(':leave', [
         animate(500, style({ opacity: 0 }))
       ])
@@ -17,5 +16,4 @@ import { trigger, transition, style, animate } from '@angular/animations';
 })
 export class WelcomeComponent {
   @Input() public showWelcomeMessage = false;
-
 }
