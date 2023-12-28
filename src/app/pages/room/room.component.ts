@@ -120,7 +120,6 @@ export class RoomComponent implements OnInit, OnDestroy {
             this.players = [...data];
             this.setFirstPosition();
           }
-          // Active Button Reveal or Counting Votes
           this.activateCountingOrReveal();
         },
         (error) => {
@@ -177,9 +176,7 @@ export class RoomComponent implements OnInit, OnDestroy {
       (player) => player._id === this.user._id
     );
     if (userIndex !== -1) {
-      // Remove user from array
       let user = this.players.splice(userIndex, 1)[0];
-      // Insert user in first position
       this.players.unshift(user);
     }
   }
@@ -194,7 +191,6 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   onCardSelected(data: CardSelected) {
     const { idUser, cardSelected } = data;
-    // find index of object with id
     const index = this.players.findIndex((player) => player._id == idUser);
     this.players[index].selected_card = cardSelected;
     this.activateCountingOrReveal();
@@ -202,7 +198,6 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   revealCards() {
     const cards = this.players.map((player) => player.selected_card);
-    // return the number of times each value appears in the array
     let values: any = {};
     cards.map((value) => {
       if (value != -3) {

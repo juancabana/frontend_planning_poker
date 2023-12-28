@@ -24,7 +24,6 @@ import { WelcomeComponent } from './components/molecules/welcome/welcome.compone
 import { AdminModalComponent } from './components/templates/admin-modal/admin-modal.component';
 import { ButtonSubmitComponent } from './components/atoms/button-submit/button-submit.component';
 import { CommonModule } from '@angular/common';
-import { CardOptionComponent } from './components/molecules/card-option/card-option.component';
 import { ShortNamePipe } from './pipes/short-name.pipe';
 
 @NgModule({
@@ -44,7 +43,6 @@ import { ShortNamePipe } from './pipes/short-name.pipe';
     ResultsComponent,
     AdminModalComponent,
     ButtonSubmitComponent,
-    CardOptionComponent,
     ShortNamePipe,
   ],
   imports: [

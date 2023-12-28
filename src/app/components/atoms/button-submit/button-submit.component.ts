@@ -6,7 +6,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrls: ['./button-submit.component.sass'],
 })
 export class ButtonSubmitComponent {
-  @Output() submit = new EventEmitter<void>()
+  @Output() submit = new EventEmitter<void>();
 
   @Input() public isActive: boolean = false;
   @Input() public isHome: boolean = false;
@@ -15,18 +15,22 @@ export class ButtonSubmitComponent {
   @Input() public isAdminModal: boolean = false;
 
   constructor() {
-    this.setText()
+    this.setText();
   }
 
-  onClick(){
-    this.submit.emit()
+  onClick() {
+    this.submit.emit();
   }
 
   setText() {
-    return this.isHome ? 'Crear partida' :
-    this.isPlayerSubmit ? 'Continuar' :
-    this.isInvite ? 'Copiar link' :
-    this.isAdminModal ? 'Aceptar': false
+    return this.isHome
+      ? 'Crear partida'
+      : this.isPlayerSubmit
+      ? 'Continuar'
+      : this.isInvite
+      ? 'Copiar link'
+      : this.isAdminModal
+      ? 'Aceptar'
+      : false;
   }
-
 }

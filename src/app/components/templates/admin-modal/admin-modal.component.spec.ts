@@ -59,6 +59,4 @@ describe('AdminModalComponent', () => {
     expect(component.isButtonEnabled).toBeFalsy();
   })
 
-
-
 });

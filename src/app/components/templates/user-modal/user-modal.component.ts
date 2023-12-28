@@ -12,7 +12,6 @@ import { NewUser } from './interfaces/new-user.interface';
   styleUrls: ['./user-modal.component.sass'],
 })
 export class UserModalComponent implements OnInit {
-
   public username: string = '';
   public isButtonActive: boolean = false;
   public isPlayer: boolean = false;
@@ -30,7 +29,6 @@ export class UserModalComponent implements OnInit {
   }
 
   setUserName(event: Event): void {
-    // this.username = value;
     const target = event.target as HTMLInputElement;
     this.username = target.value;
     this.setButtonActive();
@@ -49,12 +47,17 @@ export class UserModalComponent implements OnInit {
   }
 
   setButtonActive(): void {
-    const validateLength = this.username.length >= 5 && this.username.length <= 20;
+    const validateLength =
+      this.username.length >= 5 && this.username.length <= 20;
     const regex = /^(?!.*[()_,.*#/-])(\D*\d){0,3}\D*$/;
-    if ( validateLength && regex.test(this.username) && (this.isPlayer || this.isSpectator)) {
-      this.isButtonActive = true
+    if (
+      validateLength &&
+      regex.test(this.username) &&
+      (this.isPlayer || this.isSpectator)
+    ) {
+      this.isButtonActive = true;
     } else {
-      this.isButtonActive = false
+      this.isButtonActive = false;
     }
   }
 
@@ -63,24 +66,22 @@ export class UserModalComponent implements OnInit {
 
     const user: NewUser = {
       username: this.username,
-      visualization: this.visualization()
+      visualization: this.visualization(),
     };
 
-    // get user data that there is in params
     const { room_id } = this.dialogRef._containerInstance._config.data;
 
-    this.httpService
-      .createUser({ ...user, room_id })
-      .subscribe((newUser) => {
-        this.setLocalStorage('user', JSON.stringify(newUser));
-        this.closeModal()
-      });
+    this.httpService.createUser({ ...user, room_id }).subscribe((newUser) => {
+      this.setLocalStorage('user', JSON.stringify(newUser));
+      this.closeModal();
+    });
   }
 
   setLocalStorage(key: string, data: string) {
     localStorage.setItem(key, data);
   }
 
-  visualization () { return this.isPlayer ? 'player' : 'spectator'}
-
+  visualization() {
+    return this.isPlayer ? 'player' : 'spectator';
+  }
 }

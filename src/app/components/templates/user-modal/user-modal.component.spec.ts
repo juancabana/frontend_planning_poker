@@ -33,7 +33,7 @@ describe('UserModalComponent', () => {
             }
           },
         },
-        { provide: MAT_DIALOG_DATA, useValue: {} }, // si también necesitas MAT_DIALOG_DATA
+        { provide: MAT_DIALOG_DATA, useValue: {} },
       ],
     });
     fixture = TestBed.createComponent(UserModalComponent);

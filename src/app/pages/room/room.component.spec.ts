@@ -14,7 +14,6 @@ import {
 } from '@angular/material/dialog';
 import { UserModalComponent } from '../../components/templates/user-modal/user-modal.component';
 import { Room } from 'src/app/interfaces/room.interface';
-import { HttpService } from '../../services/http-service/http-service.service';
 import { WebSocketService } from '../../services/web-socket/web-socket.service';
 import { User } from 'src/app/interfaces/user.interface';
 import { AdminModalComponent } from '../../components/templates/admin-modal/admin-modal.component';
@@ -422,7 +421,7 @@ describe('RoomComponent', () => {
   })
 
   // restart
-  it('should call socketService.emit and update properties when restart is called (is owner)', () => {
+  it('restart: should call socketService.emit and update properties when restart is called (is owner)', () => {
     const mockUser: User = {
       _id: '123',
       username: 'pedro',
@@ -441,7 +440,6 @@ describe('RoomComponent', () => {
     const spy2 = jest.spyOn(socketService, 'emit').mockImplementation()
     component.players = mockPlayers
     component.user = mockUser
-
     component.restart()
     expect(spy1).toHaveBeenCalledWith(AdminModalComponent, config)
     expect(spy2).toHaveBeenCalledWith('restart', mockIdUser)
@@ -452,7 +450,8 @@ describe('RoomComponent', () => {
 
     expect(component.user.is_owner).toBe(true)
   });
-  it(`should call socketService.emit and update properties when restart is called (isn't owner)`, () => {
+
+  it(`restart: should call socketService.emit and update properties when restart is called (isn't owner)`, () => {
     const mockUser: User = {
       _id: '123',
       username: 'pedro',
@@ -471,7 +470,6 @@ describe('RoomComponent', () => {
     const spy2 = jest.spyOn(socketService, 'emit').mockImplementation()
     component.players = mockPlayers
     component.user = mockUser
-
     component.restart()
     expect(spy1).toHaveBeenCalledWith(AdminModalComponent, config)
     expect(spy2).toHaveBeenCalledWith('restart', mockIdUser)
@@ -481,27 +479,4 @@ describe('RoomComponent', () => {
     expect(component.countingVotes).toBe(false)
     expect(component.user.is_owner).toBe(false)
   });
-  // it('restart: should call restart', (done) => {
-  //   const dialogRefMock = {
-  //     afterClosed: jest.fn().mockReturnValue(of('testId')),
-  //     close: jest.fn()
-  //   };
-  //   const spy1 = jest.spyOn(component.dialog, 'open').mockReturnValue(dialogRefMock as any);
-  //   const spy2 = jest.spyOn(socketService, 'emit');
-
-  //   component.restart();
-  //   dialogRefMock.close();
-
-  //   expect(spy1).toHaveBeenCalled();
-
-  //   dialogRefMock.afterClosed().subscribe((idUser: string) => {
-  //     expect(spy2).toHaveBeenCalledWith('restart', idUser);
-  //     expect(component.isAvaliableToRestart).toBe(false);
-  //     expect(component.isRevealable).toBe(false);
-  //     expect(component.cardsSelected).toEqual([]);
-  //     expect(component.countingVotes).toBe(false);
-  //     done();
-  //   });
-  // });
-
 });

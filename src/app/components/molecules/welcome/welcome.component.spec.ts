@@ -8,7 +8,7 @@ describe('WelcomeComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [WelcomeComponent]
+      declarations: [WelcomeComponent],
     });
     fixture = TestBed.createComponent(WelcomeComponent);
     component = fixture.componentInstance;
@@ -17,9 +17,9 @@ describe('WelcomeComponent', () => {
 
   it('@Input: should be equal to prop', () => {
     component.showWelcomeMessage = true;
-    expect(component.showWelcomeMessage).toBe(true)
+    expect(component.showWelcomeMessage).toBe(true);
 
     component.showWelcomeMessage = false;
-    expect(component.showWelcomeMessage).toBe(false)
-  })
+    expect(component.showWelcomeMessage).toBe(false);
+  });
 });

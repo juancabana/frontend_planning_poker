@@ -34,15 +34,11 @@ describe('InvitePlayersModalComponent', () => {
     expect(spy).toHaveBeenCalled();
   })
 
-
-
   it('copyLink: should copy link and close modal', () => {
     component.actualUrl = 'http://localhost:4200';
     const copySpy = jest.spyOn(clipboard, 'copy');
     const closeModalSpy = jest.spyOn(component, 'closeModal');
-
     component.copyLink();
-
     expect(copySpy).toHaveBeenCalledWith('http://localhost:4200');
     expect(closeModalSpy).toHaveBeenCalled();
   });

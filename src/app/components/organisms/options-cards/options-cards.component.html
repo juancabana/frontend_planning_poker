@@ -3,11 +3,12 @@
     <h2 class="menu-cards__title">Elige una carta 👇</h2>
   </div>
   <div class="menu-cards__wrapper-cards">
-    <card-option
+    <card
       *ngFor="let card of cardOptions; let index = index"
       (click)="selectCard(card.id)"
+      [isCardIption]="true"
       [selected_by_user]="selectedCard == card.id"
       [value]="card.viewValue"
-    ></card-option>
+    ></card>
   </div>
 </div>

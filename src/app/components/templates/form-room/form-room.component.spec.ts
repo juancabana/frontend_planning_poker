@@ -34,7 +34,6 @@ describe('FormRoomComponent', () => {
     expect(spySubscribe).toHaveBeenCalled();
   })
 
-  // subscribeValueChanges
   it('ngOnInit: should call get to subscribe', () => {
    const spyGet = jest.spyOn(formRoom, 'get');
    component.subscribeValueChanges();

@@ -39,7 +39,6 @@ export class optionsCards implements OnInit {
         : (card.selected_by_user = false);
     });
 
-    // Emit value to card selected
     this.cardSelected = this.cardOptions[cardId].value;
     this.cardSelectedEvent.emit({ idUser, cardSelected: this.cardSelected });
     this.emitCardSelected(cardId, idUser);

@@ -68,20 +68,20 @@ export class FormRoomComponent implements OnInit, OnDestroy {
             localStorage.removeItem('user');
             this.navigate(`room/${data._id}`);
           },
-
         });
     }
     return;
   }
 
   setInLocalStorage(key: string, data: string) {
-    localStorage.setItem(key, data)
+    localStorage.setItem(key, data);
   }
 
   navigate(url: string) {
     this.ngZone.run(() => {
       this.router.navigateByUrl(url);
-    });  }
+    });
+  }
 
   ngOnDestroy(): void {
     this.formRoomSubscription.unsubscribe();
