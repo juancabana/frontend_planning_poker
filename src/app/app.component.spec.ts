@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
-import { WelcomeComponent } from './components/molecules/welcome/welcome.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('AppComponent', () => {
@@ -11,7 +10,7 @@ describe('AppComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
     imports: [RouterTestingModule, BrowserAnimationsModule],
-    declarations: [AppComponent, WelcomeComponent]
+    declarations: [AppComponent]
   })
   fixture = TestBed.createComponent(AppComponent);
   component = fixture.componentInstance;
@@ -36,5 +35,14 @@ describe('AppComponent', () => {
     tick(1000);
     expect(component.showWelcomeMessage).toBe(false);
   }));
+
+  // Welcome
+  it('@Input: should be equal to prop', () => {
+    component.showWelcomeMessage = true;
+    expect(component.showWelcomeMessage).toBe(true);
+
+    component.showWelcomeMessage = false;
+    expect(component.showWelcomeMessage).toBe(false);
+  });
 
 });

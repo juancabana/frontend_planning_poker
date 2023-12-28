@@ -7,7 +7,7 @@ import { WebSocketService } from '../../services/web-socket/web-socket.service';
 import { HttpService } from './../../services/http-service/http-service.service';
 
 import { UserModalComponent } from './../../components/templates/user-modal/user-modal.component';
-import { AdminModalComponent } from './../../components/templates/admin-modal/admin-modal.component';
+import { AdminModalComponent } from '../../components/templates/admin-modal/admin-modal.component';
 
 import { User } from './../../interfaces/user.interface';
 import { Room } from './../../interfaces/room.interface';

@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HomeComponent } from './home.component';
 import { LogoComponent } from '../../components/atoms/logo/logo.component';
-import { FormRoomComponent } from '../../components/templates/form-room/form-room.component';
+import { FormRoomComponent } from '../../components/organisms/form-room/form-room.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ButtonSubmitComponent } from '../../components/atoms/button-submit/button-submit.component';
 import { ReactiveFormsModule } from '@angular/forms';

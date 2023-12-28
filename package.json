@@ -45,7 +45,6 @@
     "setupFilesAfterEnv": [
       "<rootDir>/setup-jest.ts"
     ],
-    "setupFiles": ["jest-localstorage-mock"],
-    "globalSetup": "jest-preset-angular/global-setup"
+    "setupFiles": ["jest-localstorage-mock"]
   }
 }

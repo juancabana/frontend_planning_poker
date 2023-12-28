@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { NgZone } from '@angular/core';
 
-import { HttpService } from './../../../services/http-service/http-service.service';
+import { HttpService } from '../../../services/http-service/http-service.service';
 
 @Component({
   selector: 'form-room',
