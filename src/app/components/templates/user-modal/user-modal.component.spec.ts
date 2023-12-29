@@ -6,13 +6,14 @@ import { UserModalComponent } from './user-modal.component';
 import { ButtonSubmitComponent } from '../../atoms/button-submit/button-submit.component';
 
 import { HttpService } from '../../../services/http-service/http-service.service';
+import { User } from 'src/app/interfaces/user.interface';
+import { of } from 'rxjs';
 
 describe('UserModalComponent', () => {
   let component: UserModalComponent;
   let fixture: ComponentFixture<UserModalComponent>;
   let dialogRef: MatDialogRef<UserModalComponent>;
   let service: HttpService;
-  let httpMock: HttpTestingController;
 
 
   beforeEach(() => {
@@ -41,7 +42,6 @@ describe('UserModalComponent', () => {
     fixture.detectChanges();
     dialogRef = TestBed.inject(MatDialogRef);
     service = TestBed.inject(HttpService);
-    httpMock = TestBed.inject(HttpTestingController);
   });
 
   // closeModal
@@ -143,14 +143,14 @@ describe('UserModalComponent', () => {
   });
 
   it('createUser: should create user', () => {
+    const mockUser: User = { _id: '1234', username: 'juan678', room_id: '1234', visualization: 'player' }
     component.isButtonActive = true;
     const localStorageSpy = jest.spyOn(component, 'setLocalStorage');
-    const spy = jest.spyOn(service, 'createUser')
+    const spy1 = jest.spyOn(service, 'createUser')
+    const spy2 = jest.spyOn(service, 'createUser').mockReturnValue(of(mockUser))
     component.createUser()
-    const request = httpMock.expectOne('http://localhost:3000/api/user');
-    request.flush({ _id: '1234', username: 'juan678', room_id: '1234', isPlayer: true });
-    expect(request.request.method).toBe('POST');
-    expect(spy).toHaveBeenCalled();
+    expect(spy1).toHaveBeenCalledTimes(1);
+    expect(spy2).toHaveBeenCalledTimes(1);
     expect(localStorageSpy).toHaveBeenCalled();
 
   });

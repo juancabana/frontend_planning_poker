@@ -5,13 +5,19 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { ButtonSubmitComponent } from '../../atoms/button-submit/button-submit.component';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { HttpService } from '../../../services/http-service/http-service.service';
+import { of } from 'rxjs';
+import { Room } from 'src/app/interfaces/room.interface';
+import { NgZone } from '@angular/core';
+import { Router } from '@angular/router';
 
 describe('FormRoomComponent', () => {
   let component: FormRoomComponent;
   let fixture: ComponentFixture<FormRoomComponent>;
   let formRoom: FormGroup
-  let httpMock: HttpTestingController
   let service: HttpService
+  let router: Router;
+  let ngZone: NgZone;
+
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -22,8 +28,9 @@ describe('FormRoomComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     formRoom = component.formRoom
-    httpMock = TestBed.inject(HttpTestingController);
     service = TestBed.inject(HttpService);
+    router = TestBed.inject(Router);
+    ngZone = TestBed.inject(NgZone);
 
   });
 
@@ -61,18 +68,21 @@ describe('FormRoomComponent', () => {
 
   // createRoom
   it(`createRoom: should call createRoom`, () => {
-    const mockRoom ={
-      room_name: 'test',
-      room_id: '1',
-      user_id: '1'
+    const mockRoom: Room ={
+      tittle: 'test',
+      _id: '123',
+      owner: '123',
+      averageScore: -1,
+      players: []
     }
     component.isButtonActive = true
+    const spy1 = jest.spyOn(component, 'setInLocalStorage');
+    const spy2 = jest.spyOn(service, 'createNewRoom').mockReturnValue(of(mockRoom))
+    const spy3 = jest.spyOn(component, 'navigate').mockImplementation()
     component.createRoom();
-    const spy = jest.spyOn(component, 'setInLocalStorage');
-    const request = httpMock.expectOne('http://localhost:3000/api/room');
-    request.flush(mockRoom);
-    expect(request.request.method).toBe('POST');
-    expect(spy).toHaveBeenCalled();
+    expect(spy1).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalledTimes(1);
+    expect(spy3).toHaveBeenCalled()
   })
 
   it(`createRoom: shouldn't call createRoom`, () => {
@@ -81,5 +91,15 @@ describe('FormRoomComponent', () => {
     component.createRoom();
     expect(spy).not.toHaveBeenCalled();
   })
+
+  // navigate
+  it('navigate: should navigate to the provided url', () => {
+    const url = 'room/123';
+    const spy1 = jest.spyOn(ngZone, 'run')
+    const spy2 = jest.spyOn(router, 'navigateByUrl')
+    component.navigate(url);
+    expect(spy1).toHaveBeenCalledTimes(1);
+    expect(spy2).toHaveBeenCalledTimes(1);
+  });
 
 });

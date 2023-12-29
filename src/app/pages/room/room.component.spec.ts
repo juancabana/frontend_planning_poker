@@ -1,31 +1,32 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
-
-import { RoomComponent } from './room.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  HttpClientTestingModule,
-  HttpTestingController,
-} from '@angular/common/http/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import {
   MatDialog,
   MatDialogModule,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { UserModalComponent } from '../../components/templates/user-modal/user-modal.component';
-import { Room } from 'src/app/interfaces/room.interface';
+import { of, throwError } from 'rxjs';
+
+
 import { WebSocketService } from '../../services/web-socket/web-socket.service';
-import { User } from 'src/app/interfaces/user.interface';
+import { HttpService } from '../../services/http-service/http-service.service';
+
+import { UserModalComponent } from '../../components/templates/user-modal/user-modal.component';
 import { AdminModalComponent } from '../../components/templates/admin-modal/admin-modal.component';
+import { RoomComponent } from './room.component';
+
+import { Room } from 'src/app/interfaces/room.interface';
+import { User } from 'src/app/interfaces/user.interface';
 
 describe('RoomComponent', () => {
   let component: RoomComponent;
   let fixture: ComponentFixture<RoomComponent>;
   let dialog: MatDialog;
-  let httpMock: HttpTestingController;
   let socketService: WebSocketService;
   let router: Router;
   let mockPlayers: User[];
+  let service: HttpService
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -50,7 +51,6 @@ describe('RoomComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     dialog = TestBed.inject(MatDialog);
-    httpMock = TestBed.inject(HttpTestingController);
     socketService = TestBed.inject(WebSocketService);
     router = TestBed.inject(Router);
     mockPlayers = [
@@ -87,6 +87,7 @@ describe('RoomComponent', () => {
         is_owner: false,
       },
     ];
+    service = TestBed.inject(HttpService)
   });
 
   // ngOnInit
@@ -123,27 +124,23 @@ describe('RoomComponent', () => {
       averageScore: -1,
       players: [],
     };
-    const spy1 = jest.spyOn(component, 'validateRoom').mockImplementation();
+    const spy1 = jest.spyOn(service, 'findRoomById').mockReturnValue(of(mockRoom))
     const spy2 = jest.spyOn(socketService, 'setupSocketConnection');
     component.validateRoom();
-    const req = httpMock.expectOne('http://localhost:3000/api/room/id123');
-    req.flush(mockRoom);
-    expect(req.request.method).toBe('GET');
+    expect(spy1).toHaveBeenCalledTimes(1)
     expect(component.room).toEqual(mockRoom);
     expect(spy2).toHaveBeenCalledWith(mockRoom);
   });
 
   it('validateRoom: should only call httpService', () => {
     component.idRoom = 'testI';
+    const spy1 = jest.spyOn(service, 'findRoomById').mockImplementation(() => throwError(new Error('Room not found')))
     const spy2 = jest.spyOn(socketService, 'setupSocketConnection');
     const spy3 = jest.spyOn(router, 'navigateByUrl');
 
     component.validateRoom();
-    const req = httpMock.expectOne('http://localhost:3000/api/room/id123');
-    req.error(new ErrorEvent('Error'));
-
-    expect(req.request.method).toBe('GET');
     expect(component.room).toEqual(undefined);
+    expect(spy1).toHaveBeenCalled()
     expect(spy2).not.toHaveBeenCalled();
     expect(spy3).toHaveBeenCalledWith('**');
   });
@@ -306,12 +303,9 @@ describe('RoomComponent', () => {
     component.idRoom = 'id123';
     component.user = mockUser
     component.players.shift()
+    const spy = jest.spyOn(service, 'getPlayers').mockReturnValue(of(mockPlayers))
     component.getPlayersInCache();
-    const req = httpMock.expectOne(
-      'http://localhost:3000/api/room/id123/players'
-    );
-    req.flush(mockPlayers);
-    expect(req.request.method).toBe('GET');
+    expect(spy).toHaveBeenCalledWith('id123')
     expect(component.players).toEqual([mockUser, ...mockPlayers])
   });
 
@@ -324,16 +318,13 @@ describe('RoomComponent', () => {
       selected_card: -3,
       is_owner: true,
     };
-    const spy = jest.spyOn(component, 'setFirstPosition').mockImplementation()
     component.idRoom = 'id123';
     component.user = mockUser
+    const spy1 = jest.spyOn(service, 'getPlayers').mockReturnValue(of(mockPlayers))
+    const spy2 = jest.spyOn(component, 'setFirstPosition').mockImplementation()
     component.getPlayersInCache();
-    const req = httpMock.expectOne(
-      'http://localhost:3000/api/room/id123/players'
-    );
-    req.flush(mockPlayers);
-    expect(req.request.method).toBe('GET');
-    expect(spy).toHaveBeenCalled()
+    expect(spy1).toHaveBeenCalledWith('id123')
+    expect(spy2).toHaveBeenCalled()
     expect(component.players).toEqual([...mockPlayers])
   });
 

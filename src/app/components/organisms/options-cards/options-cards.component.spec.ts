@@ -6,12 +6,13 @@ import { optionsCards } from './options-cards.component';
 import { HttpService } from '../../../services/http-service/http-service.service';
 import { WebSocketService } from '../../../services/web-socket/web-socket.service';
 import { Card } from 'src/app/interfaces/card.interface';
+import { of } from 'rxjs';
 
 describe('CardMenuComponent', () => {
   let component: optionsCards;
   let fixture: ComponentFixture<optionsCards>;
-  let httpMock: HttpTestingController;
   let webSocketService: WebSocketService;
+  let service: HttpService
 
   const mockCards: Card[] = [
     {
@@ -112,17 +113,17 @@ describe('CardMenuComponent', () => {
     fixture = TestBed.createComponent(optionsCards);
     component = fixture.componentInstance;
     webSocketService = TestBed.inject(WebSocketService);
-    httpMock = TestBed.inject(HttpTestingController);
     fixture.detectChanges();
     component.cardOptions = mockCards;
+    service = TestBed.inject(HttpService)
   });
 
   // ngOnInit
   it('ngOnInit: should call getCards', () => {
     localStorage.setItem('user', JSON.stringify({ _id: 1 }));
-    const request = httpMock.expectOne('http://localhost:3000/api/card_options');
-    request.flush(mockCards);
-    expect(request.request.method).toBe('GET');
+    const request = jest.spyOn(service, 'getCards').mockReturnValue(of(mockCards))
+    component.ngOnInit()
+    expect(request).toHaveBeenCalledTimes(1)
     expect(component.cardOptions).toBe(mockCards)
   });
 

@@ -173,7 +173,7 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   setFirstPosition() {
     let userIndex = this.players.findIndex(
-      (player) => player._id === this.user._id
+      (player) => this.user._id === player._id
     );
     if (userIndex !== -1) {
       let user = this.players.splice(userIndex, 1)[0];
