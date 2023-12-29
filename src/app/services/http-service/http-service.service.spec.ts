@@ -1,106 +1,118 @@
 import { TestBed } from '@angular/core/testing';
 
 import { HttpService } from './http-service.service';
-import { HttpClientModule } from '@angular/common/http';
 import { User } from 'src/app/interfaces/user.interface';
-
+import { of } from 'rxjs';
+import {
+  HttpTestingController,
+  HttpClientTestingModule,
+} from '@angular/common/http/testing';
+import { environment as env } from '../../../environments/environment';
+import { Room } from 'src/app/interfaces/room.interface';
+import { Card } from 'src/app/interfaces/card.interface';
 
 describe('HttpServiceService', () => {
   let service: HttpService;
+  let httpMock: HttpTestingController;
+  const url: string = env.url;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule], // proporciona HttpClient
+      imports: [HttpClientTestingModule],
       providers: [HttpService],
     });
     service = TestBed.inject(HttpService);
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-    // Create room
-    it('services - http-service - have to get ', (done) => {
-      service.createNewRoom('Sprint 90').subscribe(room => {
-        expect(room.tittle).toBe('Sprint 90');
-        localStorage.setItem('room_id-1', room._id!);
-        localStorage.setItem('room', JSON.stringify(room))
-        done()
-      })
-    });
-
-    it('services - http-service - have to get ', (done) => {
-      service.createNewRoom('Sprint 67').subscribe(room => {
-        expect(room.tittle).toBe('Sprint 67');
-        localStorage.setItem('room_id-2', room._id!);
-        done()
-      })
-    });
-
-  // Find room by id
-  it('services - http-service - have to get ', (done) => {
-    const idRoom = localStorage.getItem('room_id-1')!;
-    service.findRoomById(idRoom).subscribe((room) => {
-      expect(room.tittle).toBe('Sprint 90');
-      done();
-    });
+  // getPlayers
+  it('getPlayers: should call getPlayers request', () => {
+    const mockPlayers: User[] = [
+      {
+        username: 'Juanda',
+        room_id: 'id123',
+        visualization: 'player',
+        is_owner: true,
+        _id: 'id123',
+      },
+      {
+        username: 'Daniel',
+        room_id: 'id1234',
+        visualization: 'player',
+        is_owner: false,
+        _id: 'id123',
+      },
+    ];
+    const mockIdRoom = 'room123';
+    service.getPlayers(mockIdRoom).subscribe();
+    const req = httpMock.expectOne(`${url}/room/${mockIdRoom}/players`);
+    req.flush(mockPlayers);
+    expect(req.request.method).toBe('GET');
+    expect(req.request.url).toBe(`${url}/room/${mockIdRoom}/players`);
   });
 
-  it('services - http-service - have to get ', (done) => {
-    const idRoom = localStorage.getItem('room_id-2')!;
-    service.findRoomById(idRoom).subscribe((room) => {
-      expect(room.tittle).toBe('Sprint 67');
-      done();
-    });
+  // findRoomById
+  it('findRoomById: should call findRoomId request', () => {
+    const mockRoom: Room = {
+      _id: '1234',
+      tittle: 'Sprint 32',
+      averageScore: -1,
+      owner: 'idUser123',
+      players: [],
+    };
+    const mockRoomId = 'roomId123';
+    service.findRoomById(mockRoomId).subscribe();
+    const req = httpMock.expectOne(`${url}/room/${mockRoomId}`);
+    req.flush(mockRoom);
+    expect(req.request.method).toBe('GET');
+    expect(req.request.url).toBe(`${url}/room/${mockRoomId}`);
   });
 
-  // Create user
-  it('services - http-service - createUser', (done) => {
-    const idRoom = localStorage.getItem('room_id-1')!;
-    const dummyUser: User = { username: 'Juanda', visualization: 'player', room_id: idRoom };
-
-    service.createUser(dummyUser).subscribe(user => {
-      expect(user.username).toEqual(dummyUser.username)
-      done();
-    });
+  // getCards
+  it('getCards: should call getCards request', () => {
+    const mockCards: Card[] = [
+      { id: 0, value: 0, viewValue: '0', selected: false },
+      { id: 1, value: 1, viewValue: '1', selected: false },
+    ];
+    service.getCards().subscribe();
+    const req = httpMock.expectOne(`${url}/card_options`);
+    req.flush(mockCards);
+    expect(req.request.method).toBe('GET');
+    expect(req.request.url).toBe(`${url}/card_options`);
   });
 
-  it('services - http-service - createUser', (done) => {
-    const idRoom = localStorage.getItem('room_id-1')!;
-    const dummyUser: User = { username: 'Daniel', visualization: 'spectator', room_id: idRoom };
-
-    service.createUser(dummyUser).subscribe(user => {
-      expect(user.username).toEqual(dummyUser.username);
-      done();
-    });
+  // createUser
+  it('createUser: should call createUser request', () => {
+    const mockUser: User = {
+      room_id: 'id123',
+      username: 'juanCabana',
+      visualization: 'player',
+      is_owner: false,
+    };
+    service.createUser(mockUser).subscribe();
+    const req = httpMock.expectOne(`${url}/user`);
+    expect(req.request.method).toBe('POST');
+    expect(req.request.body).toBe(mockUser);
   });
 
-  // Get players
-  it('services - http-service - getPlayers', (done) => {
-    const idRoom = localStorage.getItem('room_id-1')!;
-
-    service.getPlayers(idRoom).subscribe(players => {
-      expect(players.length).toBe(2);
-      expect(players[0].username).toEqual('Juanda');
-      expect(players[1].username).toEqual('Daniel');
-
-      done();
-    });
+  // createNewRoom
+  it('createNewRoom: should call createNewRoom request', () => {
+    const mockRoom: Room = {
+      _id: '1234',
+      tittle: 'Sprint 32',
+      averageScore: -1,
+      owner: 'idUser123',
+      players: [],
+    };
+    service.createNewRoom('Sprint 32').subscribe()
+    const req = httpMock.expectOne(`${url}/room`)
+    req.flush(mockRoom)
+    expect(req.request.url).toBe(`${url}/room`)
+    expect(req.request.method).toBe('POST')
+    expect(req.request.body).toEqual({tittle: 'Sprint 32'})
   });
-
-  // Get cards
-  it('services - http-service - getCards', (done) => {
-    service.getCards().subscribe(cards => {
-      expect(cards.length).toBe(12);
-      expect(cards[0].viewValue).toEqual('0');
-      expect(cards[3].viewValue).toEqual('5');
-      expect(cards[5].viewValue).toEqual('13');
-      expect(cards[11].viewValue).toEqual('☕');
-
-      done();
-    });
-  });
-
-
 });

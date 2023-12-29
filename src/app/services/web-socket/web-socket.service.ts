@@ -15,7 +15,7 @@ import { CardRevealed } from './../../interfaces/card-revealed.interface';
 export class WebSocketService {
   public socket!: Socket;
 
-  private room!: Room;
+  public room!: Room;
 
   setupSocketConnection(room: Room) {
     this.room = room;
