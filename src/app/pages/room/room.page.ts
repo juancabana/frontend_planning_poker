@@ -1,7 +1,7 @@
 import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription, takeUntil } from 'rxjs';
 
 import { WebSocketService } from '../../services/web-socket/web-socket.service';
 import { HttpService } from '../../services/http-service/http-service.service';
@@ -21,11 +21,7 @@ import { CardSelected } from '../../interfaces/card-selected.interface';
 })
 export class RoomComponent implements OnInit, OnDestroy {
   public idRoom: string = '';
-  private createUserSubscription: Subscription = new Subscription();
-  private routeSuscription: Subscription = new Subscription();
-  private listenNewUserSubscription: Subscription = new Subscription();
-  private listenRevealedCardsSubscription: Subscription = new Subscription();
-  private listenRestartGameSubscription: Subscription = new Subscription();
+  private unsubscribe$ = new Subject<void>();
 
   public user!: User;
   public players: User[] = [];
@@ -41,17 +37,18 @@ export class RoomComponent implements OnInit, OnDestroy {
     public readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly httpService: HttpService,
-    public  dialog: MatDialog
+    public dialog: MatDialog
   ) {}
 
   ngOnInit() {
-    this.routeSuscription = this.route.params.subscribe((params) => {
+    this.route.params.pipe(takeUntil(this.unsubscribe$)).subscribe((params) => {
       this.idRoom = params['id_room'];
       this.validateRoom();
     });
 
-    this.createUserSubscription = this.createUser()
+    this.createUser()
       .afterClosed()
+      .pipe(takeUntil(this.unsubscribe$))
       .subscribe(() => {
         const user = this.getUser();
         this.user = user;
@@ -60,6 +57,11 @@ export class RoomComponent implements OnInit, OnDestroy {
         this.listenCardRevealed();
         this.listenRestartGame();
       });
+  }
+
+  setRoom(room: Room) {
+    this.room = room;
+    this.socketService.setupSocketConnection(this.room);
   }
 
   createUser(): MatDialogRef<UserModalComponent> {
@@ -75,20 +77,18 @@ export class RoomComponent implements OnInit, OnDestroy {
   }
 
   validateRoom() {
-    this.httpService
-      .findRoomById(this.idRoom)
-      .subscribe(
-        (response) => {
-          this.room = response;
-          this.socketService.setupSocketConnection(this.room);
-        },
-        () => {
-          this.ngZone.run(() => {
-            this.router.navigateByUrl('**');
-            return;
-          });
-        }
-      );
+    this.httpService.findRoomById(this.idRoom).subscribe(
+      (response) => {
+        this.room = response;
+        this.socketService.setupSocketConnection(this.room);
+      },
+      () => {
+        this.ngZone.run(() => {
+          this.router.navigateByUrl('**');
+          return;
+        });
+      }
+    );
   }
 
   allPlayersSelectedCard(): boolean {
@@ -109,8 +109,9 @@ export class RoomComponent implements OnInit, OnDestroy {
   }
 
   listenNewUser() {
-    this.listenNewUserSubscription = this.socketService
+    this.socketService
       .listenNewUser()
+      .pipe(takeUntil(this.unsubscribe$))
       .subscribe(
         (data: User[]) => {
           if (!this.exists(this.user)) {
@@ -129,8 +130,9 @@ export class RoomComponent implements OnInit, OnDestroy {
   }
 
   listenRestartGame() {
-    this.listenRestartGameSubscription = this.socketService
+    this.socketService
       .listenRestartGame()
+      .pipe(takeUntil(this.unsubscribe$))
       .subscribe((players) => {
         this.players = players;
         players.map((player) => {
@@ -147,8 +149,9 @@ export class RoomComponent implements OnInit, OnDestroy {
   }
 
   listenCardRevealed() {
-    this.listenRevealedCardsSubscription = this.socketService
+    this.socketService
       .listenCardRevealed()
+      .pipe(takeUntil(this.unsubscribe$))
       .subscribe((data: CardRevealed[]) => {
         this.cardsSelected = data;
         this.countingVotes = false;
@@ -156,9 +159,8 @@ export class RoomComponent implements OnInit, OnDestroy {
   }
 
   getPlayersInCache() {
-    this.httpService
-      .getPlayers(this.idRoom)
-      .subscribe({next: (cachedPlayers) => {
+    this.httpService.getPlayers(this.idRoom).subscribe({
+      next: (cachedPlayers) => {
         if (
           !cachedPlayers.some((element: User) => element._id == this.user._id)
         ) {
@@ -168,7 +170,8 @@ export class RoomComponent implements OnInit, OnDestroy {
           this.players = cachedPlayers;
           this.setFirstPosition();
         }
-      }});
+      },
+    });
   }
 
   setFirstPosition() {
@@ -225,6 +228,7 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.dialog
       .open(AdminModalComponent, config)
       .afterClosed()
+      .pipe(takeUntil(this.unsubscribe$))
       .subscribe((idUser: string) => {
         this.socketService.emit('restart', idUser);
         this.isAvaliableToRestart = false;
@@ -247,10 +251,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.routeSuscription.unsubscribe();
-    this.listenNewUserSubscription.unsubscribe();
-    this.listenRevealedCardsSubscription.unsubscribe();
-    this.listenRestartGameSubscription.unsubscribe();
-    this.createUserSubscription.unsubscribe();
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }

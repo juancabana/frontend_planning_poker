@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription, takeUntil } from 'rxjs';
 import { NgZone } from '@angular/core';
 
 import { HttpService } from '../../../services/http-service/http-service.service';
@@ -12,7 +12,8 @@ import { HttpService } from '../../../services/http-service/http-service.service
   styleUrls: ['./form-room.organism.sass'],
 })
 export class FormRoomComponent implements OnInit, OnDestroy {
-  private formRoomSubscription: Subscription = new Subscription();
+  private unsubscribe$ = new Subject<void>();
+
   public formRoom!: FormGroup;
   public isButtonActive: boolean = false;
 
@@ -30,9 +31,9 @@ export class FormRoomComponent implements OnInit, OnDestroy {
   }
 
   subscribeValueChanges() {
-    this.formRoomSubscription = this.formRoom
+    this.formRoom
       .get('room_name')!
-      .valueChanges.subscribe(() => {
+      .valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
         this.setButtonActive();
       });
   }
@@ -84,6 +85,6 @@ export class FormRoomComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.formRoomSubscription.unsubscribe();
-  }
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();  }
 }
