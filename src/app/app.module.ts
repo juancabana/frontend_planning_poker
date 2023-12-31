@@ -24,6 +24,7 @@ import { AdminModalComponent } from './components/templates/admin-modal/admin-mo
 import { ButtonSubmitComponent } from './components/atoms/button-submit/button-submit.atom';
 import { CommonModule } from '@angular/common';
 import { ShortNamePipe } from './pipes/short-name.pipe';
+import { AverageFormatPipe } from './pipes/average-format.pipe';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { ShortNamePipe } from './pipes/short-name.pipe';
     AdminModalComponent,
     ButtonSubmitComponent,
     ShortNamePipe,
+    AverageFormatPipe,
   ],
   imports: [
     CommonModule,

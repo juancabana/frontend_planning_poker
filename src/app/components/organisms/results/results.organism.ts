@@ -26,13 +26,6 @@ export class ResultsComponent implements OnInit {
     this.average = total / amountCards;
   }
 
-  getAverageString(): string {
-    return this.average.toLocaleString('es', {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 2,
-    });
-  }
-
   isNumber(): boolean {
     return this.average >= 0;
   }

@@ -35,17 +35,6 @@ describe('ResultsComponent', () => {
     expect(component.average).toBe(13);
   })
 
-  // getAverageString
-  it('getAverageString: should return average with maximum 2 fraction digits', () => {
-    component.average = 5;
-    expect(component.getAverageString()).toBe('5');
-  })
-  it('getAverageString: should return average with maximum 2 fraction digits', () => {
-    component.average = 1.123456789;
-    expect(component.getAverageString()).toBe('1,12');
-
-  })
-
   // isNumber
   it('isNumber: should return TRUE because average is greater than 0', () => {
     component.average = 1;

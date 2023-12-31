@@ -2,7 +2,7 @@
   <div class="results__wrapper-average">
     <div class="results__average" *ngIf="isNumber()">
       <span class="results__average-description">Promedio:</span>
-      <h1 class="results__average-value">{{ getAverageString() }}</h1>
+      <h1 class="results__average-value">{{ average | averageFormat }}</h1>
     </div>
   </div>
   <div class="results__wrapper-cards">
