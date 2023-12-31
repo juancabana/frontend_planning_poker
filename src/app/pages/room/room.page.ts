@@ -4,20 +4,20 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 
 import { WebSocketService } from '../../services/web-socket/web-socket.service';
-import { HttpService } from './../../services/http-service/http-service.service';
+import { HttpService } from '../../services/http-service/http-service.service';
 
-import { UserModalComponent } from './../../components/templates/user-modal/user-modal.component';
-import { AdminModalComponent } from '../../components/templates/admin-modal/admin-modal.component';
+import { UserModalComponent } from '../../components/templates/user-modal/user-modal.template';
+import { AdminModalComponent } from '../../components/templates/admin-modal/admin-modal.template';
 
-import { User } from './../../interfaces/user.interface';
-import { Room } from './../../interfaces/room.interface';
-import { CardRevealed } from './../../interfaces/card-revealed.interface';
-import { CardSelected } from './../../interfaces/card-selected.interface';
+import { User } from '../../interfaces/user.interface';
+import { Room } from '../../interfaces/room.interface';
+import { CardRevealed } from '../../interfaces/card-revealed.interface';
+import { CardSelected } from '../../interfaces/card-selected.interface';
 
 @Component({
   selector: 'app-room',
-  templateUrl: './room.component.html',
-  styleUrls: ['./room.component.sass'],
+  templateUrl: './room.page.html',
+  styleUrls: ['./room.page.sass'],
 })
 export class RoomComponent implements OnInit, OnDestroy {
   public idRoom: string = '';

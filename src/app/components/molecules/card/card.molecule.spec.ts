@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CardComponent } from './card.component';
+import { CardComponent } from './card.molecule';
 import { User } from 'src/app/interfaces/user.interface';
 
 describe('CardComponent', () => {

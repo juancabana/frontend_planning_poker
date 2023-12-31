@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
-import { optionsCards } from './options-cards.component';
+import { optionsCards } from './options-cards.organism';
 
 import { HttpService } from '../../../services/http-service/http-service.service';
 import { WebSocketService } from '../../../services/web-socket/web-socket.service';

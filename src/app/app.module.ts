@@ -3,25 +3,25 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './router/app-routing.module';
 import { AppComponent } from './app.component';
-import { RoomComponent } from './pages/room/room.component';
-import { HomeComponent } from './pages/home/home.component';
+import { RoomComponent } from './pages/room/room.page';
+import { HomeComponent } from './pages/home/home.page';
 import { WebSocketService } from './services/web-socket/web-socket.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FormRoomComponent } from './components/organisms/form-room/form-room.component';
-import { HeaderComponent } from './components/molecules/header/header.component';
-import { CardComponent } from './components/molecules/card/card.component';
-import { LogoComponent } from './components/atoms/logo/logo.component';
-import { InvitePlayersModalComponent } from './components/organisms/invite-players-modal/invite-players-modal.component';
+import { FormRoomComponent } from './components/organisms/form-room/form-room.organism';
+import { HeaderComponent } from './components/molecules/header/header.molecule';
+import { CardComponent } from './components/molecules/card/card.molecule';
+import { LogoComponent } from './components/atoms/logo/logo.atom';
+import { InvitePlayersModalComponent } from './components/organisms/invite-players-modal/invite-players-modal.organism';
 
 import { HttpClientModule } from '@angular/common/http';
-import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { NotFoundComponent } from './pages/not-found/not-found.page';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { UserModalComponent } from './components/templates/user-modal/user-modal.component';
+import { UserModalComponent } from './components/templates/user-modal/user-modal.template';
 import { MatDialogModule } from '@angular/material/dialog';
-import { optionsCards } from './components/organisms/options-cards/options-cards.component';
-import { ResultsComponent } from './components/organisms/results/results.component';
-import { AdminModalComponent } from './components/templates/admin-modal/admin-modal.component';
-import { ButtonSubmitComponent } from './components/atoms/button-submit/button-submit.component';
+import { optionsCards } from './components/organisms/options-cards/options-cards.organism';
+import { ResultsComponent } from './components/organisms/results/results.organism';
+import { AdminModalComponent } from './components/templates/admin-modal/admin-modal.template';
+import { ButtonSubmitComponent } from './components/atoms/button-submit/button-submit.atom';
 import { CommonModule } from '@angular/common';
 import { ShortNamePipe } from './pipes/short-name.pipe';
 

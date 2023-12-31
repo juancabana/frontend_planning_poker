@@ -4,8 +4,8 @@ import { User } from '../../../interfaces/user.interface';
 
 @Component({
   selector: 'admin-modal',
-  templateUrl: './admin-modal.component.html',
-  styleUrls: ['./admin-modal.component.sass'],
+  templateUrl: './admin-modal.template.html',
+  styleUrls: ['./admin-modal.template.sass'],
 })
 export class AdminModalComponent {
   constructor(

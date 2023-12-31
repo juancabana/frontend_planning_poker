@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 
-import { FormRoomComponent } from './form-room.component';
+import { FormRoomComponent } from './form-room.organism';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { ButtonSubmitComponent } from '../../atoms/button-submit/button-submit.component';
+import { ButtonSubmitComponent } from '../../atoms/button-submit/button-submit.atom';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { HttpService } from '../../../services/http-service/http-service.service';
 import { of } from 'rxjs';

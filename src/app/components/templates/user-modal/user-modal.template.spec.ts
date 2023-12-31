@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
-import { UserModalComponent } from './user-modal.component';
-import { ButtonSubmitComponent } from '../../atoms/button-submit/button-submit.component';
+import { UserModalComponent } from './user-modal.template';
+import { ButtonSubmitComponent } from '../../atoms/button-submit/button-submit.atom';
 
 import { HttpService } from '../../../services/http-service/http-service.service';
 import { User } from 'src/app/interfaces/user.interface';

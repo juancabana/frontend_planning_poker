@@ -3,8 +3,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Clipboard } from '@angular/cdk/clipboard';
 
 
-import { InvitePlayersModalComponent } from './invite-players-modal.component';
-import { ButtonSubmitComponent } from '../../atoms/button-submit/button-submit.component';
+import { InvitePlayersModalComponent } from './invite-players-modal.organism';
+import { ButtonSubmitComponent } from '../../atoms/button-submit/button-submit.atom';
 
 describe('InvitePlayersModalComponent', () => {
   let component: InvitePlayersModalComponent;

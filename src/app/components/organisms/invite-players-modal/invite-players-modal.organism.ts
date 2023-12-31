@@ -5,8 +5,8 @@ import { PlatformLocation } from '@angular/common';
 
 @Component({
   selector: 'invite-players-modal',
-  templateUrl: './invite-players-modal.component.html',
-  styleUrls: ['./invite-players-modal.component.sass'],
+  templateUrl: './invite-players-modal.organism.html',
+  styleUrls: ['./invite-players-modal.organism.sass'],
 })
 export class InvitePlayersModalComponent {
   public actualUrl: string = this.platformLocation.href;

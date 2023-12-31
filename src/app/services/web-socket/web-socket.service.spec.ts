@@ -1,7 +1,7 @@
 import { Room } from 'src/app/interfaces/room.interface';
 import { WebSocketService } from './web-socket.service';
 import { TestBed } from '@angular/core/testing';
-import { isObservable, of } from 'rxjs';
+import { Observable, isObservable, of } from 'rxjs';
 import { User } from 'src/app/interfaces/user.interface';
 import { CardRevealed } from 'src/app/interfaces/card-revealed.interface';
 import { Socket, io } from 'socket.io-client';
@@ -47,10 +47,15 @@ describe('WebSocketService', () => {
 
   // onEvent
   it('onEvent: ', () => {
-    const spy = jest.spyOn(webSocketService, 'onEvent').mockReturnValue(of('mockData'))
-    webSocketService.onEvent<User[]>('testEventUser').subscribe({next: (data) => expect(data).toBe('mockData')})
-    expect(spy).toHaveBeenCalled()
-
+    const spy = jest.spyOn(socket, 'on').mockImplementation()
+    const spy2 = jest.spyOn(webSocketService, 'onEvent').mockReturnValue(of([]))
+    webSocketService.onEvent<User[]>('testEventUser').subscribe({
+      next: (data: User[]) => {
+        expect(data).toBeDefined()
+        expect(spy).toHaveBeenCalledWith('testEventUser')
+        expect(spy2).toHaveBeenCalled()
+      }
+    })
   });
 
   // emit

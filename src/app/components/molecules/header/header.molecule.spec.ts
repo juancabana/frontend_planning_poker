@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HeaderComponent } from './header.component';
+import { HeaderComponent } from './header.molecule';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { LogoComponent } from '../../atoms/logo/logo.component';
+import { LogoComponent } from '../../atoms/logo/logo.atom';
 import { ShortNamePipe } from '../../../pipes/short-name.pipe';
 
 describe('HeaderComponent', () => {

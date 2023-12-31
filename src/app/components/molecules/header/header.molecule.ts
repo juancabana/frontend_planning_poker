@@ -1,11 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { InvitePlayersModalComponent } from '../../organisms/invite-players-modal/invite-players-modal.component';
+import { InvitePlayersModalComponent } from '../../organisms/invite-players-modal/invite-players-modal.organism';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.sass'],
+  templateUrl: './header.molecule.html',
+  styleUrls: ['./header.molecule.sass'],
 })
 export class HeaderComponent implements OnInit {
   @Input() public roomName: string = '';

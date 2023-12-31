@@ -8,8 +8,8 @@ import { HttpService } from '../../../services/http-service/http-service.service
 
 @Component({
   selector: 'form-room',
-  templateUrl: './form-room.component.html',
-  styleUrls: ['./form-room.component.sass'],
+  templateUrl: './form-room.organism.html',
+  styleUrls: ['./form-room.organism.sass'],
 })
 export class FormRoomComponent implements OnInit, OnDestroy {
   private formRoomSubscription: Subscription = new Subscription();

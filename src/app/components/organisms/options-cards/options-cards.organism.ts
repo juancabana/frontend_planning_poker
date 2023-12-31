@@ -8,8 +8,8 @@ import { Card } from '../../../interfaces/card.interface';
 
 @Component({
   selector: 'options-cards',
-  templateUrl: './options-cards.component.html',
-  styleUrls: ['./options-cards.component.sass'],
+  templateUrl: './options-cards.organism.html',
+  styleUrls: ['./options-cards.organism.sass'],
 })
 export class optionsCards implements OnInit {
   @Input() public visualization!: string;

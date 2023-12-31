@@ -12,9 +12,9 @@ import { of, throwError } from 'rxjs';
 import { WebSocketService } from '../../services/web-socket/web-socket.service';
 import { HttpService } from '../../services/http-service/http-service.service';
 
-import { UserModalComponent } from '../../components/templates/user-modal/user-modal.component';
-import { AdminModalComponent } from '../../components/templates/admin-modal/admin-modal.component';
-import { RoomComponent } from './room.component';
+import { UserModalComponent } from '../../components/templates/user-modal/user-modal.template';
+import { AdminModalComponent } from '../../components/templates/admin-modal/admin-modal.template';
+import { RoomComponent } from './room.page';
 
 import { Room } from 'src/app/interfaces/room.interface';
 import { User } from 'src/app/interfaces/user.interface';

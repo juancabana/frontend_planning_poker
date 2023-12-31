@@ -2,14 +2,14 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 
-import { HttpService } from './../../../services/http-service/http-service.service';
+import { HttpService } from '../../../services/http-service/http-service.service';
 
 import { NewUser } from './interfaces/new-user.interface';
 
 @Component({
   selector: 'user-modal',
-  templateUrl: './user-modal.component.html',
-  styleUrls: ['./user-modal.component.sass'],
+  templateUrl: './user-modal.template.html',
+  styleUrls: ['./user-modal.template.sass'],
 })
 export class UserModalComponent implements OnInit {
   public username: string = '';

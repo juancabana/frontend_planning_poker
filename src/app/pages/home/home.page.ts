@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.sass'],
+  templateUrl: './home.page.html',
+  styleUrls: ['./home.page.sass'],
 })
 export class HomeComponent {
   constructor() {}

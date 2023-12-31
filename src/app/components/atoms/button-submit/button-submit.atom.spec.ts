@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ButtonSubmitComponent } from './button-submit.component';
+import { ButtonSubmitComponent } from './button-submit.atom';
 
 describe('ButtonSubmitComponent', () => {
   let component: ButtonSubmitComponent;

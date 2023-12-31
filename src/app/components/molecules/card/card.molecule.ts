@@ -1,10 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { User } from './../../../interfaces/user.interface';
+import { User } from '../../../interfaces/user.interface';
 
 @Component({
   selector: 'card',
-  templateUrl: './card.component.html',
-  styleUrls: ['./card.component.sass'],
+  templateUrl: './card.molecule.html',
+  styleUrls: ['./card.molecule.sass'],
 })
 export class CardComponent implements OnInit {
   @Input() public player?: User;
