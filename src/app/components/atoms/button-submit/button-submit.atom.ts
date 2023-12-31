@@ -1,11 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'button-submit',
   templateUrl: './button-submit.atom.html',
   styleUrls: ['./button-submit.atom.sass'],
 })
-export class ButtonSubmitComponent {
+export class ButtonSubmitComponent implements OnInit {
   @Output() submit = new EventEmitter<void>();
 
   @Input() public isActive: boolean = false;
@@ -13,8 +13,9 @@ export class ButtonSubmitComponent {
   @Input() public isPlayerSubmit: boolean = false;
   @Input() public isInvite: boolean = false;
   @Input() public isAdminModal: boolean = false;
+  public content: string = ''
 
-  constructor() {
+  ngOnInit(): void {
     this.setText();
   }
 
@@ -23,14 +24,10 @@ export class ButtonSubmitComponent {
   }
 
   setText() {
-    return this.isHome
-      ? 'Crear partida'
-      : this.isPlayerSubmit
-      ? 'Continuar'
-      : this.isInvite
-      ? 'Copiar link'
-      : this.isAdminModal
-      ? 'Aceptar'
-      : false;
+    this.content = this.isHome ? 'Crear partida'
+      : this.isPlayerSubmit ? 'Continuar'
+      : this.isInvite ? 'Copiar link'
+      : this.isAdminModal ? 'Aceptar'
+      : '';
   }
 }
