@@ -24,21 +24,15 @@ describe('RoomComponent', () => {
   let fixture: ComponentFixture<RoomComponent>;
   let dialog: MatDialog;
   let socketService: WebSocketService;
-  let router: Router;
   let mockPlayers: User[];
   let service: HttpService
+  const mockRoom: Room = {averageScore: -1, owner: '1234', players: [], tittle: 'Sprint 32', _id: 'id123'}
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [RoomComponent],
       imports: [HttpClientTestingModule, MatDialogModule],
       providers: [
-        {
-          provide: ActivatedRoute,
-          useValue: {
-            params: of({ id_room: 'id123' }),
-          },
-        },
         {
           provide: MatDialogRef,
           useValue: {
@@ -52,7 +46,6 @@ describe('RoomComponent', () => {
     fixture.detectChanges();
     dialog = TestBed.inject(MatDialog);
     socketService = TestBed.inject(WebSocketService);
-    router = TestBed.inject(Router);
     mockPlayers = [
       {
         _id: '123',
@@ -88,22 +81,26 @@ describe('RoomComponent', () => {
       },
     ];
     service = TestBed.inject(HttpService)
+    component.room = mockRoom
   });
 
   // ngOnInit
-  it('ngOnInit: should call route and create user', () => {
-    const spy1 = jest.spyOn(component, 'validateRoom');
-    const spy2 = jest.spyOn(component, 'createUser');
+  it('ngOnInit: should set socket connection', () => {
+
+    const spy1 = jest.spyOn(service, 'getRoom').mockReturnValue(mockRoom);
+    const spy2 = jest.spyOn(socketService, 'setupSocketConnection');
+    const spy3 = jest.spyOn(component, 'createUser');
     component.ngOnInit();
-    expect(component.idRoom).toBe('id123');
     expect(spy1).toHaveBeenCalled();
-    expect(spy2).toHaveBeenCalled();
+    expect(component.room).toEqual(mockRoom)
+    expect(spy2).toHaveBeenCalledWith(mockRoom);
+    expect(spy3).toHaveBeenCalled()
   });
 
-  // createUser
-  it('createUser: should open dialogRef', () => {
+  // openCreateUserDialog
+  it('openCreateUserDialog: should open dialogRef', () => {
     const spy = jest.spyOn(dialog, 'open');
-    component.createUser();
+    component.openCreateUserDialog();
     expect(spy).toHaveBeenLastCalledWith(UserModalComponent, {
       hasBackdrop: true,
       width: '500px',
@@ -114,36 +111,26 @@ describe('RoomComponent', () => {
     });
   });
 
-  // validateRoom
-  it('validateRoom: should call httpService and setupSocketConnection', () => {
-    component.idRoom = 'id123';
-    const mockRoom: Room = {
-      _id: 'testId',
-      tittle: 'testName',
-      owner: 'testOwner',
-      averageScore: -1,
-      players: [],
-    };
-    const spy1 = jest.spyOn(service, 'findRoomById').mockReturnValue(of(mockRoom))
-    const spy2 = jest.spyOn(socketService, 'setupSocketConnection');
-    component.validateRoom();
-    expect(spy1).toHaveBeenCalledTimes(1)
-    expect(component.room).toEqual(mockRoom);
-    expect(spy2).toHaveBeenCalledWith(mockRoom);
-  });
-
-  it('validateRoom: should only call httpService', () => {
-    component.idRoom = 'testI';
-    const spy1 = jest.spyOn(service, 'findRoomById').mockImplementation(() => throwError(new Error('Room not found')))
-    const spy2 = jest.spyOn(socketService, 'setupSocketConnection');
-    const spy3 = jest.spyOn(router, 'navigateByUrl');
-
-    component.validateRoom();
-    expect(component.room).toEqual(undefined);
+  // createUser
+  it('createUser: open create user Dialod', () => {
+    const mockUser: User = {room_id: '123', username: 'Juan', visualization: 'player'}
+    localStorage.setItem('user', JSON.stringify(mockUser))
+    jest.spyOn(dialog, 'open').mockReturnValue({afterClosed: () => of([])} as MatDialogRef<UserModalComponent>)
+    const spy1 = jest.spyOn(component, 'openCreateUserDialog')
+    const spy2 = jest.spyOn(component, 'listenNewUser')
+    const spy3 = jest.spyOn(component, 'getPlayersInCache')
+    const spy4 = jest.spyOn(component, 'listenCardRevealed')
+    const spy5 = jest.spyOn(component, 'listenRestartGame')
+    component.createUser();
+    expect(component.user).toEqual(mockUser);
     expect(spy1).toHaveBeenCalled()
-    expect(spy2).not.toHaveBeenCalled();
-    expect(spy3).toHaveBeenCalledWith('**');
+    expect(spy2).toHaveBeenCalled()
+    expect(spy3).toHaveBeenCalled()
+    expect(spy4).toHaveBeenCalled()
+    expect(spy5).toHaveBeenCalled()
   });
+
+
 
   // allPlayersSelectedCard
   it('allPlayersSelectedCard: should return true', () => {
@@ -300,7 +287,6 @@ describe('RoomComponent', () => {
       is_owner: true,
     };
     jest.spyOn(component, 'setFirstPosition').mockImplementation()
-    component.idRoom = 'id123';
     component.user = mockUser
     component.players.shift()
     const spy = jest.spyOn(service, 'getPlayers').mockReturnValue(of(mockPlayers))
@@ -318,7 +304,6 @@ describe('RoomComponent', () => {
       selected_card: -3,
       is_owner: true,
     };
-    component.idRoom = 'id123';
     component.user = mockUser
     const spy1 = jest.spyOn(service, 'getPlayers').mockReturnValue(of(mockPlayers))
     const spy2 = jest.spyOn(component, 'setFirstPosition').mockImplementation()

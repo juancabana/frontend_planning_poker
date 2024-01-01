@@ -63,13 +63,12 @@ export class FormRoomComponent implements OnInit, OnDestroy {
     if (this.isButtonActive) {
       this.httpService
         .createNewRoom(this.formRoom.get('room_name')!.value)
-        .subscribe({
-          next: (data) => {
+        .subscribe(data => {
             this.setInLocalStorage('room', JSON.stringify(data));
             localStorage.removeItem('user');
             this.navigate(`room/${data._id}`);
           },
-        });
+        );
     }
     return;
   }

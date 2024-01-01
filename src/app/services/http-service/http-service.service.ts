@@ -11,6 +11,7 @@ import { Card } from './../../interfaces/card.interface';
 })
 export class HttpService {
   private url: string = env.url;
+  public room: Room | undefined
 
   constructor(private readonly httpClient: HttpClient) {}
 
@@ -32,5 +33,13 @@ export class HttpService {
 
   createNewRoom(tittle: string): Observable<Room> {
     return this.httpClient.post<Room>(`${this.url}/room`, { tittle });
+  }
+
+  setRoom(room: Room) {
+    this.room = room
+  }
+
+  getRoom() {
+    return this.room
   }
 }

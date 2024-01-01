@@ -115,4 +115,31 @@ describe('HttpServiceService', () => {
     expect(req.request.method).toBe('POST')
     expect(req.request.body).toEqual({tittle: 'Sprint 32'})
   });
+
+  // setRoom
+  it('setRoom: should set room', () => {
+    const mockRoom: Room = {
+      _id: '1234',
+      tittle: 'Sprint 32',
+      averageScore: -1,
+      owner: 'idUser123',
+      players: [],
+    };
+    service.setRoom(mockRoom)
+    expect(service.room).toBe(mockRoom)
+  })
+
+  // getRoom
+  it('getRoom: should get room', () => {
+    const mockRoom: Room = {
+      _id: '1234',
+      tittle: 'Sprint 32',
+      averageScore: -1,
+      owner: 'idUser123',
+      players: [],
+    };
+    service.room = mockRoom
+    const res = service.getRoom()
+    expect(res).toBe(mockRoom)
+  })
 });

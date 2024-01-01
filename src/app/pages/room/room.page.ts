@@ -1,7 +1,6 @@
-import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { Subject, Subscription, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 
 import { WebSocketService } from '../../services/web-socket/web-socket.service';
 import { HttpService } from '../../services/http-service/http-service.service';
@@ -20,7 +19,6 @@ import { CardSelected } from '../../interfaces/card-selected.interface';
   styleUrls: ['./room.page.sass'],
 })
 export class RoomComponent implements OnInit, OnDestroy {
-  public idRoom: string = '';
   private unsubscribe$ = new Subject<void>();
 
   public user!: User;
@@ -30,23 +28,35 @@ export class RoomComponent implements OnInit, OnDestroy {
   public isRevealable: Boolean = false;
   public isAvaliableToRestart: Boolean = false;
   public countingVotes: Boolean = false;
-  public ngZone: NgZone = new NgZone({});
 
   constructor(
     public socketService: WebSocketService,
-    public readonly route: ActivatedRoute,
-    private readonly router: Router,
     private readonly httpService: HttpService,
     public dialog: MatDialog
   ) {}
 
   ngOnInit() {
-    this.route.params.pipe(takeUntil(this.unsubscribe$)).subscribe((params) => {
-      this.idRoom = params['id_room'];
-      this.validateRoom();
-    });
+    if (this.httpService.getRoom()) {
+      this.room = this.httpService.getRoom()!;
+      this.socketService.setupSocketConnection(this.room);
+      this.createUser();
+    }
+  }
 
-    this.createUser()
+  openCreateUserDialog(): MatDialogRef<UserModalComponent> {
+    const dialogRef = this.dialog.open(UserModalComponent, {
+      hasBackdrop: true,
+      width: '500px',
+      panelClass: 'user-modal',
+      backdropClass: 'blur-backdrop',
+      disableClose: true,
+      data: { room_id: this.room._id },
+    });
+    return dialogRef;
+  }
+
+  createUser() {
+    this.openCreateUserDialog()
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(() => {
@@ -57,38 +67,6 @@ export class RoomComponent implements OnInit, OnDestroy {
         this.listenCardRevealed();
         this.listenRestartGame();
       });
-  }
-
-  setRoom(room: Room) {
-    this.room = room;
-    this.socketService.setupSocketConnection(this.room);
-  }
-
-  createUser(): MatDialogRef<UserModalComponent> {
-    const dialogRef = this.dialog.open(UserModalComponent, {
-      hasBackdrop: true,
-      width: '500px',
-      panelClass: 'user-modal',
-      backdropClass: 'blur-backdrop',
-      disableClose: true,
-      data: { room_id: this.idRoom },
-    });
-    return dialogRef;
-  }
-
-  validateRoom() {
-    this.httpService.findRoomById(this.idRoom).subscribe(
-      (response) => {
-        this.room = response;
-        this.socketService.setupSocketConnection(this.room);
-      },
-      () => {
-        this.ngZone.run(() => {
-          this.router.navigateByUrl('**');
-          return;
-        });
-      }
-    );
   }
 
   allPlayersSelectedCard(): boolean {
@@ -159,7 +137,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   }
 
   getPlayersInCache() {
-    this.httpService.getPlayers(this.idRoom).subscribe({
+    this.httpService.getPlayers(this.room._id!).subscribe({
       next: (cachedPlayers) => {
         if (
           !cachedPlayers.some((element: User) => element._id == this.user._id)
@@ -189,7 +167,7 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   getUser() {
     const userInLocalStorage = localStorage.getItem('user');
-    return userInLocalStorage ? JSON.parse(userInLocalStorage) : null;
+    return JSON.parse(userInLocalStorage!);
   }
 
   onCardSelected(data: CardSelected) {
