@@ -5,7 +5,6 @@ import { AppRoutingModule } from './router/app-routing.module';
 import { AppComponent } from './app.component';
 import { RoomComponent } from './pages/room/room.page';
 import { HomeComponent } from './pages/home/home.page';
-import { WebSocketService } from './services/web-socket/web-socket.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormRoomComponent } from './components/organisms/form-room/form-room.organism';
 import { HeaderComponent } from './components/molecules/header/header.molecule';
@@ -55,7 +54,6 @@ import { AverageFormatPipe } from './pipes/average-format.pipe';
     MatDialogModule,
     FormsModule,
   ],
-  providers: [WebSocketService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { environment as env } from '../../../environments/environment';
 import { User } from './../../interfaces/user.interface';
 import { Room } from './../../interfaces/room.interface';

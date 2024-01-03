@@ -1,6 +1,18 @@
-<section class="home">
-  <div class="home__content">
-    <logo [isHome]="true"></logo>
-    <form-room> </form-room>
-  </div>
-</section>
+<div class="welcome" *ngIf="showWelcomeMessage; else homePage" @fadeInOut>
+  <img srcset="./../assets/pragma.png" width="150" alt="" />
+  <img
+    class="welcome__image-text"
+    srcset="./../assets/logo.png"
+    width="200"
+    alt=""
+  />
+</div>
+<ng-template #homePage>
+
+  <section  class="home">
+    <div class="home__content">
+      <logo [isHome]="true"></logo>
+      <form-room> </form-room>
+    </div>
+  </section>
+</ng-template>

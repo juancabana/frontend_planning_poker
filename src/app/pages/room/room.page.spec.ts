@@ -24,8 +24,8 @@ describe('RoomComponent', () => {
   let fixture: ComponentFixture<RoomComponent>;
   let dialog: MatDialog;
   let socketService: WebSocketService;
-  let mockPlayers: User[];
   let service: HttpService
+  let mockPlayers: User[];
   const mockRoom: Room = {averageScore: -1, owner: '1234', players: [], tittle: 'Sprint 32', _id: 'id123'}
 
   beforeEach(() => {

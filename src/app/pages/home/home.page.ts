@@ -1,12 +1,26 @@
 import { Component } from '@angular/core';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.sass'],
+  animations: [
+    trigger('fadeInOut', [
+      transition(':leave', [animate(500, style({ opacity: 0 }))]),
+    ]),
+  ],
 })
 export class HomeComponent {
-  constructor() {}
+  showWelcomeMessage = true;
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    setTimeout(() => {
+      this.closeWelcomeMessage();
+    }, 1000);
+  }
+
+  closeWelcomeMessage() {
+    this.showWelcomeMessage = false;
+  }
 }
