@@ -34,6 +34,10 @@ describe('CardComponent', () => {
     component.player = { ...players[0] };
     component.visualizate_result = false;
     component.ngOnInit();
+    expect(component.selected_card).toBe(-3);
+    expect(component.isCardOption).toBe(false);
+    expect(component.selected_by_user).toBe(false);
+    expect(component.value).toBe('');
     expect(component.player.username).toBe('juan');
     expect(component.isSpectator).toBe(false);
   });
@@ -42,26 +46,11 @@ describe('CardComponent', () => {
     component.player = { ...players[1], selected_card: -3 };
     component.visualizate_result = false;
     component.ngOnInit();
+    expect(component.selected_card).toBe(-3);
+    expect(component.isCardOption).toBe(false);
+    expect(component.selected_by_user).toBe(false);
+    expect(component.value).toBe('');
     expect(component.player.username).toBe('daniel');
     expect(component.isSpectator).toBe(true);
-  });
-
-  // CARDOPTION
-
-  // Inputs
-  it('@Inputs: should be the same as what is sent by props (true)', () => {
-    component.selected_by_user = true;
-    expect(component.selected_by_user).toBe(true);
-  });
-
-  it('@Inputs: should be the same as what is sent by props (false)', () => {
-    component.selected_by_user = false;
-    expect(component.selected_by_user).toBe(false);
-  });
-
-  it('@Inputs: should be the same as what is sent by props (13)', () => {
-    const testValue = '13';
-    component.value = testValue;
-    expect(component.value).toBe(testValue);
   });
 });

@@ -13,7 +13,7 @@ const routes: Routes = [
   {
     path: 'room/:id_room',
     component: RoomComponent,
-    canActivate: [roomExistsGuard]
+    canActivate: [roomExistsGuard],
   },
   { path: '**', component: NotFoundComponent },
 ];

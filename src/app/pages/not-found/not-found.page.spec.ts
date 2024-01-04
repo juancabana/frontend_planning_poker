@@ -9,7 +9,7 @@ describe('NotFoundComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [NotFoundComponent, LogoComponent]
+      declarations: [NotFoundComponent, LogoComponent],
     });
     fixture = TestBed.createComponent(NotFoundComponent);
     component = fixture.componentInstance;
@@ -17,5 +17,5 @@ describe('NotFoundComponent', () => {
   });
   it('should create', () => {
     expect(component).toBeTruthy();
-  })
+  });
 });

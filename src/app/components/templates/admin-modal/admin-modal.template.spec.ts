@@ -14,9 +14,9 @@ describe('AdminModalComponent', () => {
     TestBed.configureTestingModule({
       declarations: [AdminModalComponent, ButtonSubmitComponent],
       providers: [
-        { provide: MatDialogRef, useValue: {close: jest.fn()} },
+        { provide: MatDialogRef, useValue: { close: jest.fn() } },
         { provide: MAT_DIALOG_DATA, useValue: [] },
-      ]
+      ],
     });
     fixture = TestBed.createComponent(AdminModalComponent);
     component = fixture.componentInstance;
@@ -39,24 +39,22 @@ describe('AdminModalComponent', () => {
     expect(spy).not.toHaveBeenCalled();
   });
 
-
   // setUserAdmin
   it('setUserAdmin: should set idUserSelected', () => {
     component.setUserAdmin('testId');
     expect(component.idUserSelected).toBe('testId');
-  })
+  });
 
   // ChecButton
   it('checkButton: should set isButtonEnabled to true', () => {
     component.idUserSelected = 'testId';
     component.checkButton();
     expect(component.isButtonEnabled).toBeTruthy();
-  })
+  });
 
   it('checkButton: should set isButtonEnabled to false', () => {
     component.idUserSelected = '';
     component.checkButton();
     expect(component.isButtonEnabled).toBeFalsy();
-  })
-
+  });
 });

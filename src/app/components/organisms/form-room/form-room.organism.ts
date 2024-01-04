@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { Subject, Subscription, takeUntil } from 'rxjs';
 import { NgZone } from '@angular/core';
+import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subject, takeUntil } from 'rxjs';
 
 import { HttpService } from '../../../services/http-service/http-service.service';
 
@@ -22,18 +22,18 @@ export class FormRoomComponent implements OnInit, OnDestroy {
     private ngZone: NgZone,
     public readonly router: Router,
     private readonly httpService: HttpService
-  ) {
-    this.createForm();
-  }
+  ) {}
 
   ngOnInit() {
+    this.createForm();
     this.subscribeValueChanges();
   }
 
   subscribeValueChanges() {
     this.formRoom
       .get('room_name')!
-      .valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
+      .valueChanges.pipe(takeUntil(this.unsubscribe$))
+      .subscribe(() => {
         this.setButtonActive();
       });
   }
@@ -63,18 +63,13 @@ export class FormRoomComponent implements OnInit, OnDestroy {
     if (this.isButtonActive) {
       this.httpService
         .createNewRoom(this.formRoom.get('room_name')!.value)
-        .subscribe(data => {
-            this.setInLocalStorage('room', JSON.stringify(data));
-            localStorage.removeItem('user');
-            this.navigate(`room/${data._id}`);
-          },
-        );
+        .subscribe((data) => {
+          localStorage.setItem('room', JSON.stringify(data));
+          localStorage.removeItem('user');
+          this.navigate(`room/${data._id}`);
+        });
     }
     return;
-  }
-
-  setInLocalStorage(key: string, data: string) {
-    localStorage.setItem(key, data);
   }
 
   navigate(url: string) {
@@ -85,5 +80,6 @@ export class FormRoomComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.unsubscribe$.next();
-    this.unsubscribe$.complete();  }
+    this.unsubscribe$.complete();
+  }
 }

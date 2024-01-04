@@ -1,14 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'shortName'
+  name: 'shortName',
 })
 export class ShortNamePipe implements PipeTransform {
-
   transform(value: string): unknown {
-    if (!value) return ''
+    if (!value) return '';
     const cleanTxt = value.replace(/\s+/g, '');
-    return cleanTxt.substring(0, 2).toUpperCase()
+    return cleanTxt.substring(0, 2).toUpperCase();
   }
-
 }

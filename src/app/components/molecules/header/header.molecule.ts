@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { InvitePlayersModalComponent } from '../../organisms/invite-players-modal/invite-players-modal.organism';
 import { MatDialog } from '@angular/material/dialog';
+
+import { InvitePlayersModalComponent } from '../../organisms/invite-players-modal/invite-players-modal.organism';
 
 @Component({
   selector: 'header',

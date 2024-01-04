@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { UserModalComponent } from './user-modal.template';
 import { ButtonSubmitComponent } from '../../atoms/button-submit/button-submit.atom';
@@ -14,7 +14,6 @@ describe('UserModalComponent', () => {
   let fixture: ComponentFixture<UserModalComponent>;
   let dialogRef: MatDialogRef<UserModalComponent>;
   let service: HttpService;
-
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -31,7 +30,7 @@ describe('UserModalComponent', () => {
                   room_id: '1234',
                 },
               },
-            }
+            },
           },
         },
         { provide: MAT_DIALOG_DATA, useValue: {} },
@@ -123,17 +122,6 @@ describe('UserModalComponent', () => {
     expect(component.isButtonActive).toBe(true);
   });
 
-  // visualization
-  it('visualization: should return player', () => {
-    component.isPlayer = true;
-    expect(component.visualization()).toBe('player');
-  });
-
-  it('visualization: should return spectator', () => {
-    component.isSpectator = true;
-    expect(component.visualization()).toBe('spectator');
-  });
-
   // createUser
   it('createUser: should not make any changes to the component', () => {
     component.isButtonActive = false;
@@ -143,15 +131,30 @@ describe('UserModalComponent', () => {
   });
 
   it('createUser: should create user', () => {
-    const mockUser: User = { _id: '1234', username: 'juan678', room_id: '1234', visualization: 'player' }
+    const mockUser: User = {
+      _id: '1234',
+      username: 'juan678',
+      room_id: '1234',
+      visualization: 'player',
+    };
     component.isButtonActive = true;
-    const localStorageSpy = jest.spyOn(component, 'setLocalStorage');
-    const spy1 = jest.spyOn(service, 'createUser')
-    const spy2 = jest.spyOn(service, 'createUser').mockReturnValue(of(mockUser))
-    component.createUser()
+    const spy1 = jest.spyOn(service, 'createUser');
+    const spy2 = jest
+      .spyOn(service, 'createUser')
+      .mockReturnValue(of(mockUser));
+    component.createUser();
     expect(spy1).toHaveBeenCalledTimes(1);
     expect(spy2).toHaveBeenCalledTimes(1);
-    expect(localStorageSpy).toHaveBeenCalled();
+  });
 
+  // visualization
+  it('visualization: should return player', () => {
+    component.isPlayer = true;
+    expect(component.visualization()).toBe('player');
+  });
+
+  it('visualization: should return spectator', () => {
+    component.isSpectator = true;
+    expect(component.visualization()).toBe('spectator');
   });
 });

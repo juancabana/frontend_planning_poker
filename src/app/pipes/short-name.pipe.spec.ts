@@ -4,12 +4,11 @@ describe('ShortNamePipe', () => {
   let pipe: ShortNamePipe;
 
   beforeEach(() => {
-    pipe = new ShortNamePipe()
-  })
+    pipe = new ShortNamePipe();
+  });
 
   it('should remove spaces and return the first two characters in uppercase', () => {
     const result = pipe.transform('j uan');
-
     expect(result).toEqual('JU');
   });
 

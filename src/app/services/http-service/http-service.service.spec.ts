@@ -2,7 +2,6 @@ import { TestBed } from '@angular/core/testing';
 
 import { HttpService } from './http-service.service';
 import { User } from 'src/app/interfaces/user.interface';
-import { of } from 'rxjs';
 import {
   HttpTestingController,
   HttpClientTestingModule,
@@ -108,12 +107,12 @@ describe('HttpServiceService', () => {
       owner: 'idUser123',
       players: [],
     };
-    service.createNewRoom('Sprint 32').subscribe()
-    const req = httpMock.expectOne(`${url}/room`)
-    req.flush(mockRoom)
-    expect(req.request.url).toBe(`${url}/room`)
-    expect(req.request.method).toBe('POST')
-    expect(req.request.body).toEqual({tittle: 'Sprint 32'})
+    service.createNewRoom('Sprint 32').subscribe();
+    const req = httpMock.expectOne(`${url}/room`);
+    req.flush(mockRoom);
+    expect(req.request.url).toBe(`${url}/room`);
+    expect(req.request.method).toBe('POST');
+    expect(req.request.body).toEqual({ tittle: 'Sprint 32' });
   });
 
   // setRoom
@@ -125,9 +124,9 @@ describe('HttpServiceService', () => {
       owner: 'idUser123',
       players: [],
     };
-    service.setRoom(mockRoom)
-    expect(service.room).toBe(mockRoom)
-  })
+    service.setRoom(mockRoom);
+    expect(service.room).toBe(mockRoom);
+  });
 
   // getRoom
   it('getRoom: should get room', () => {
@@ -138,8 +137,8 @@ describe('HttpServiceService', () => {
       owner: 'idUser123',
       players: [],
     };
-    service.room = mockRoom
-    const res = service.getRoom()
-    expect(res).toBe(mockRoom)
-  })
+    service.room = mockRoom;
+    const res = service.getRoom();
+    expect(res).toBe(mockRoom);
+  });
 });

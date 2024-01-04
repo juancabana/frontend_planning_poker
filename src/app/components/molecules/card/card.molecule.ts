@@ -10,7 +10,7 @@ export class CardComponent implements OnInit {
   @Input() public player?: User;
   @Input() public visualizate_result: Boolean = false;
   @Input() public selected_card: number = -3;
-  @Input() public isCardIption = false;
+  @Input() public isCardOption = false;
   @Input() public selected_by_user = false;
   @Input() public value = '';
   public isSpectator: boolean = false;

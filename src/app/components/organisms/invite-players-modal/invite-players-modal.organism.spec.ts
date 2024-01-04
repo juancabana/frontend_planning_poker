@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Clipboard } from '@angular/cdk/clipboard';
 
-
 import { InvitePlayersModalComponent } from './invite-players-modal.organism';
 import { ButtonSubmitComponent } from '../../atoms/button-submit/button-submit.atom';
 
@@ -16,10 +15,10 @@ describe('InvitePlayersModalComponent', () => {
     TestBed.configureTestingModule({
       declarations: [InvitePlayersModalComponent, ButtonSubmitComponent],
       providers: [
-        { provide: MatDialogRef, useValue: { close: jest.fn()} },
+        { provide: MatDialogRef, useValue: { close: jest.fn() } },
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: Clipboard, useValue: { copy: jest.fn() } },
-      ]
+      ],
     });
     fixture = TestBed.createComponent(InvitePlayersModalComponent);
     component = fixture.componentInstance;
@@ -27,13 +26,7 @@ describe('InvitePlayersModalComponent', () => {
     clipboard = TestBed.inject(Clipboard) as jest.Mocked<Clipboard>;
   });
 
-  // closeModal
-  it('closeModal: should close modal', () => {
-    const spy = jest.spyOn(dialogRef, 'close');
-    component.closeModal();
-    expect(spy).toHaveBeenCalled();
-  })
-
+  // copyLink
   it('copyLink: should copy link and close modal', () => {
     component.actualUrl = 'http://localhost:4200';
     const copySpy = jest.spyOn(clipboard, 'copy');
@@ -43,4 +36,10 @@ describe('InvitePlayersModalComponent', () => {
     expect(closeModalSpy).toHaveBeenCalled();
   });
 
+  // closeModal
+  it('closeModal: should close modal', () => {
+    const spy = jest.spyOn(dialogRef, 'close');
+    component.closeModal();
+    expect(spy).toHaveBeenCalled();
+  });
 });

@@ -1,9 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { Subscription } from 'rxjs';
 
 import { HttpService } from '../../../services/http-service/http-service.service';
-
 import { NewUser } from './interfaces/new-user.interface';
 
 @Component({
@@ -11,7 +9,7 @@ import { NewUser } from './interfaces/new-user.interface';
   templateUrl: './user-modal.template.html',
   styleUrls: ['./user-modal.template.sass'],
 })
-export class UserModalComponent implements OnInit {
+export class UserModalComponent {
   public username: string = '';
   public isButtonActive: boolean = false;
   public isPlayer: boolean = false;
@@ -21,8 +19,6 @@ export class UserModalComponent implements OnInit {
     private readonly dialogRef: MatDialogRef<UserModalComponent>,
     private readonly httpService: HttpService
   ) {}
-
-  ngOnInit(): void {}
 
   closeModal(): void {
     this.dialogRef.close();
@@ -63,22 +59,15 @@ export class UserModalComponent implements OnInit {
 
   createUser() {
     if (!this.isButtonActive) return;
-
     const user: NewUser = {
       username: this.username,
       visualization: this.visualization(),
     };
-
     const { room_id } = this.dialogRef._containerInstance._config.data;
-
     this.httpService.createUser({ ...user, room_id }).subscribe((newUser) => {
-      this.setLocalStorage('user', JSON.stringify(newUser));
+      localStorage.setItem('user', JSON.stringify(newUser));
       this.closeModal();
     });
-  }
-
-  setLocalStorage(key: string, data: string) {
-    localStorage.setItem(key, data);
   }
 
   visualization() {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { environment as env } from '../../../environments/environment';
 import { User } from './../../interfaces/user.interface';
 import { Room } from './../../interfaces/room.interface';
@@ -11,7 +11,7 @@ import { Card } from './../../interfaces/card.interface';
 })
 export class HttpService {
   private url: string = env.url;
-  public room: Room | undefined
+  public room: Room | undefined;
 
   constructor(private readonly httpClient: HttpClient) {}
 
@@ -36,10 +36,10 @@ export class HttpService {
   }
 
   setRoom(room: Room) {
-    this.room = room
+    this.room = room;
   }
 
   getRoom() {
-    return this.room
+    return this.room;
   }
 }

@@ -13,7 +13,7 @@ export class ButtonSubmitComponent implements OnInit {
   @Input() public isPlayerSubmit: boolean = false;
   @Input() public isInvite: boolean = false;
   @Input() public isAdminModal: boolean = false;
-  public content: string = ''
+  public content: string = '';
 
   ngOnInit(): void {
     this.setText();
@@ -24,10 +24,14 @@ export class ButtonSubmitComponent implements OnInit {
   }
 
   setText() {
-    this.content = this.isHome ? 'Crear partida'
-      : this.isPlayerSubmit ? 'Continuar'
-      : this.isInvite ? 'Copiar link'
-      : this.isAdminModal ? 'Aceptar'
+    this.content = this.isHome
+      ? 'Crear partida'
+      : this.isPlayerSubmit
+      ? 'Continuar'
+      : this.isInvite
+      ? 'Copiar link'
+      : this.isAdminModal
+      ? 'Aceptar'
       : '';
   }
 }

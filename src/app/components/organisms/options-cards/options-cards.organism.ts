@@ -33,7 +33,7 @@ export class optionsCards implements OnInit {
     this.selectedCard = cardId;
 
     const idUser = JSON.parse(localStorage.getItem('user')!)._id;
-    this.cardOptions.map(card => {
+    this.cardOptions.map((card) => {
       card.id == cardId
         ? (card.selected_by_user = true)
         : (card.selected_by_user = false);

@@ -1,11 +1,14 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+} from '@angular/core/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { HomeComponent } from './home.page';
 import { LogoComponent } from '../../components/atoms/logo/logo.atom';
 import { FormRoomComponent } from '../../components/organisms/form-room/form-room.organism';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ButtonSubmitComponent } from '../../components/atoms/button-submit/button-submit.atom';
-import { ReactiveFormsModule } from '@angular/forms';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -13,15 +16,27 @@ describe('HomeComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [HomeComponent, LogoComponent, FormRoomComponent, ButtonSubmitComponent],
-      imports: [HttpClientTestingModule, ReactiveFormsModule]
+      declarations: [HomeComponent, LogoComponent, FormRoomComponent],
+      imports: [BrowserAnimationsModule],
     });
     fixture = TestBed.createComponent(HomeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  })
+  // ngOnInit
+  it('ngOnInit: should call closeWellcomeMessage function', fakeAsync(() => {
+    const spy = jest
+      .spyOn(component, 'closeWelcomeMessage')
+      .mockImplementation();
+    component.ngOnInit();
+    tick(1000);
+    expect(spy).toHaveBeenCalled();
+  }));
+
+  // closeWelcomeMessage
+  it('closeWelcomeMessage: should set showWelcomeMessage property to false', () => {
+    component.closeWelcomeMessage();
+    expect(component.showWelcomeMessage).toBe(false);
+  });
 });

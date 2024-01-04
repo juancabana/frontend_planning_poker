@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { optionsCards } from './options-cards.organism';
 
@@ -12,7 +12,7 @@ describe('CardMenuComponent', () => {
   let component: optionsCards;
   let fixture: ComponentFixture<optionsCards>;
   let webSocketService: WebSocketService;
-  let service: HttpService
+  let service: HttpService;
 
   const mockCards: Card[] = [
     {
@@ -106,7 +106,7 @@ describe('CardMenuComponent', () => {
       declarations: [optionsCards],
       providers: [
         { provide: WebSocketService, useValue: { emit: jest.fn() } },
-        HttpService
+        HttpService,
       ],
       imports: [HttpClientTestingModule],
     });
@@ -115,24 +115,26 @@ describe('CardMenuComponent', () => {
     webSocketService = TestBed.inject(WebSocketService);
     fixture.detectChanges();
     component.cardOptions = mockCards;
-    service = TestBed.inject(HttpService)
+    service = TestBed.inject(HttpService);
   });
 
   // ngOnInit
   it('ngOnInit: should call getCards', () => {
     localStorage.setItem('user', JSON.stringify({ _id: 1 }));
-    const request = jest.spyOn(service, 'getCards').mockReturnValue(of(mockCards))
-    component.ngOnInit()
-    expect(request).toHaveBeenCalledTimes(1)
-    expect(component.cardOptions).toBe(mockCards)
+    const request = jest
+      .spyOn(service, 'getCards')
+      .mockReturnValue(of(mockCards));
+    component.ngOnInit();
+    expect(request).toHaveBeenCalledTimes(1);
+    expect(component.cardOptions).toBe(mockCards);
   });
 
   // selectCard
   it('selectCard: Should be selected (5)', () => {
     const cardId = 3;
     localStorage.setItem('user', JSON.stringify({ _id: 1 }));
-    jest.spyOn(component, 'ngOnInit').mockImplementation()
-    const spy2 = jest.spyOn(component.cardSelectedEvent, 'emit')
+    jest.spyOn(component, 'ngOnInit').mockImplementation();
+    const spy2 = jest.spyOn(component.cardSelectedEvent, 'emit');
     const spy3 = jest.spyOn(component, 'emitCardSelected').mockImplementation();
     component.selectCard(cardId);
 
@@ -143,23 +145,21 @@ describe('CardMenuComponent', () => {
         : expect(card.selected_by_user).not.toBeTruthy;
     });
     expect(component.cardSelected).toBe(5);
-    expect(spy2).toHaveBeenCalledWith({idUser: 1, cardSelected: 5})
-    expect(spy3).toHaveBeenCalledWith(3, 1)
+    expect(spy2).toHaveBeenCalledWith({ idUser: 1, cardSelected: 5 });
+    expect(spy3).toHaveBeenCalledWith(3, 1);
   });
 
   // emitCardSelected
   it('emitCardSelected: Should emit cardSelected', () => {
     const idCard = 3;
     const idUser = '1';
-    component.cardSelected = 5
+    component.cardSelected = 5;
     const emitSpy = jest.spyOn(webSocketService, 'emit');
-
     component.emitCardSelected(idCard, idUser);
-
     expect(emitSpy).toHaveBeenCalledWith('cardSelected', {
       index: 3,
       lastSelected: 5,
-      ID_user: '1'
-    })
+      ID_user: '1',
+    });
   });
 });

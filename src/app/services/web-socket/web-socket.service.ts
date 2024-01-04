@@ -1,4 +1,4 @@
-import {  Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { io } from 'socket.io-client';
 import { environment as env } from './../../../environments/environment';
@@ -23,7 +23,7 @@ export class WebSocketService {
       query: {
         nameRoom: this.room.tittle,
         user: localStorage.getItem('user'),
-      }
+      },
     };
 
     this.socket = io(env.urlSocket, options);

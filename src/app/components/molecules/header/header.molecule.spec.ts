@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 import { HeaderComponent } from './header.molecule';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { LogoComponent } from '../../atoms/logo/logo.atom';
 import { ShortNamePipe } from '../../../pipes/short-name.pipe';
 
@@ -12,26 +12,29 @@ describe('HeaderComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [HeaderComponent, LogoComponent, ShortNamePipe],
-      imports: [MatDialogModule]
+      imports: [MatDialogModule],
     });
     fixture = TestBed.createComponent(HeaderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    localStorage.removeItem('user')
+    localStorage.removeItem('user');
   });
 
   // ngOnInit
   it('ngOnInit: should set juan to username', () => {
-    localStorage.setItem('user', JSON.stringify( {
-      username: 'juan',
-      visualization: 'player',
-      room_id: '1233432',
-    }))
-    component.roomName = 'Sprint 32'
-    component.ngOnInit()
-    expect(component.roomName).toBe('Sprint 32')
-    expect(component.username).toBe('juan')
-  })
+    localStorage.setItem(
+      'user',
+      JSON.stringify({
+        username: 'juan',
+        visualization: 'player',
+        room_id: '1233432',
+      })
+    );
+    component.roomName = 'Sprint 32';
+    component.ngOnInit();
+    expect(component.roomName).toBe('Sprint 32');
+    expect(component.username).toBe('juan');
+  });
 
   // openDialog
   it('openDialog: Should open dialog', () => {

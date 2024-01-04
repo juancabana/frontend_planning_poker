@@ -8,7 +8,7 @@ describe('ResultsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ResultsComponent]
+      declarations: [ResultsComponent],
     });
     fixture = TestBed.createComponent(ResultsComponent);
     component = fixture.componentInstance;
@@ -17,10 +17,10 @@ describe('ResultsComponent', () => {
 
   // ngOnInit
   it('ngOnInit: should call setAverage', () => {
-    const spy = jest.spyOn(component, 'setAverage')
-    component.ngOnInit()
-    expect(spy).toHaveBeenCalled()
-  })
+    const spy = jest.spyOn(component, 'setAverage');
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalled();
+  });
 
   // setAverage
   it('setAverage: should return average and count only positive values', () => {
@@ -33,17 +33,16 @@ describe('ResultsComponent', () => {
     ];
     component.setAverage();
     expect(component.average).toBe(13);
-  })
+  });
 
   // isNumber
   it('isNumber: should return TRUE because average is greater than 0', () => {
     component.average = 1;
     expect(component.isNumber()).toBeTruthy();
-  })
+  });
 
   it(`isNumber: should return FALSE because average isn't greater than 0`, () => {
     component.average = -1;
     expect(component.isNumber()).toBeFalsy();
-  })
-
+  });
 });

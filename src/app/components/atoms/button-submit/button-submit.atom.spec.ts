@@ -16,13 +16,11 @@ describe('ButtonSubmitComponent', () => {
   });
 
   // ngOnInit
-    it('ngOnInit: should call setText method', () => {
-      component.isInvite = true
-      const spy = jest.spyOn(component, 'setText')
-      component.ngOnInit()
-      expect(spy).toHaveBeenCalled()
-      expect(component.content).toBe('Copiar link')
-    })
+  it('ngOnInit: should call setText method', () => {
+    const spy = jest.spyOn(component, 'setText');
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalled();
+  });
 
   // onClick
   it('onClick: should emit submit', () => {
@@ -38,19 +36,19 @@ describe('ButtonSubmitComponent', () => {
     expect(component.content).toBe('Crear partida');
   });
 
-  it('setText: Continuar', () => {
+  it('setText: sould return Continuar', () => {
     component.isPlayerSubmit = true;
     component.setText();
     expect(component.content).toBe('Continuar');
   });
 
-  it('setText: Copiar link', () => {
+  it('setText: sould return Copiar link', () => {
     component.isInvite = true;
     component.setText();
     expect(component.content).toBe('Copiar link');
   });
 
-  it(`setText: isAdminModal`, () => {
+  it(`setText: sould return Aceptar`, () => {
     component.isAdminModal = true;
     component.setText();
     expect(component.content).toBe('Aceptar');
