@@ -25,9 +25,9 @@
 <div class="card card--spectator" *ngIf="isSpectator && !isCardOption">
   <div class="card__wrapper">
     <div class="card__is-viewer">
-      <span class="card__is-viever-text" for="">{{
-        player!.username | shortName
-      }}</span>
+      <span class="card__is-viever-text" for=""
+        >{{ player!.username | shortName }}</span
+      >
     </div>
     <span class="card__name" for="">{{ player?.username }}</span>
   </div>

@@ -11,7 +11,7 @@ import { Card } from '../../../interfaces/card.interface';
   templateUrl: './options-cards.organism.html',
   styleUrls: ['./options-cards.organism.sass'],
 })
-export class optionsCards implements OnInit {
+export class OptionsCards implements OnInit {
   @Input() public visualization!: string;
   @Output() public cardSelectedEvent = new EventEmitter<CardSelected>();
   public cardOptions: Card[] = [];

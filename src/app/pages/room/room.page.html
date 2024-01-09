@@ -41,17 +41,10 @@
           <div class="room__table">
             <button
               class="room__table-button"
-              *ngIf="isRevealable"
-              (click)="revealCards()"
+              *ngIf="revealCardsOrRestartText"
+              (click)="revealCardsOrRestart()"
             >
-              Revelar cartas
-            </button>
-            <button
-              class="room__table-button"
-              *ngIf="isAvaliableToRestart"
-              (click)="restart()"
-            >
-              Nueva votación
+              {{revealCardsOrRestartText}}
             </button>
             <div class="room__wrapper-counting" *ngIf="countingVotes">
               <img

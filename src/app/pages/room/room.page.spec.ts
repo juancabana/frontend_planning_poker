@@ -122,11 +122,9 @@ describe('RoomComponent', () => {
       visualization: 'player',
     };
     localStorage.setItem('user', JSON.stringify(mockUser));
-    jest
-      .spyOn(dialog, 'open')
-      .mockReturnValue({
-        afterClosed: () => of([]),
-      } as MatDialogRef<UserModalComponent>);
+    jest.spyOn(dialog, 'open').mockReturnValue({
+      afterClosed: () => of([]),
+    } as MatDialogRef<UserModalComponent>);
     const spy1 = jest.spyOn(component, 'openCreateUserDialog');
     const spy2 = jest.spyOn(component, 'listenNewUser');
     const spy3 = jest.spyOn(component, 'getPlayersInCache');
@@ -437,11 +435,9 @@ describe('RoomComponent', () => {
       panelClass: 'admin-modal',
     };
     const mockIdUser = '123';
-    const spy1 = jest
-      .spyOn(dialog, 'open')
-      .mockReturnValue({
-        afterClosed: () => of(mockIdUser),
-      } as MatDialogRef<AdminModalComponent>);
+    const spy1 = jest.spyOn(dialog, 'open').mockReturnValue({
+      afterClosed: () => of(mockIdUser),
+    } as MatDialogRef<AdminModalComponent>);
     const spy2 = jest.spyOn(socketService, 'emit').mockImplementation();
     component.players = mockPlayers;
     component.user = mockUser;
@@ -471,11 +467,9 @@ describe('RoomComponent', () => {
       panelClass: 'admin-modal',
     };
     const mockIdUser = '1235';
-    const spy1 = jest
-      .spyOn(dialog, 'open')
-      .mockReturnValue({
-        afterClosed: () => of(mockIdUser),
-      } as MatDialogRef<AdminModalComponent>);
+    const spy1 = jest.spyOn(dialog, 'open').mockReturnValue({
+      afterClosed: () => of(mockIdUser),
+    } as MatDialogRef<AdminModalComponent>);
     const spy2 = jest.spyOn(socketService, 'emit').mockImplementation();
     component.players = mockPlayers;
     component.user = mockUser;

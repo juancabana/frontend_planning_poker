@@ -8,11 +8,13 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class ButtonSubmitComponent implements OnInit {
   @Output() submit = new EventEmitter<void>();
 
+  @Input() public type: string = 'button';
   @Input() public isActive: boolean = false;
   @Input() public isHome: boolean = false;
   @Input() public isPlayerSubmit: boolean = false;
   @Input() public isInvite: boolean = false;
   @Input() public isAdminModal: boolean = false;
+
   public content: string = '';
 
   ngOnInit(): void {
@@ -20,7 +22,10 @@ export class ButtonSubmitComponent implements OnInit {
   }
 
   onClick() {
-    this.submit.emit();
+    if (this.type === 'submit') {
+      this.submit.emit();
+    }
+    return;
   }
 
   setText() {

@@ -1,13 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { RoomComponent } from '../pages/room/room.page';
-import { HomeComponent } from '../pages/home/home.page';
-import { NotFoundComponent } from '../pages/not-found/not-found.page';
-import { roomExistsGuard } from '../guards/room-exists.guard';
+import { HomeComponent } from './pages/home/home.page';
+import { RoomComponent } from './pages/room/room.page';
+import { roomExistsGuard } from './guards/room-exists.guard';
 
 const routes: Routes = [
   {
     path: '',
+    redirectTo: 'create-room',
+    pathMatch: 'full',
+  },
+  {
+    path: 'create-room',
     component: HomeComponent,
   },
   {
@@ -15,7 +19,11 @@ const routes: Routes = [
     component: RoomComponent,
     canActivate: [roomExistsGuard],
   },
-  { path: '**', component: NotFoundComponent },
+  {
+    path: '**',
+    redirectTo: 'create-room',
+    pathMatch: 'full',
+  },
 ];
 
 @NgModule({

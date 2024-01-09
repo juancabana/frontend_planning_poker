@@ -21,17 +21,19 @@ export const roomExistsGuard: CanActivateFn = (
 
   let result: Subject<boolean | UrlTree> = new Subject();
 
-  service.findRoomById(idRoom).pipe(
-    map((room: Room) => {
-      service.setRoom(room);
-      return true;
-    }),
-    catchError(() => {
-      localStorage.removeItem('user');
-      router.navigateByUrl('**');
-      return of(false);
-    })
-  ).subscribe(res => result.next(res));
+  service
+    .findRoomById(idRoom)
+    .pipe(
+      map((room: Room) => {
+        service.setRoom(room);
+        return true;
+      }),
+      catchError(() => {
+        localStorage.removeItem('user');
+        router.navigateByUrl('**');
+        return of(false);
+      })
+    )
+    .subscribe((res) => result.next(res));
   return result.asObservable();
-
 };

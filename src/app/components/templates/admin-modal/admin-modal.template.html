@@ -15,19 +15,17 @@
             (click)="setUserAdmin(item._id!)"
           />
           <label class="admin-modal__checkbox-text" for="{{ item._id }}">
-            {{
-              item._id == idThisUser
-                ? "Yo (" + item.username + ")"
-                : item.username
-            }}
+            {{ item._id == idThisUser ? "Yo (" + item.username + ")" :
+            item.username }}
           </label>
         </div>
       </li>
     </ul>
     <button-submit
-    [isActive]="isButtonEnabled"
-    [isAdminModal]="true"
-    (submit)="submitAdminData()"
-  ></button-submit>
+      [isActive]="isButtonEnabled"
+      [isAdminModal]="true"
+      [type]="'submit'"
+      (submit)="submitAdminData()"
+    ></button-submit>
   </div>
 </div>

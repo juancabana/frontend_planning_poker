@@ -27,6 +27,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   public room!: Room;
   public isRevealable: Boolean = false;
   public isAvaliableToRestart: Boolean = false;
+  public revealCardsOrRestartText: string = '';
   public countingVotes: Boolean = false;
 
   constructor(
@@ -36,15 +37,13 @@ export class RoomComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    if (this.httpService.getRoom()) {
-      this.room = this.httpService.getRoom()!;
-      this.socketService.setupSocketConnection(this.room);
-      this.createUser();
-    }
+    this.room = this.httpService.getRoom()!;
+    this.socketService.setupSocketConnection(this.room);
+    this.createUser();
   }
 
   openCreateUserDialog(): MatDialogRef<UserModalComponent> {
-    const dialogRef = this.dialog.open(UserModalComponent, {
+    return this.dialog.open(UserModalComponent, {
       hasBackdrop: true,
       width: '500px',
       panelClass: 'user-modal',
@@ -52,7 +51,6 @@ export class RoomComponent implements OnInit, OnDestroy {
       disableClose: true,
       data: { room_id: this.room._id },
     });
-    return dialogRef;
   }
 
   createUser() {
@@ -60,8 +58,7 @@ export class RoomComponent implements OnInit, OnDestroy {
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(() => {
-        const user = this.getUser();
-        this.user = user;
+        this.user = this.getUser();
         this.listenNewUser();
         this.getPlayersInCache();
         this.listenCardRevealed();
@@ -80,6 +77,7 @@ export class RoomComponent implements OnInit, OnDestroy {
     if (this.allPlayersSelectedCard()) {
       if (this.user.is_owner) {
         this.isRevealable = true;
+        this.revealCardsOrRestartText = 'Revelar cartas';
       } else {
         this.countingVotes = true;
       }
@@ -121,6 +119,7 @@ export class RoomComponent implements OnInit, OnDestroy {
 
         this.isAvaliableToRestart = false;
         this.isRevealable = false;
+        this.revealCardsOrRestartText = '';
         this.cardsSelected = [];
         this.countingVotes = false;
       });
@@ -195,6 +194,7 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.cardsSelected = result;
     this.isRevealable = false;
     this.isAvaliableToRestart = true;
+    this.revealCardsOrRestartText = 'Nueva votación';
   }
 
   restart() {
@@ -211,6 +211,7 @@ export class RoomComponent implements OnInit, OnDestroy {
         this.socketService.emit('restart', idUser);
         this.isAvaliableToRestart = false;
         this.isRevealable = false;
+        this.revealCardsOrRestartText = '';
         this.cardsSelected = [];
         this.countingVotes = false;
         this.players = this.players.map((player) => {
@@ -226,6 +227,10 @@ export class RoomComponent implements OnInit, OnDestroy {
           return player;
         });
       });
+  }
+
+  revealCardsOrRestart() {
+    this.isAvaliableToRestart ? this.restart() : this.revealCards();
   }
 
   ngOnDestroy(): void {

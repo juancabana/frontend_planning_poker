@@ -37,9 +37,10 @@
       </div>
     </div>
     <button-submit
-    [isActive]="isButtonActive"
-    [isPlayerSubmit]="true"
-    (submit)="createUser()"
-  ></button-submit>
+      [isActive]="isButtonActive"
+      [isPlayerSubmit]="true"
+      [type]="'button'"
+      (click)="createUser()"
+    ></button-submit>
   </form>
 </div>

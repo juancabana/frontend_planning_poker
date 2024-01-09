@@ -1,6 +1,6 @@
 <button
   class="button-submit"
+  [type]="type"
   [ngClass]="{ 'button-submit--active': isActive }"
-  type="submit"
   (click)="onClick()"
 >{{ content }}</button>

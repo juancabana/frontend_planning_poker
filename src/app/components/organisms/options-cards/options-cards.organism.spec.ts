@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-import { optionsCards } from './options-cards.organism';
+import { OptionsCards } from './options-cards.organism';
 
 import { HttpService } from '../../../services/http-service/http-service.service';
 import { WebSocketService } from '../../../services/web-socket/web-socket.service';
@@ -9,8 +9,8 @@ import { Card } from 'src/app/interfaces/card.interface';
 import { of } from 'rxjs';
 
 describe('CardMenuComponent', () => {
-  let component: optionsCards;
-  let fixture: ComponentFixture<optionsCards>;
+  let component: OptionsCards;
+  let fixture: ComponentFixture<OptionsCards>;
   let webSocketService: WebSocketService;
   let service: HttpService;
 
@@ -103,14 +103,14 @@ describe('CardMenuComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [optionsCards],
+      declarations: [OptionsCards],
       providers: [
         { provide: WebSocketService, useValue: { emit: jest.fn() } },
         HttpService,
       ],
       imports: [HttpClientTestingModule],
     });
-    fixture = TestBed.createComponent(optionsCards);
+    fixture = TestBed.createComponent(OptionsCards);
     component = fixture.componentInstance;
     webSocketService = TestBed.inject(WebSocketService);
     fixture.detectChanges();
