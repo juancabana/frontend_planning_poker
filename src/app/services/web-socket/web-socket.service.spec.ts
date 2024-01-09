@@ -1,7 +1,7 @@
 import { Room } from 'src/app/interfaces/room.interface';
 import { WebSocketService } from './web-socket.service';
 import { TestBed } from '@angular/core/testing';
-import { Subscriber, of } from 'rxjs';
+import { of } from 'rxjs';
 import { User } from 'src/app/interfaces/user.interface';
 import { Socket, io } from 'socket.io-client';
 
@@ -52,13 +52,10 @@ describe('WebSocketService', () => {
     webSocketService.onEvent<User[]>('testEventUser').subscribe({
       next: (data: User[]) => {
         expect(data).toBeDefined();
-        // expect(spy1).toHaveBeenCalled();
-        // expect(spy).toHaveBeenCalledWith('testEventUser');
         expect(spy1).toHaveBeenCalledWith(
           'testEventUser',
           expect.any(Function)
         );
-        // done()
       },
     });
   });
