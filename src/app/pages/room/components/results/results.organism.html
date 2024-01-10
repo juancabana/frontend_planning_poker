@@ -9,17 +9,14 @@
     <ng-container *ngFor="let card of cardsRevealed; let index = index">
       <div class="results__card">
         <div class="results__card-to-select">
-          <span class="results__value-card">
-            <ng-container *ngIf="card.value == -2; else coffee">☕</ng-container>
-            <ng-template #coffee>
-              <ng-container *ngIf="card.value == -1; else question">?</ng-container>
-              <ng-template #question>{{ card.value }}</ng-template>
-            </ng-template>
-          </span>
+          <span class="results__value-card" *ngIf="card.value == -2">☕</span>
+          <span class="results__value-card" *ngIf="card.value == -1">?</span>
+          <span class="results__value-card" *ngIf="card.value >= 0">{{card.value}}</span>
         </div>
         <span class="results__value-description">{{ card.amount }}
-          <span *ngIf="card.amount > 1; else singleVote">votos</span>
-          <ng-template #singleVote>voto</ng-template></span>
+          <span *ngIf="card.amount > 1">votos</span>
+          <span *ngIf="card.amount === 1">voto</span>
+        </span>
       </div>
     </ng-container>
   </div>
