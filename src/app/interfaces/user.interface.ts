@@ -1,3 +1,5 @@
+import { Card } from "./card.interface";
+
 export interface User {
   _id?: string;
   username: string;
@@ -5,6 +7,6 @@ export interface User {
   visualization: "player" |  "spectator";
   is_owner?: boolean;
   is_connected?: boolean;
-  selected_card?: number;
+  selected_card?: Card;
 }
 

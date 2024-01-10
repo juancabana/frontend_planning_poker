@@ -10,22 +10,16 @@
       <div class="results__card">
         <div class="results__card-to-select">
           <span class="results__value-card">
-            <ng-container *ngIf="card.value == -2; else coffee"
-              >☕</ng-container
-            >
+            <ng-container *ngIf="card.value == -2; else coffee">☕</ng-container>
             <ng-template #coffee>
-              <ng-container *ngIf="card.value == -1; else question"
-                >?</ng-container
-              >
+              <ng-container *ngIf="card.value == -1; else question">?</ng-container>
               <ng-template #question>{{ card.value }}</ng-template>
             </ng-template>
           </span>
         </div>
-        <span class="results__value-description"
-          >{{ card.amount }}
-          <span *ngIf="card.amount > 1; else singleVote">votos</span
-          ><ng-template #singleVote>voto</ng-template></span
-        >
+        <span class="results__value-description">{{ card.amount }}
+          <span *ngIf="card.amount > 1; else singleVote">votos</span>
+          <ng-template #singleVote>voto</ng-template></span>
       </div>
     </ng-container>
   </div>

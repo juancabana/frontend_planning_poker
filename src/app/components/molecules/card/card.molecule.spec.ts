@@ -34,7 +34,7 @@ describe('CardComponent', () => {
     component.player = { ...players[0] };
     component.visualizate_result = false;
     component.ngOnInit();
-    expect(component.selected_card).toBe(-3);
+    expect(component.card).toBe(-3);
     expect(component.isCardOption).toBe(false);
     expect(component.selected_by_user).toBe(false);
     expect(component.value).toBe('');
@@ -46,7 +46,7 @@ describe('CardComponent', () => {
     component.player = { ...players[1], selected_card: -3 };
     component.visualizate_result = false;
     component.ngOnInit();
-    expect(component.selected_card).toBe(-3);
+    expect(component.card).toBe(-3);
     expect(component.isCardOption).toBe(false);
     expect(component.selected_by_user).toBe(false);
     expect(component.value).toBe('');

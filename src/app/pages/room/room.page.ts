@@ -70,7 +70,7 @@ export class RoomComponent implements OnInit, OnDestroy {
     const usersTypePlayers = this.players.filter(
       ({ visualization }) => visualization == 'player'
     );
-    return usersTypePlayers.every((player) => player.selected_card! > -3);
+    return usersTypePlayers.every((player) => player.selected_card?.value! > -3);
   }
 
   activateCountingOrReveal() {
@@ -177,7 +177,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   }
 
   revealCards() {
-    const cards = this.players.map((player) => player.selected_card);
+    const cards = this.players.map((player) => player.selected_card?.value);
     let values: any = {};
     cards.map((value) => {
       if (value != -3) {
@@ -215,7 +215,7 @@ export class RoomComponent implements OnInit, OnDestroy {
         this.cardsSelected = [];
         this.countingVotes = false;
         this.players = this.players.map((player) => {
-          player.selected_card = -3;
+          player.selected_card!.value = -3;
           if (player._id == idUser) {
             player.is_owner = true;
           } else {

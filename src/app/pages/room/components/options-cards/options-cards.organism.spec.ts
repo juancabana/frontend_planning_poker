@@ -3,8 +3,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { OptionsCards } from './options-cards.organism';
 
-import { HttpService } from '../../../services/http-service/http-service.service';
-import { WebSocketService } from '../../../services/web-socket/web-socket.service';
+import { HttpService } from '../../../../services/http-service/http-service.service';
+import { WebSocketService } from '../../../../services/web-socket/web-socket.service';
 import { Card } from 'src/app/interfaces/card.interface';
 import { of } from 'rxjs';
 

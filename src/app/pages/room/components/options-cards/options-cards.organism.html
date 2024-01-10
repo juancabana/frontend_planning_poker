@@ -5,7 +5,7 @@
   <div class="menu-cards__wrapper-cards">
     <card
       *ngFor="let card of cardOptions; let index = index"
-      (click)="selectCard(card.id)"
+      (click)="selectCard(card)"
       [isCardOption]="true"
       [selected_by_user]="selectedCard == card.id"
       [value]="card.viewValue"

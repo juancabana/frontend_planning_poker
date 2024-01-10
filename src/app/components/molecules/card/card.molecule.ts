@@ -1,21 +1,17 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { User } from '../../../interfaces/user.interface';
+import { Card } from 'src/app/interfaces/card.interface';
 
 @Component({
   selector: 'card',
   templateUrl: './card.molecule.html',
   styleUrls: ['./card.molecule.sass'],
 })
-export class CardComponent implements OnInit {
+export class CardComponent {
+  @Input() public card!: Card;
   @Input() public player?: User;
   @Input() public visualizate_result: Boolean = false;
-  @Input() public selected_card: number = -3;
   @Input() public isCardOption = false;
   @Input() public selected_by_user = false;
   @Input() public value = '';
-  public isSpectator: boolean = false;
-
-  ngOnInit() {
-    this.isSpectator = this.player?.visualization == 'spectator';
-  }
 }

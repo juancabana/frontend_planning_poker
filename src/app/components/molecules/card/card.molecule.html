@@ -1,33 +1,16 @@
-<div class="card card--player" *ngIf="!isSpectator && !isCardOption">
+<div class="card card--player" *ngIf="player?.visualization === 'player'">
   <div class="card__wrapper">
-    <div
-      class="card__content"
-      [ngClass]="{
-        'card__player-selected': selected_card! > -3 && !visualizate_result
-      }"
-    >
-      <span *ngIf="visualizate_result" class="card__selected">
-        <ng-container *ngIf="selected_card == -2; else notCoffee"
-          >☕</ng-container
-        >
-        <ng-template #notCoffee>
-          <ng-container *ngIf="selected_card == -1; else default"
-            >?</ng-container
-          >
-          <ng-template #default>{{ selected_card }}</ng-template>
-        </ng-template>
-      </span>
+    <div class="card__content" [ngClass]="{'card__player-selected': card!.value > -3 && !visualizate_result}">
+      <span *ngIf="visualizate_result" class="card__selected">{{card.viewValue}}</span>
     </div>
     <span class="card__name" for="">{{ player?.username }}</span>
   </div>
 </div>
 
-<div class="card card--spectator" *ngIf="isSpectator && !isCardOption">
+<div class="card card--spectator" *ngIf="player?.visualization === 'spectator'">
   <div class="card__wrapper">
     <div class="card__is-viewer">
-      <span class="card__is-viever-text" for=""
-        >{{ player!.username | shortName }}</span
-      >
+      <span class="card__is-viever-text" for="">{{ player!.username | shortName }}</span>
     </div>
     <span class="card__name" for="">{{ player?.username }}</span>
   </div>
@@ -36,15 +19,7 @@
 <div
   class="menu-cards__card-to-select"
   *ngIf="isCardOption"
-  [ngClass]="{
-    'menu-cards__card-selected-by-user': selected_by_user
-  }"
+  [ngClass]="{'menu-cards__card-selected-by-user': selected_by_user}"
 >
-  <span
-    class="menu-cards__value"
-    [ngClass]="{
-      'menu-cards__value-selected': selected_by_user
-    }"
-    >{{ value }}</span
-  >
+  <span class="menu-cards__value" [ngClass]="{'menu-cards__value-selected': selected_by_user}">{{ value }}</span >
 </div>

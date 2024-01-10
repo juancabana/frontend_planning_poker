@@ -1,4 +1,4 @@
-<a routerLink="/" class="logo" [ngClass]="{ 'logo--home': isHome }">
-  <img src="assets/pragma.png" alt="Logo" height="100px" />
-  <span *ngIf="isHome" class="logo__label">Crear Partida</span>
+<a [routerLink]="url" class="logo" [ngClass]="{ 'logo--label': label }">
+  <img src="assets/images/pragma.png" alt="Logo" height="100px" />
+  <span *ngIf="label" class="logo__label_text">{{label}}</span>
 </a>

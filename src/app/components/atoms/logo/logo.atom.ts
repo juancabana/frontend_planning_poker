@@ -6,5 +6,6 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./logo.atom.sass'],
 })
 export class LogoComponent {
-  @Input() public isHome: boolean = false;
+  @Input() public label: string = '';
+  @Input() public url: string = '/'
 }

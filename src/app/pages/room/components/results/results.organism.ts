@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { CardRevealed } from '../../../interfaces/card-revealed.interface';
+import { CardRevealed } from '../../../../interfaces/card-revealed.interface';
 
 @Component({
   selector: 'results',

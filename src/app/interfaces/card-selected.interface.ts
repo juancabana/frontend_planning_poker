@@ -1,4 +1,6 @@
+import { Card } from "./card.interface";
+
 export interface CardSelected {
   idUser: string;
-  cardSelected: number;
+  cardSelected: Card;
 }

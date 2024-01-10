@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 
-import { HttpService } from '../../../services/http-service/http-service.service';
-import { WebSocketService } from '../../../services/web-socket/web-socket.service';
+import { HttpService } from '../../../../services/http-service/http-service.service';
+import { WebSocketService } from '../../../../services/web-socket/web-socket.service';
 
-import { CardSelected } from '../../../interfaces/card-selected.interface';
-import { Card } from '../../../interfaces/card.interface';
+import { CardSelected } from '../../../../interfaces/card-selected.interface';
+import { Card } from '../../../../interfaces/card.interface';
 
 @Component({
   selector: 'options-cards',
@@ -15,7 +15,7 @@ export class OptionsCards implements OnInit {
   @Input() public visualization!: string;
   @Output() public cardSelectedEvent = new EventEmitter<CardSelected>();
   public cardOptions: Card[] = [];
-  public cardSelected: number | null = null;
+  public cardSelected?: Card;
   public selectedCard = -1;
 
   constructor(
@@ -29,26 +29,26 @@ export class OptionsCards implements OnInit {
     });
   }
 
-  selectCard(cardId: number) {
-    this.selectedCard = cardId;
+  selectCard(card: Card) {
+    this.selectedCard = card.id;
 
     const idUser = JSON.parse(localStorage.getItem('user')!)._id;
     this.cardOptions.map((card) => {
-      card.id == cardId
-        ? (card.selected_by_user = true)
-        : (card.selected_by_user = false);
+      card.id == card.id
+        ? (card.selected = true)
+        : (card.selected = false);
     });
 
-    this.cardSelected = this.cardOptions[cardId].value;
+    this.cardSelected = this.cardOptions[card.id];
     this.cardSelectedEvent.emit({ idUser, cardSelected: this.cardSelected });
-    this.emitCardSelected(cardId, idUser);
+    this.emitCardSelected(card.id, idUser);
     return;
   }
 
   emitCardSelected(idCard: number, idUser: string) {
     this.webSocketService.emit('cardSelected', {
       index: idCard,
-      lastSelected: this.cardSelected,
+      lastSelected: this.cardSelected?.value,
       ID_user: idUser,
     });
   }

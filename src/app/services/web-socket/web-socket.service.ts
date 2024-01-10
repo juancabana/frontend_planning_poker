@@ -45,10 +45,6 @@ export class WebSocketService {
     return this.onEvent<User[]>('userCreated');
   }
 
-  listenCardSelected(): Observable<Card[]> {
-    return this.onEvent<Card[]>('cardSelected');
-  }
-
   listenCardRevealed(): Observable<CardRevealed[]> {
     return this.onEvent<CardRevealed[]>('reveal-cards');
   }
