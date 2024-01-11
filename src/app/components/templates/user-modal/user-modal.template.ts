@@ -57,11 +57,11 @@ export class UserModalComponent {
     }
   }
 
-  createUser() {
+  createUser(): void {
     if (!this.isButtonActive) return;
     const user: NewUser = {
       username: this.username,
-      visualization: this.visualization(),
+      visualization: this.isPlayer ? 'player' : 'spectator'
     };
     const { room_id } = this.dialogRef._containerInstance._config.data;
     this.httpService.createUser({ ...user, room_id }).subscribe((newUser) => {
@@ -70,7 +70,4 @@ export class UserModalComponent {
     });
   }
 
-  visualization() {
-    return this.isPlayer ? 'player' : 'spectator';
-  }
 }

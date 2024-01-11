@@ -20,7 +20,7 @@ export class HomeComponent {
     }, 1000);
   }
 
-  closeWelcomeMessage() {
+  closeWelcomeMessage(): void {
     this.showWelcomeMessage = false;
   }
 }

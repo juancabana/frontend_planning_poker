@@ -36,7 +36,7 @@ export class RoomComponent implements OnInit, OnDestroy {
     public dialog: MatDialog
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.room = this.httpService.getRoom()!;
     this.socketService.setupSocketConnection(this.room);
     this.createUser();
@@ -53,7 +53,7 @@ export class RoomComponent implements OnInit, OnDestroy {
     });
   }
 
-  createUser() {
+  createUser(): void {
     this.openCreateUserDialog()
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe$))
@@ -73,7 +73,7 @@ export class RoomComponent implements OnInit, OnDestroy {
     return usersTypePlayers.every((player) => player.selected_card?.value! > -3);
   }
 
-  activateCountingOrReveal() {
+  activateCountingOrReveal(): void {
     if (this.allPlayersSelectedCard()) {
       if (this.user.is_owner) {
         this.isRevealable = true;
@@ -84,7 +84,7 @@ export class RoomComponent implements OnInit, OnDestroy {
     }
   }
 
-  listenNewUser() {
+  listenNewUser(): void {
     this.socketService
       .listenNewUser()
       .pipe(takeUntil(this.unsubscribe$))
@@ -105,7 +105,7 @@ export class RoomComponent implements OnInit, OnDestroy {
       );
   }
 
-  listenRestartGame() {
+  listenRestartGame(): void {
     this.socketService
       .listenRestartGame()
       .pipe(takeUntil(this.unsubscribe$))
@@ -125,7 +125,7 @@ export class RoomComponent implements OnInit, OnDestroy {
       });
   }
 
-  listenCardRevealed() {
+  listenCardRevealed(): void {
     this.socketService
       .listenCardRevealed()
       .pipe(takeUntil(this.unsubscribe$))
@@ -135,7 +135,7 @@ export class RoomComponent implements OnInit, OnDestroy {
       });
   }
 
-  getPlayersInCache() {
+  getPlayersInCache(): void {
     this.httpService.getPlayers(this.room._id!).subscribe({
       next: (cachedPlayers) => {
         if (
@@ -151,7 +151,7 @@ export class RoomComponent implements OnInit, OnDestroy {
     });
   }
 
-  setFirstPosition() {
+  setFirstPosition(): void {
     let userIndex = this.players.findIndex(
       (player) => this.user._id === player._id
     );
@@ -169,14 +169,14 @@ export class RoomComponent implements OnInit, OnDestroy {
     return JSON.parse(userInLocalStorage!);
   }
 
-  onCardSelected(data: CardSelected) {
+  onCardSelected(data: CardSelected): void {
     const { idUser, cardSelected } = data;
     const index = this.players.findIndex((player) => player._id == idUser);
     this.players[index].selected_card = cardSelected;
     this.activateCountingOrReveal();
   }
 
-  revealCards() {
+  revealCards(): void {
     const cards = this.players.map((player) => player.selected_card?.value);
     let values: any = {};
     cards.map((value) => {
@@ -197,7 +197,7 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.revealCardsOrRestartText = 'Nueva votación';
   }
 
-  restart() {
+  restart(): void {
     const config = {
       data: this.players,
       disableClose: true,
@@ -229,7 +229,7 @@ export class RoomComponent implements OnInit, OnDestroy {
       });
   }
 
-  revealCardsOrRestart() {
+  revealCardsOrRestart(): void {
     this.isAvaliableToRestart ? this.restart() : this.revealCards();
   }
 

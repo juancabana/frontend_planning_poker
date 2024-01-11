@@ -19,7 +19,7 @@ export class HeaderComponent implements OnInit {
     this.username = user?.username;
   }
 
-  openDialog() {
+  openDialog(): void {
     this.dialog.open(InvitePlayersModalComponent, {
       hasBackdrop: true,
       width: '500px',

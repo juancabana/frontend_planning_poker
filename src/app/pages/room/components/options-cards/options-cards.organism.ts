@@ -23,13 +23,13 @@ export class OptionsCards implements OnInit {
     private readonly httpService: HttpService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.httpService.getCards().subscribe((cards) => {
       this.cardOptions = cards;
     });
   }
 
-  selectCard(card: Card) {
+  selectCard(card: Card): void {
     this.selectedCard = card.id;
 
     const idUser = JSON.parse(localStorage.getItem('user')!)._id;
@@ -45,7 +45,7 @@ export class OptionsCards implements OnInit {
     return;
   }
 
-  emitCardSelected(idCard: number, idUser: string) {
+  emitCardSelected(idCard: number, idUser: string): void {
     this.webSocketService.emit('cardSelected', {
       index: idCard,
       lastSelected: this.cardSelected?.value,

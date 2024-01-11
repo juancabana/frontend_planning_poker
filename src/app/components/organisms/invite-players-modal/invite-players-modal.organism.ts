@@ -17,7 +17,7 @@ export class InvitePlayersModalComponent {
     private readonly clipboard: Clipboard
   ) {}
 
-  copyLink() {
+  copyLink(): void {
     this.clipboard.copy(this.actualUrl);
     this.closeModal();
   }

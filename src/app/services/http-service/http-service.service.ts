@@ -35,11 +35,11 @@ export class HttpService {
     return this.httpClient.post<Room>(`${this.url}/room`, { tittle });
   }
 
-  setRoom(room: Room) {
+  setRoom(room: Room): void {
     this.room = room;
   }
 
-  getRoom() {
+  getRoom(): Room | undefined {
     return this.room;
   }
 }

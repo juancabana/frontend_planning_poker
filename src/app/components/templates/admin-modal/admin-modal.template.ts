@@ -16,18 +16,18 @@ export class AdminModalComponent {
   public isButtonEnabled: boolean = false;
   public idThisUser: string = JSON.parse(localStorage.getItem('user')!)._id;
 
-  submitAdminData() {
+  submitAdminData(): void {
     if (this.idUserSelected.length !== 0) {
       this.dialogRef.close(this.idUserSelected);
     }
   }
 
-  setUserAdmin(idUser: string) {
+  setUserAdmin(idUser: string): void {
     this.idUserSelected = idUser;
     this.checkButton();
   }
 
-  checkButton() {
+  checkButton(): void {
     if (this.idUserSelected.length !== 0) {
       this.isButtonEnabled = true;
     }

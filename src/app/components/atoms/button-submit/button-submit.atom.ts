@@ -11,7 +11,7 @@ export class ButtonSubmitComponent  {
   @Input() public label: string = ''
   @Input() public isActive: boolean = false;
 
-  onClick(event: Event) {
+  onClick(event: Event): void {
     event.preventDefault()
     if (this.type === 'submit' && this.isActive) {
       this.submit.emit();

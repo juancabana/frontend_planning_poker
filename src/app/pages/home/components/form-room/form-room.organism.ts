@@ -22,7 +22,7 @@ export class FormRoomComponent implements OnDestroy {
 
   constructor( public readonly router: Router, private readonly httpService: HttpService) {}
 
-  createRoom() {
+  createRoom(): void {
     if (this.room.invalid) return;
     this.httpService.createNewRoom(this.room.value!).subscribe((data) => {
       localStorage.setItem('room', JSON.stringify(data));

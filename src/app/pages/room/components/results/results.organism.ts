@@ -14,7 +14,7 @@ export class ResultsComponent implements OnInit {
     this.setAverage();
   }
 
-  setAverage() {
+  setAverage(): void {
     let total = 0;
     let amountCards = 0;
     this.cardsRevealed.forEach((card) => {
