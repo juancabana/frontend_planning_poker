@@ -2,5 +2,5 @@
   class="button-submit"
   [type]="type"
   [ngClass]="{ 'button-submit--active': isActive }"
-  (click)="onClick()"
+  (click)="onClick($event)"
 >{{ label }}</button>

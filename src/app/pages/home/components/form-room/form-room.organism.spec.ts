@@ -6,8 +6,8 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { of } from 'rxjs';
 
 import { FormRoomComponent } from './form-room.organism';
-import { ButtonSubmitComponent } from '../../atoms/button-submit/button-submit.atom';
-import { HttpService } from '../../../services/http-service/http-service.service';
+import { ButtonSubmitComponent } from '../../../../components/atoms/button-submit/button-submit.atom';
+import { HttpService } from '../../../../services/http-service/http-service.service';
 import { Room } from 'src/app/interfaces/room.interface';
 
 describe('FormRoomComponent', () => {

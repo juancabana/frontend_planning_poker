@@ -8,7 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { HomeComponent } from './home.page';
 import { LogoComponent } from '../../components/atoms/logo/logo.atom';
-import { FormRoomComponent } from '../../components/organisms/form-room/form-room.organism';
+import { FormRoomComponent } from './components/form-room/form-room.organism';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;

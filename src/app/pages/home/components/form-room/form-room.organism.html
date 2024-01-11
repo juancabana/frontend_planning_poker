@@ -1,0 +1,10 @@
+<form class="form-room">
+  <label class="form-room__label" for="">Nombra la partida</label>
+  <input class="form-room__input" type="text" [formControl]="room" />
+  <button-submit
+    [isActive]="room.valid"
+    [label]="'Crear partida'"
+    [type]="'submit'"
+    (submit)="createRoom()"
+  ></button-submit>
+</form>
