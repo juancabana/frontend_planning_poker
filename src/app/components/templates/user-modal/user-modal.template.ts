@@ -3,6 +3,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 
 import { HttpService } from '../../../services/http-service/http-service.service';
 import { NewUser } from './interfaces/new-user.interface';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'user-modal',
@@ -10,58 +11,31 @@ import { NewUser } from './interfaces/new-user.interface';
   styleUrls: ['./user-modal.template.sass'],
 })
 export class UserModalComponent {
-  public username: string = '';
-  public isButtonActive: boolean = false;
-  public isPlayer: boolean = false;
-  public isSpectator: boolean = false;
+
+  public formCreateUser = this.fb.group({
+    username: ['', [
+      Validators.required,
+      Validators.minLength(5),
+      Validators.maxLength(20),
+      Validators.pattern('(?!^d+$)(?!.*[()_,.*#/-])(?:[^0-9]*[0-9]){0,3}[^0-9]*'),]],
+    typeUser: ['', Validators.required]
+  })
 
   constructor(
     private readonly dialogRef: MatDialogRef<UserModalComponent>,
-    private readonly httpService: HttpService
+    private readonly httpService: HttpService,
+    private fb: FormBuilder
   ) {}
 
   closeModal(): void {
     this.dialogRef.close();
   }
 
-  setUserName(event: Event): void {
-    const target = event.target as HTMLInputElement;
-    this.username = target.value;
-    this.setButtonActive();
-  }
-
-  setUserType(event: Event): void {
-    const target = event.target as HTMLInputElement;
-    if (target.id === 'player') {
-      this.isPlayer = true;
-      this.isSpectator = false;
-    } else if (target.id === 'spectator') {
-      this.isSpectator = true;
-      this.isPlayer = false;
-    }
-    this.setButtonActive();
-  }
-
-  setButtonActive(): void {
-    const validateLength =
-      this.username.length >= 5 && this.username.length <= 20;
-    const regex = /^(?!.*[()_,.*#/-])(\D*\d){0,3}\D*$/;
-    if (
-      validateLength &&
-      regex.test(this.username) &&
-      (this.isPlayer || this.isSpectator)
-    ) {
-      this.isButtonActive = true;
-    } else {
-      this.isButtonActive = false;
-    }
-  }
-
   createUser(): void {
-    if (!this.isButtonActive) return;
+    if (this.formCreateUser.invalid) return;
     const user: NewUser = {
-      username: this.username,
-      visualization: this.isPlayer ? 'player' : 'spectator'
+      username: this.formCreateUser.value.username!,
+      visualization: this.formCreateUser.value.typeUser!
     };
     const { room_id } = this.dialogRef._containerInstance._config.data;
     this.httpService.createUser({ ...user, room_id }).subscribe((newUser) => {

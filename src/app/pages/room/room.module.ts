@@ -12,6 +12,7 @@ import { AdminModalComponent } from 'src/app/components/templates/admin-modal/ad
 import { MatDialogModule } from '@angular/material/dialog';
 import { UserModalComponent } from 'src/app/components/templates/user-modal/user-modal.template';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
     ShortNamePipe,
     AverageFormatPipe,
   ],
-  imports: [CommonModule, MatDialogModule, SharedModule],
+  imports: [CommonModule, MatDialogModule, SharedModule, ReactiveFormsModule],
 })
 export class RoomModule {}

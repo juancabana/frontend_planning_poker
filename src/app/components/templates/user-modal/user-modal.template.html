@@ -1,24 +1,19 @@
 <div class="user-modal">
-  <form action="" class="user-modal__form">
+  <form action="" class="user-modal__form" [formGroup]="formCreateUser">
     <div class="user-modal__wrapper-span">
       <span class="user-modal__span">Tu nombre</span>
-      <input
-        class="user-modal__input"
-        type="text"
-        (input)="setUserName($event)"
-      />
+      <input class="user-modal__input"  type="text" formControlName="username"/>
     </div>
     <div class="user-modal__wrapper-visualization">
       <div class="user-modal__wrapper-checkbox">
         <label class="user-modal__checkbox-text" for="player">Jugador </label>
         <input
-          class="user-modal__checkbox-input"
-          type="radio"
-          name="player"
-          id="player"
-          (click)="setUserType($event)"
-          (keyup.enter)="setUserType($event)"
-          [checked]="isPlayer"
+        class="user-modal__checkbox-input"
+        type="radio"
+        formControlName="typeUser"
+        value="player"
+        name="typeUser"
+        id="player"
         />
       </div>
       <div class="user-modal__wrapper-checkbox">
@@ -26,18 +21,16 @@
           >Espectador
         </label>
         <input
-          class="user-modal__checkbox-input"
-          type="radio"
-          name="spectator"
-          id="spectator"
-          (click)="setUserType($event)"
-          (keyup.enter)="setUserType($event)"
-          [checked]="isSpectator"
+        class="user-modal__checkbox-input"
+        type="radio"
+        formControlName="typeUser"
+        value="spectator"
+        name="typeUser"
         />
       </div>
     </div>
     <button-submit
-      [isActive]="isButtonActive"
+      [isActive]="formCreateUser.valid"
       [label]="'Continuar'"
       [type]="'button'"
       (click)="createUser()"
