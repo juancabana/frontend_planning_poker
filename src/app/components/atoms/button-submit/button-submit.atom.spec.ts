@@ -15,42 +15,20 @@ describe('ButtonSubmitComponent', () => {
     fixture.detectChanges();
   });
 
-  // ngOnInit
-  it('ngOnInit: should call setText method', () => {
-    const spy = jest.spyOn(component, 'setText');
-    component.ngOnInit();
-    expect(spy).toHaveBeenCalled();
-  });
-
   // onClick
   it('onClick: should emit submit', () => {
+    const event = { preventDefault: jest.fn() }
     const spy = jest.spyOn(component.submit, 'emit');
-    component.onClick();
-    expect(spy).toHaveBeenCalled();
+    component.type = 'submit'
+    component.onClick(event as unknown as Event)
+    expect(spy).toHaveBeenCalled()
   });
 
-  // SetText()
-  it('setText: sould return Crear partida', () => {
-    component.isHome = true;
-    component.setText();
-    expect(component.content).toBe('Crear partida');
-  });
-
-  it('setText: sould return Continuar', () => {
-    component.isPlayerSubmit = true;
-    component.setText();
-    expect(component.content).toBe('Continuar');
-  });
-
-  it('setText: sould return Copiar link', () => {
-    component.isInvite = true;
-    component.setText();
-    expect(component.content).toBe('Copiar link');
-  });
-
-  it(`setText: sould return Aceptar`, () => {
-    component.isAdminModal = true;
-    component.setText();
-    expect(component.content).toBe('Aceptar');
+  it(`onClick: shouldn't emit submit`, () => {
+    const event = { preventDefault: jest.fn() }
+    const spy = jest.spyOn(component.submit, 'emit');
+    component.type = 'button'
+    component.onClick(event as unknown as Event)
+    expect(spy).not.toHaveBeenCalled()
   });
 });

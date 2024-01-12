@@ -25,14 +25,14 @@ describe('AdminModalComponent', () => {
   });
 
   // submitAdminData
-  it('submitAdminData: should call close with idUserSelected when submitAdminData is called and idUserSelected is not empty', () => {
+  it(`submitAdminData: should call close with idUserSelected because idUserSelected isn't empty`, () => {
     component.idUserSelected = 'testId';
     const spy = jest.spyOn(dialogRef, 'close');
     component.submitAdminData();
     expect(spy).toHaveBeenCalledWith('testId');
   });
 
-  it('submitAdminData: should not call close when submitAdminData is called and idUserSelected is empty', () => {
+  it(`submitAdminData: shouldn't call close because idUserSelected is empty`, () => {
     component.idUserSelected = '';
     const spy = jest.spyOn(dialogRef, 'close');
     component.submitAdminData();
@@ -41,18 +41,20 @@ describe('AdminModalComponent', () => {
 
   // setUserAdmin
   it('setUserAdmin: should set idUserSelected', () => {
+    const spy = jest.spyOn(component, 'checkButton')
     component.setUserAdmin('testId');
     expect(component.idUserSelected).toBe('testId');
+    expect(spy).toHaveBeenCalled()
   });
 
   // ChecButton
-  it('checkButton: should set isButtonEnabled to true', () => {
+  it(`checkButton: should set isButtonEnabled to true because idUserSelected isn't empty`, () => {
     component.idUserSelected = 'testId';
     component.checkButton();
     expect(component.isButtonEnabled).toBeTruthy();
   });
 
-  it('checkButton: should set isButtonEnabled to false', () => {
+  it('checkButton: should set isButtonEnabled to false because idUserSelected is empty', () => {
     component.idUserSelected = '';
     component.checkButton();
     expect(component.isButtonEnabled).toBeFalsy();

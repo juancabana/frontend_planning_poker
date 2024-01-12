@@ -19,85 +19,61 @@ describe('CardMenuComponent', () => {
       id: 0,
       value: 0,
       viewValue: '0',
-      selected: false,
-      selected_by_user: false,
     },
     {
       id: 1,
       value: 1,
       viewValue: '1',
-      selected: false,
-      selected_by_user: false,
     },
     {
       id: 2,
       value: 3,
       viewValue: '3',
-      selected: false,
-      selected_by_user: false,
     },
     {
       id: 3,
       value: 5,
       viewValue: '5',
-      selected: false,
-      selected_by_user: false,
     },
     {
       id: 4,
       value: 8,
       viewValue: '8',
-      selected: false,
-      selected_by_user: false,
     },
     {
       id: 5,
       value: 13,
       viewValue: '13',
-      selected: false,
-      selected_by_user: false,
     },
     {
       id: 6,
       value: 21,
       viewValue: '21',
-      selected: false,
-      selected_by_user: false,
     },
     {
       id: 7,
       value: 34,
       viewValue: '34',
-      selected: false,
-      selected_by_user: false,
     },
     {
       id: 8,
       value: 55,
       viewValue: '55',
-      selected: false,
-      selected_by_user: false,
     },
     {
       id: 9,
       value: 89,
       viewValue: '89',
-      selected: false,
-      selected_by_user: false,
     },
     {
       id: 10,
       value: -1,
       viewValue: '?',
-      selected: false,
-      selected_by_user: false,
     },
     {
       id: 11,
       value: -2,
       viewValue: '☕',
-      selected: false,
-      selected_by_user: false,
     },
   ];
 
@@ -120,46 +96,42 @@ describe('CardMenuComponent', () => {
 
   // ngOnInit
   it('ngOnInit: should call getCards', () => {
-    localStorage.setItem('user', JSON.stringify({ _id: 1 }));
     const request = jest
       .spyOn(service, 'getCards')
       .mockReturnValue(of(mockCards));
     component.ngOnInit();
     expect(request).toHaveBeenCalledTimes(1);
-    expect(component.cardOptions).toBe(mockCards);
+    expect(component.cardOptions).toEqual(mockCards);
   });
 
   // selectCard
-  it('selectCard: Should be selected (5)', () => {
-    const cardId = 3;
-    localStorage.setItem('user', JSON.stringify({ _id: 1 }));
-    jest.spyOn(component, 'ngOnInit').mockImplementation();
+  it('selectCard: Should set cardSelected to mockCard', () => {
+    const mockCard: Card = { id: 0, value: 0, viewValue: '0' };
+    const spy1 = jest
+      .spyOn(localStorage, 'getItem')
+      .mockReturnValue(JSON.stringify({ _id: '1234' }));
     const spy2 = jest.spyOn(component.cardSelectedEvent, 'emit');
-    const spy3 = jest.spyOn(component, 'emitCardSelected').mockImplementation();
-    component.selectCard(cardId);
-
-    expect(component.selectedCard).toBe(cardId);
-    component.cardOptions.map((card) => {
-      card.id == 3
-        ? expect(card.selected_by_user).toBeTruthy
-        : expect(card.selected_by_user).not.toBeTruthy;
+    const spy3 = jest.spyOn(component, 'emitCardSelected');
+    component.selectCard(mockCard);
+    expect(spy1).toHaveBeenCalledTimes(1);
+    expect(component.cardSelected).toEqual(mockCard);
+    expect(spy2).toHaveBeenCalledWith({
+      idUser: '1234',
+      cardSelected: mockCard,
     });
-    expect(component.cardSelected).toBe(5);
-    expect(spy2).toHaveBeenCalledWith({ idUser: 1, cardSelected: 5 });
-    expect(spy3).toHaveBeenCalledWith(3, 1);
+    expect(spy3).toHaveBeenCalledWith(0, '1234');
   });
 
   // emitCardSelected
   it('emitCardSelected: Should emit cardSelected', () => {
-    const idCard = 3;
-    const idUser = '1';
-    component.cardSelected = 5;
-    const emitSpy = jest.spyOn(webSocketService, 'emit');
-    component.emitCardSelected(idCard, idUser);
-    expect(emitSpy).toHaveBeenCalledWith('cardSelected', {
-      index: 3,
-      lastSelected: 5,
-      ID_user: '1',
+    const mockCard: Card = { id: 0, value: 0, viewValue: '0' };
+    component.cardSelected = mockCard;
+    const spy = jest.spyOn(webSocketService, 'emit');
+    component.emitCardSelected(0, '1234');
+    expect(spy).toHaveBeenCalledWith('cardSelected', {
+      index: 0,
+      lastSelected: 0,
+      ID_user: '1234',
     });
   });
 });

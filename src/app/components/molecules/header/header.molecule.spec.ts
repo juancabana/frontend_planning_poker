@@ -4,11 +4,12 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { HeaderComponent } from './header.molecule';
 import { LogoComponent } from '../../atoms/logo/logo.atom';
 import { ShortNamePipe } from '../../../pipes/short-name.pipe';
+import { InvitePlayersModalComponent } from '../../organisms/invite-players-modal/invite-players-modal.organism';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
-
+  let dialog: MatDialog
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [HeaderComponent, LogoComponent, ShortNamePipe],
@@ -18,29 +19,19 @@ describe('HeaderComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     localStorage.removeItem('user');
-  });
-
-  // ngOnInit
-  it('ngOnInit: should set juan to username', () => {
-    localStorage.setItem(
-      'user',
-      JSON.stringify({
-        username: 'juan',
-        visualization: 'player',
-        room_id: '1233432',
-      })
-    );
-    component.roomName = 'Sprint 32';
-    component.ngOnInit();
-    expect(component.roomName).toBe('Sprint 32');
-    expect(component.username).toBe('juan');
+    dialog = TestBed.inject(MatDialog);
   });
 
   // openDialog
   it('openDialog: Should open dialog', () => {
-    const dialog = TestBed.inject(MatDialog);
+    const options = {
+      hasBackdrop: true,
+      width: '500px',
+      panelClass: 'custom-invitation-modal',
+      backdropClass: 'blur-backdrop',
+    }
     const openSpy = jest.spyOn(dialog, 'open');
     component.openDialog();
-    expect(openSpy).toHaveBeenCalled();
+    expect(openSpy).toHaveBeenCalledWith(InvitePlayersModalComponent, options)
   });
 });

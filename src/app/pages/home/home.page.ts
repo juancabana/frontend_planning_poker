@@ -16,11 +16,8 @@ export class HomeComponent {
 
   ngOnInit(): void {
     setTimeout(() => {
-      this.closeWelcomeMessage();
+      this.showWelcomeMessage = false;
     }, 1000);
   }
 
-  closeWelcomeMessage(): void {
-    this.showWelcomeMessage = false;
-  }
 }

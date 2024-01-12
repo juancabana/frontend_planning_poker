@@ -7,7 +7,7 @@
       *ngFor="let card of cardOptions; let index = index"
       (click)="selectCard(card)"
       [isCardOption]="true"
-      [selected_by_user]="selectedCard == card.id"
+      [selected_by_user]="cardSelected?.id == card.id"
       [value]="card.viewValue"
     ></card>
   </div>

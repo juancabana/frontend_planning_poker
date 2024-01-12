@@ -74,13 +74,6 @@ describe('WebSocketService', () => {
     expect(spy).toHaveBeenCalledWith('userCreated');
   });
 
-  // listenCardSelected
-  it('listenCardSelected: Should listen event', () => {
-    const spy = jest.spyOn(webSocketService, 'onEvent');
-    webSocketService.listenCardSelected().subscribe();
-    expect(spy).toHaveBeenCalledWith('cardSelected');
-  });
-
   // listenCardRevealed
   it('listenCardRevealed: Should listen event', () => {
     const spy = jest.spyOn(webSocketService, 'onEvent');

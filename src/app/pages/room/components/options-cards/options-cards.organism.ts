@@ -30,19 +30,10 @@ export class OptionsCards implements OnInit {
   }
 
   selectCard(card: Card): void {
-    this.selectedCard = card.id;
-
     const idUser = JSON.parse(localStorage.getItem('user')!)._id;
-    this.cardOptions.map((card) => {
-      card.id == card.id
-        ? (card.selected = true)
-        : (card.selected = false);
-    });
-
     this.cardSelected = this.cardOptions[card.id];
     this.cardSelectedEvent.emit({ idUser, cardSelected: this.cardSelected });
     this.emitCardSelected(card.id, idUser);
-    return;
   }
 
   emitCardSelected(idCard: number, idUser: string): void {

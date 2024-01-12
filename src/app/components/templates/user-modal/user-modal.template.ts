@@ -27,10 +27,6 @@ export class UserModalComponent {
     private fb: FormBuilder
   ) {}
 
-  closeModal(): void {
-    this.dialogRef.close();
-  }
-
   createUser(): void {
     if (this.formCreateUser.invalid) return;
     const user: NewUser = {
@@ -40,7 +36,7 @@ export class UserModalComponent {
     const { room_id } = this.dialogRef._containerInstance._config.data;
     this.httpService.createUser({ ...user, room_id }).subscribe((newUser) => {
       localStorage.setItem('user', JSON.stringify(newUser));
-      this.closeModal();
+      this.dialogRef.close();
     });
   }
 

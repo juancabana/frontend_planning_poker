@@ -25,18 +25,11 @@ describe('HomeComponent', () => {
   });
 
   // ngOnInit
-  it('ngOnInit: should call closeWellcomeMessage function', fakeAsync(() => {
-    const spy = jest
-      .spyOn(component, 'closeWelcomeMessage')
-      .mockImplementation();
+  it('ngOnInit: should set showWelcomeMessage to false after 1 second', fakeAsync(() => {
     component.ngOnInit();
     tick(1000);
-    expect(spy).toHaveBeenCalled();
+    expect(component.showWelcomeMessage).toBe(false);
   }));
 
-  // closeWelcomeMessage
-  it('closeWelcomeMessage: should set showWelcomeMessage property to false', () => {
-    component.closeWelcomeMessage();
-    expect(component.showWelcomeMessage).toBe(false);
-  });
+
 });

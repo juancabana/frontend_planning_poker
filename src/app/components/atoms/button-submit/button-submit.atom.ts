@@ -13,9 +13,7 @@ export class ButtonSubmitComponent  {
 
   onClick(event: Event): void {
     event.preventDefault()
-    if (this.type === 'submit' && this.isActive) {
-      this.submit.emit();
-    }
-    return;
+    if (this.type != 'submit') return
+    this.submit.emit();
   }
 }

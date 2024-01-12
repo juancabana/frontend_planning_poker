@@ -42,17 +42,6 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.createUser();
   }
 
-  openCreateUserDialog(): MatDialogRef<UserModalComponent> {
-    return this.dialog.open(UserModalComponent, {
-      hasBackdrop: true,
-      width: '500px',
-      panelClass: 'user-modal',
-      backdropClass: 'blur-backdrop',
-      disableClose: true,
-      data: { room_id: this.room._id },
-    });
-  }
-
   createUser(): void {
     this.openCreateUserDialog()
       .afterClosed()
@@ -64,6 +53,17 @@ export class RoomComponent implements OnInit, OnDestroy {
         this.listenCardRevealed();
         this.listenRestartGame();
       });
+  }
+
+  openCreateUserDialog(): MatDialogRef<UserModalComponent> {
+    return this.dialog.open(UserModalComponent, {
+      hasBackdrop: true,
+      width: '500px',
+      panelClass: 'user-modal',
+      backdropClass: 'blur-backdrop',
+      disableClose: true,
+      data: { room_id: this.room._id },
+    });
   }
 
   allPlayersSelectedCard(): boolean {
@@ -177,10 +177,11 @@ export class RoomComponent implements OnInit, OnDestroy {
   }
 
   revealCards(): void {
-    const cards = this.players.map((player) => player.selected_card?.value);
+    const players = this.players.filter((player) => player.selected_card!.value);
+    const cards = players.map(player => player.selected_card!.value)
     let values: any = {};
     cards.map((value) => {
-      if (value != -3) {
+      if (value != -3 ) {
         values[`${value}`] = (values[`${value}`] || 0) + 1;
       }
     });
