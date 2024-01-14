@@ -428,9 +428,6 @@ describe('RoomComponent', () => {
       expect(player.selected_card).toBeFalsy()
       if (player._id == '1234') expect(player.is_owner).toBe(true)
     })
-
   })
-
-
 
 });
