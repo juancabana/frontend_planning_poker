@@ -7,6 +7,6 @@ export interface User {
   visualization: string;
   is_owner?: boolean;
   is_connected?: boolean;
-  selected_card?: Card;
+  selected_card?: Card ;
 }
 

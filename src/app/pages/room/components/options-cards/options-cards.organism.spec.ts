@@ -88,10 +88,10 @@ describe('CardMenuComponent', () => {
     });
     fixture = TestBed.createComponent(OptionsCards);
     component = fixture.componentInstance;
-    webSocketService = TestBed.inject(WebSocketService);
     fixture.detectChanges();
     component.cardOptions = mockCards;
     service = TestBed.inject(HttpService);
+    webSocketService = TestBed.inject(WebSocketService);
   });
 
   // ngOnInit

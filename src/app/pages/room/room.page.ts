@@ -21,10 +21,11 @@ import { CardSelected } from '../../interfaces/card-selected.interface';
 export class RoomComponent implements OnInit, OnDestroy {
   private unsubscribe$ = new Subject<void>();
 
-  public user!: User;
+  public room!: Room;
+  public userHost!: User;
+
   public players: User[] = [];
   public cardsSelected: any[] = [];
-  public room!: Room;
   public isRevealable: Boolean = false;
   public isAvaliableToRestart: Boolean = false;
   public revealCardsOrRestartText: string = '';
@@ -43,16 +44,13 @@ export class RoomComponent implements OnInit, OnDestroy {
   }
 
   createUser(): void {
-    this.openCreateUserDialog()
-      .afterClosed()
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(() => {
-        this.user = this.getUser();
-        this.listenNewUser();
-        this.getPlayersInCache();
-        this.listenCardRevealed();
-        this.listenRestartGame();
-      });
+    this.openCreateUserDialog().afterClosed().pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
+      this.userHost = this.getUser();
+      this.listenNewUser();
+      this.getPlayersInCache();
+      this.listenCardRevealed();
+      this.listenRestartGame();
+    });
   }
 
   openCreateUserDialog(): MatDialogRef<UserModalComponent> {
@@ -70,39 +68,32 @@ export class RoomComponent implements OnInit, OnDestroy {
     const usersTypePlayers = this.players.filter(
       ({ visualization }) => visualization == 'player'
     );
-    return usersTypePlayers.every((player) => player.selected_card?.value! > -3);
+    return usersTypePlayers.every(
+      (player) => player.selected_card?.value! > -3
+    );
   }
 
   activateCountingOrReveal(): void {
-    if (this.allPlayersSelectedCard()) {
-      if (this.user.is_owner) {
-        this.isRevealable = true;
-        this.revealCardsOrRestartText = 'Revelar cartas';
-      } else {
-        this.countingVotes = true;
-      }
+    if (!this.allPlayersSelectedCard()) return;
+    if (this.userHost.is_owner) {
+      this.isRevealable = true;
+      this.revealCardsOrRestartText = 'Revelar cartas';
+      return;
     }
+    this.countingVotes = true;
   }
 
   listenNewUser(): void {
-    this.socketService
-      .listenNewUser()
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(
-        (data: User[]) => {
-          if (!this.exists(this.user)) {
-            this.players = [this.user, ...data];
-            this.setFirstPosition();
-          } else {
-            this.players = [...data];
-            this.setFirstPosition();
-          }
-          this.activateCountingOrReveal();
-        },
-        (error) => {
-          alert(error.error.message);
-        }
-      );
+    this.socketService.listenNewUser().pipe(takeUntil(this.unsubscribe$)).subscribe((data: User[]) => {
+      if (!this.exists(this.userHost)) {
+        this.players = [this.userHost, ...data];
+        this.setFirstPosition();
+      } else {
+        this.players = [...data];
+        this.setFirstPosition();
+      }
+      this.activateCountingOrReveal();
+    });
   }
 
   listenRestartGame(): void {
@@ -112,8 +103,8 @@ export class RoomComponent implements OnInit, OnDestroy {
       .subscribe((players) => {
         this.players = players;
         players.map((player) => {
-          player._id == this.user._id
-            ? (this.user.is_owner = player.is_owner)
+          player._id == this.userHost._id
+            ? (this.userHost.is_owner = player.is_owner)
             : false;
         });
 
@@ -136,24 +127,22 @@ export class RoomComponent implements OnInit, OnDestroy {
   }
 
   getPlayersInCache(): void {
-    this.httpService.getPlayers(this.room._id!).subscribe({
-      next: (cachedPlayers) => {
-        if (
-          !cachedPlayers.some((element: User) => element._id == this.user._id)
-        ) {
-          this.players = [this.user, ...cachedPlayers];
+    this.httpService.getPlayers(this.room._id!).subscribe(
+     (cachedPlayers) => {
+        if (!cachedPlayers.some((user: User) => user._id == this.userHost._id)) {
+          this.players = [this.userHost, ...cachedPlayers];
           this.setFirstPosition();
-        } else {
-          this.players = cachedPlayers;
-          this.setFirstPosition();
+          return
         }
+        this.players = cachedPlayers;
+        this.setFirstPosition();
       },
-    });
+    );
   }
 
   setFirstPosition(): void {
     let userIndex = this.players.findIndex(
-      (player) => this.user._id === player._id
+      (player) => this.userHost._id === player._id
     );
     if (userIndex !== -1) {
       let user = this.players.splice(userIndex, 1)[0];
@@ -161,7 +150,7 @@ export class RoomComponent implements OnInit, OnDestroy {
     }
   }
 
-  exists = (userToEvaluate: User) =>
+  exists = (userToEvaluate: User): boolean =>
     this.players.some((element) => element._id == userToEvaluate._id);
 
   getUser() {
@@ -177,11 +166,13 @@ export class RoomComponent implements OnInit, OnDestroy {
   }
 
   revealCards(): void {
-    const players = this.players.filter((player) => player.selected_card!.value);
-    const cards = players.map(player => player.selected_card!.value)
+    const players = this.players.filter(
+      (player) => player.selected_card?.value && player.visualization == 'player'
+    );
+    const cards = players.map((player) => player.selected_card?.value);
     let values: any = {};
     cards.map((value) => {
-      if (value != -3 ) {
+      if (value != -3) {
         values[`${value}`] = (values[`${value}`] || 0) + 1;
       }
     });
@@ -190,6 +181,7 @@ export class RoomComponent implements OnInit, OnDestroy {
       value,
       amount,
     }));
+    console.log(result)
 
     this.socketService.emit('reveal-cards', result);
     this.cardsSelected = result;
@@ -204,30 +196,20 @@ export class RoomComponent implements OnInit, OnDestroy {
       disableClose: true,
       panelClass: 'admin-modal',
     };
-    this.dialog
-      .open(AdminModalComponent, config)
-      .afterClosed()
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((idUser: string) => {
-        this.socketService.emit('restart', idUser);
-        this.isAvaliableToRestart = false;
-        this.isRevealable = false;
-        this.revealCardsOrRestartText = '';
-        this.cardsSelected = [];
-        this.countingVotes = false;
-        this.players = this.players.map((player) => {
-          player.selected_card!.value = -3;
-          if (player._id == idUser) {
-            player.is_owner = true;
-          } else {
-            player.is_owner = false;
-          }
-          this.user._id == idUser
-            ? (this.user.is_owner = true)
-            : (this.user.is_owner = false);
-          return player;
-        });
+    this.dialog.open(AdminModalComponent, config).afterClosed().pipe(takeUntil(this.unsubscribe$)).subscribe((idUser: string) => {
+      this.socketService.emit('restart', idUser);
+      this.isAvaliableToRestart = false;
+      this.isRevealable = false;
+      this.revealCardsOrRestartText = '';
+      this.cardsSelected = [];
+      this.countingVotes = false;
+      delete this.userHost.selected_card
+      this.userHost.is_owner = idUser == this.userHost._id
+      this.players.forEach((player) => {
+        delete player.selected_card
+        player.is_owner = player._id == idUser;
       });
+    });
   }
 
   revealCardsOrRestart(): void {

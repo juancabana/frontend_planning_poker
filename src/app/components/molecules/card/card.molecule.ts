@@ -8,7 +8,7 @@ import { Card } from 'src/app/interfaces/card.interface';
   styleUrls: ['./card.molecule.sass'],
 })
 export class CardComponent {
-  @Input() public card!: Card;
+  @Input() public card?: Card;
   @Input() public player?: User;
   @Input() public visualizate_result: Boolean = false;
   @Input() public isCardOption = false;

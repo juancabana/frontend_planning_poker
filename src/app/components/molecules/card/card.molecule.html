@@ -1,7 +1,7 @@
 <div class="card card--player" *ngIf="player?.visualization === 'player'">
   <div class="card__wrapper">
-    <div class="card__content" [ngClass]="{'card__player-selected': card!.value > -3 && !visualizate_result}">
-      <span *ngIf="visualizate_result" class="card__selected">{{card.viewValue}}</span>
+    <div class="card__content" [ngClass]="{'card__player-selected': player!.selected_card && !visualizate_result}">
+      <span *ngIf="visualizate_result && card?.viewValue" class="card__selected">{{card!.viewValue}}</span>
     </div>
     <span class="card__name" for="">{{ player?.username }}</span>
   </div>

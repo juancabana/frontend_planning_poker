@@ -1,6 +1,6 @@
 <div class="results">
   <div class="results__wrapper-average">
-    <div class="results__average" *ngIf="isNumber()">
+    <div class="results__average" *ngIf="this.average >= 0">
       <span class="results__average-description">Promedio:</span>
       <h1 class="results__average-value">{{ average | averageFormat }}</h1>
     </div>

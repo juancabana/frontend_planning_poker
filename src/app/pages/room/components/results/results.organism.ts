@@ -26,7 +26,4 @@ export class ResultsComponent implements OnInit {
     this.average = total / amountCards;
   }
 
-  isNumber(): boolean {
-    return this.average >= 0;
-  }
 }

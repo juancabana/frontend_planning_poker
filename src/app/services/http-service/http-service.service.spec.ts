@@ -74,8 +74,8 @@ describe('HttpServiceService', () => {
   // getCards
   it('getCards: should call getCards request', () => {
     const mockCards: Card[] = [
-      { id: 0, value: 0, viewValue: '0', selected: false },
-      { id: 1, value: 1, viewValue: '1', selected: false },
+      { id: 0, value: 0, viewValue: '0'},
+      { id: 1, value: 1, viewValue: '1'},
     ];
     service.getCards().subscribe();
     const req = httpMock.expectOne(`${url}/card_options`);
