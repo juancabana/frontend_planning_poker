@@ -11,14 +11,14 @@ import { HttpService } from '../../../../services/http-service/http-service.serv
   styleUrls: ['./form-room.organism.sass'],
 })
 export class FormRoomComponent implements OnDestroy {
-  private unsubscribe$ = new Subject<void>();
-
   public room = new FormControl('', [
     Validators.required,
     Validators.minLength(5),
     Validators.maxLength(20),
     Validators.pattern('(?!^d+$)(?!.*[()_,.*#/-])(?:[^0-9]*[0-9]){0,3}[^0-9]*'),
   ]);
+
+  private unsubscribe$ = new Subject<void>();
 
   constructor( public readonly router: Router, private readonly httpService: HttpService) {}
 

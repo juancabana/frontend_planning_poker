@@ -27,8 +27,6 @@ describe('FormRoomComponent', () => {
     router = TestBed.inject(Router)
   });
 
-
-
   // createRoom
   it(`createRoom: should call createRoom because room name is valid`, () => {
     const mockRoom: Room = {_id: '123', tittle: 'Sprint 32', averageScore: -1, owner: '1234', players: []}
@@ -62,7 +60,4 @@ describe('FormRoomComponent', () => {
     component.createRoom()
     expect(spy).not.toHaveBeenCalled()
   });
-
-
-
 });

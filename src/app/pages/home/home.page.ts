@@ -19,5 +19,4 @@ export class HomeComponent {
       this.showWelcomeMessage = false;
     }, 1000);
   }
-
 }

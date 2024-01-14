@@ -11,7 +11,6 @@ import { FormBuilder, Validators } from '@angular/forms';
   styleUrls: ['./user-modal.template.sass'],
 })
 export class UserModalComponent {
-
   public formCreateUser = this.fb.group({
     username: ['', [
       Validators.required,

@@ -12,11 +12,13 @@ import { Card } from '../../../../interfaces/card.interface';
   styleUrls: ['./options-cards.organism.sass'],
 })
 export class OptionsCards implements OnInit {
-  @Input() public visualization!: string;
-  @Output() public cardSelectedEvent = new EventEmitter<CardSelected>();
   public cardOptions: Card[] = [];
   public cardSelected?: Card;
   public selectedCard = -1;
+
+  @Input() public visualization!: string;
+
+  @Output() public cardSelectedEvent = new EventEmitter<CardSelected>();
 
   constructor(
     public readonly webSocketService: WebSocketService,

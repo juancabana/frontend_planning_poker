@@ -19,17 +19,16 @@ import { CardSelected } from '../../interfaces/card-selected.interface';
   styleUrls: ['./room.page.sass'],
 })
 export class RoomComponent implements OnInit, OnDestroy {
-  private unsubscribe$ = new Subject<void>();
-
   public room!: Room;
   public userHost!: User;
-
   public players: User[] = [];
   public cardsSelected: any[] = [];
   public isRevealable: Boolean = false;
   public isAvaliableToRestart: Boolean = false;
   public revealCardsOrRestartText: string = '';
   public countingVotes: Boolean = false;
+
+  private unsubscribe$ = new Subject<void>();
 
   constructor(
     public socketService: WebSocketService,
@@ -87,9 +86,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   listenRestartGame(): void {
     this.socketService.listenRestartGame().pipe(takeUntil(this.unsubscribe$)).subscribe((players) => {
       this.players = players;
-      players.forEach(player => {
-        if (player._id == this.userHost._id) this.userHost.is_owner = player.is_owner
-      })
+      players.forEach(player => { if (player._id == this.userHost._id) this.userHost.is_owner = player.is_owner })
       this.isAvaliableToRestart = false;
       this.isRevealable = false;
       this.revealCardsOrRestartText = '';
@@ -142,9 +139,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   }
 
   allPlayersSelectedCard(): boolean {
-    const usersTypePlayers = this.players.filter(
-      ({ visualization }) => visualization == 'player'
-    );
+    const usersTypePlayers = this.players.filter(({ visualization }) => visualization == 'player');
     return usersTypePlayers.every((player) => player.selected_card);
   }
 

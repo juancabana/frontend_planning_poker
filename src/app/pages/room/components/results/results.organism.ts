@@ -7,8 +7,9 @@ import { CardRevealed } from '../../../../interfaces/card-revealed.interface';
   styleUrls: ['./results.organism.sass'],
 })
 export class ResultsComponent implements OnInit {
-  @Input() public cardsRevealed: CardRevealed[] = [];
   public average: number = 0;
+
+  @Input() public cardsRevealed: CardRevealed[] = [];
 
   ngOnInit(): void {
     this.setAverage();

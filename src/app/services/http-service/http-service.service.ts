@@ -10,8 +10,9 @@ import { Card } from './../../interfaces/card.interface';
   providedIn: 'root',
 })
 export class HttpService {
-  private url: string = env.url;
   public room: Room | undefined;
+
+  private url: string = env.url;
 
   constructor(private readonly httpClient: HttpClient) {}
 

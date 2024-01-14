@@ -26,25 +26,15 @@ describe('roomExistsGuard', () => {
       imports: [HttpClientTestingModule],
     });
     router = TestBed.inject(Router);
-    route = {
-      params: { id_room: 'id123' },
-    } as unknown as ActivatedRouteSnapshot;
+    route = { params: { id_room: 'id123' } } as unknown as ActivatedRouteSnapshot;
     state = {} as RouterStateSnapshot;
     service = TestBed.inject(HttpService);
   });
 
   // roomExistsGuard
   it('roomExistsGuard: should return true because room exists', () => {
-    const mockRoom: Room = {
-      _id: '123',
-      tittle: 'Test Room',
-      averageScore: -1,
-      owner: '123',
-      players: [],
-    };
-    const spy1 = jest
-      .spyOn(service, 'findRoomById')
-      .mockReturnValue(of(mockRoom));
+    const mockRoom: Room = { _id: '123', tittle: 'Test Room', averageScore: -1, owner: '123', players: [] };
+    const spy1 = jest .spyOn(service, 'findRoomById') .mockReturnValue(of(mockRoom));
     const spy2 = jest.spyOn(service, 'setRoom');
     executeGuard(route, state);
     expect(spy1).toHaveBeenCalledTimes(1);
@@ -52,9 +42,7 @@ describe('roomExistsGuard', () => {
   });
 
   it('roomExistsGuard: should redirect because room is not exists', () => {
-    const spy1 = jest
-      .spyOn(service, 'findRoomById')
-      .mockReturnValue(throwError(new Error('Simulated error')));
+    const spy1 = jest .spyOn(service, 'findRoomById') .mockReturnValue(throwError(new Error('Simulated error')));
     const spy2 = jest.spyOn(service, 'setRoom');
     const spy3 = jest.spyOn(router, 'navigateByUrl');
     executeGuard(route, state);

@@ -31,20 +31,8 @@ describe('HttpServiceService', () => {
   // getPlayers
   it('getPlayers: should call getPlayers request', () => {
     const mockPlayers: User[] = [
-      {
-        username: 'Juanda',
-        room_id: 'id123',
-        visualization: 'player',
-        is_owner: true,
-        _id: 'id123',
-      },
-      {
-        username: 'Daniel',
-        room_id: 'id1234',
-        visualization: 'player',
-        is_owner: false,
-        _id: 'id123',
-      },
+      { username: 'Juanda', room_id: 'id123', visualization: 'player', is_owner: true, _id: 'id123' },
+      { username: 'Daniel', room_id: 'id1234', visualization: 'player', is_owner: false, _id: 'id123' },
     ];
     const mockIdRoom = 'room123';
     service.getPlayers(mockIdRoom).subscribe();
@@ -56,13 +44,7 @@ describe('HttpServiceService', () => {
 
   // findRoomById
   it('findRoomById: should call findRoomId request', () => {
-    const mockRoom: Room = {
-      _id: '1234',
-      tittle: 'Sprint 32',
-      averageScore: -1,
-      owner: 'idUser123',
-      players: [],
-    };
+    const mockRoom: Room = { _id: '1234', tittle: 'Sprint 32', averageScore: -1, owner: 'idUser123', players: [] };
     const mockRoomId = 'roomId123';
     service.findRoomById(mockRoomId).subscribe();
     const req = httpMock.expectOne(`${url}/room/${mockRoomId}`);
@@ -100,13 +82,7 @@ describe('HttpServiceService', () => {
 
   // createNewRoom
   it('createNewRoom: should call createNewRoom request', () => {
-    const mockRoom: Room = {
-      _id: '1234',
-      tittle: 'Sprint 32',
-      averageScore: -1,
-      owner: 'idUser123',
-      players: [],
-    };
+    const mockRoom: Room = { _id: '1234', tittle: 'Sprint 32', averageScore: -1, owner: 'idUser123', players: [] };
     service.createNewRoom('Sprint 32').subscribe();
     const req = httpMock.expectOne(`${url}/room`);
     req.flush(mockRoom);
@@ -117,26 +93,14 @@ describe('HttpServiceService', () => {
 
   // setRoom
   it('setRoom: should set room', () => {
-    const mockRoom: Room = {
-      _id: '1234',
-      tittle: 'Sprint 32',
-      averageScore: -1,
-      owner: 'idUser123',
-      players: [],
-    };
+    const mockRoom: Room = { _id: '1234', tittle: 'Sprint 32', averageScore: -1, owner: 'idUser123', players: [] };
     service.setRoom(mockRoom);
     expect(service.room).toBe(mockRoom);
   });
 
   // getRoom
   it('getRoom: should get room', () => {
-    const mockRoom: Room = {
-      _id: '1234',
-      tittle: 'Sprint 32',
-      averageScore: -1,
-      owner: 'idUser123',
-      players: [],
-    };
+    const mockRoom: Room = { _id: '1234', tittle: 'Sprint 32', averageScore: -1, owner: 'idUser123', players: [] };
     service.room = mockRoom;
     const res = service.getRoom();
     expect(res).toBe(mockRoom);

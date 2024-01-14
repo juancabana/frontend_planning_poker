@@ -5,7 +5,6 @@ import { environment as env } from './../../../environments/environment';
 import { Socket } from 'socket.io-client';
 
 import { User } from './../../interfaces/user.interface';
-import { Card } from './../../interfaces/card.interface';
 import { Room } from './../../interfaces/room.interface';
 import { CardRevealed } from './../../interfaces/card-revealed.interface';
 
@@ -14,7 +13,6 @@ import { CardRevealed } from './../../interfaces/card-revealed.interface';
 })
 export class WebSocketService {
   public socket!: Socket;
-
   public room!: Room;
 
   setupSocketConnection(room: Room) {

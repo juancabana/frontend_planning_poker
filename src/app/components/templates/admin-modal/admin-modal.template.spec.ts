@@ -51,12 +51,12 @@ describe('AdminModalComponent', () => {
   it(`checkButton: should set isButtonEnabled to true because idUserSelected isn't empty`, () => {
     component.idUserSelected = 'testId';
     component.checkButton();
-    expect(component.isButtonEnabled).toBeTruthy();
+    expect(component.isButtonEnabled).toBe(true)
   });
 
   it('checkButton: should set isButtonEnabled to false because idUserSelected is empty', () => {
     component.idUserSelected = '';
     component.checkButton();
-    expect(component.isButtonEnabled).toBeFalsy();
+    expect(component.isButtonEnabled).toBe(false);
   });
 });

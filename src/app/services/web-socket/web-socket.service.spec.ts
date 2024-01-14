@@ -22,17 +22,11 @@ describe('WebSocketService', () => {
 
   // setupSocketConnection
   it('setupSocketConnection: should call io function', () => {
-    const mockRoom: Room = {
-      _id: '1234',
-      tittle: 'Sprint 32',
-      averageScore: -1,
-      owner: 'idUser123',
-      players: [],
-    };
+    const mockRoom: Room = { _id: '1234', tittle: 'Sprint 32', averageScore: -1, owner: 'idUser123', players: [] };
     const mockOptions = {
       query: {
         nameRoom: 'Sprint 32',
-        user: localStorage.getItem('user'),
+        user: localStorage.getItem('user')
       },
     };
     webSocketService.setupSocketConnection(mockRoom);
