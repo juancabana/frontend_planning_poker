@@ -10,6 +10,7 @@ describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
   let dialog: MatDialog
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [HeaderComponent, LogoComponent, ShortNamePipe],
@@ -23,7 +24,7 @@ describe('HeaderComponent', () => {
   });
 
   // openDialog
-  it('openDialog: Should open dialog', () => {
+  it('openDialog: Should open dialog with options', () => {
     const options = {
       hasBackdrop: true,
       width: '500px',

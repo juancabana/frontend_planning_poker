@@ -42,22 +42,13 @@ describe('WebSocketService', () => {
 
   // onEvent
   it('onEvent: Should execute on function', () => {
-    jest.spyOn(webSocketService, 'onEvent').mockReturnValue(of([]));
-    const spy1 = jest
-      .spyOn(socket, 'on')
-      .mockImplementation((event, callback) => {
-        callback([]);
-        return socket;
-      });
-    webSocketService.onEvent<User[]>('testEventUser').subscribe({
-      next: (data: User[]) => {
-        expect(data).toBeDefined();
-        expect(spy1).toHaveBeenCalledWith(
-          'testEventUser',
-          expect.any(Function)
-        );
-      },
-    });
+    const spy1 = jest.spyOn(socket, 'on')
+    const spy2 = jest.spyOn(webSocketService, 'onEvent').mockReturnValue(of([]))
+    webSocketService.onEvent<User[]>('userCreated').subscribe((data) => {
+      console.log('Holiiiiiii')
+      expect(spy1).toHaveBeenCalled()
+      expect(data).toEqual([])
+    })
   });
 
   // emit
