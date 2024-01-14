@@ -28,10 +28,8 @@ describe('RoomComponent', () => {
       providers: [
         {
           provide: MatDialogRef,
-          useValue: {
-            afterClosed: () => of('testId'),
-          },
-        },
+          useValue: { afterClosed: () => of('testId') },
+        }
       ],
     });
     fixture = TestBed.createComponent(RoomComponent);
@@ -100,112 +98,44 @@ describe('RoomComponent', () => {
     expect(spy).toHaveBeenLastCalledWith(UserModalComponent, options);
   });
 
-  // allPlayersSelectedCard
-  it('allPlayersSelectedCard: should return true because all players selected card', () => {
-    const mockPlayers: User[] = [
-      {room_id: '123', username: 'juan', visualization: 'player', selected_card: { id: 0, value: 0, viewValue: '0'}},
-      { room_id: '123', username: 'Daniel', visualization: 'spectator' },
-      {room_id: '123', username: 'Santiago', visualization: 'player', selected_card: { id: 5, value: 13, viewValue: '13'}},
-    ];
-    component.players = mockPlayers;
-    const res = component.allPlayersSelectedCard();
-    expect(res).toBe(true)
+    // getUser
+  it('getUser: should return user in localstorage', () => {
+    const mockUser = { _id: 'testId1', username: 'pedro', visualization: 'player', selected_card: 5, is_owner: false, room_id: 'roomID' };
+    localStorage.setItem('user', JSON.stringify(mockUser));
+    const user = component.getUser();
+    expect(user).toEqual(mockUser);
   });
 
-  it(`allPlayersSelectedCard: should return false because not all players selected card`, () => {
-    const mockPlayers: User[] = [
-      {room_id: '123', username: 'juan', visualization: 'player', selected_card: { id: 0, value: 0, viewValue: '0'}},
-      { room_id: '123', username: 'Daniel', visualization: 'spectator' },
-      {room_id: '123', username: 'Santiago', visualization: 'player'},
-    ];
-    component.players = mockPlayers;
-    const res = component.allPlayersSelectedCard();
-    expect(res).toBe(false)
-  });
-
-
-
-  // activateCountingOrReveal
-  it(`activateCountingOrReveal: shouldn't do any change because allPlayersSelectedCard return false`, () => {
-    jest.spyOn(component, 'allPlayersSelectedCard').mockReturnValue(false);
-    component.activateCountingOrReveal();
-    expect(component.isRevealable).toBe(false)
-    expect(component.revealCardsOrRestartText).toBe('')
-    expect(component.countingVotes).toBe(false)
-  });
-
-
-  it('activateCountingOrReveal: should set isRevealable to true because user is owner and all players selected card', () => {
-    const mockUser: User = {room_id: '123',is_owner: true, username: 'juan', visualization: 'player'}
-    component.userHost = mockUser
-    jest.spyOn(component, 'allPlayersSelectedCard').mockReturnValue(true);
-    component.activateCountingOrReveal();
-    expect(component.isRevealable).toBe(true)
-    expect(component.revealCardsOrRestartText).toBe('Revelar cartas')
-    expect(component.countingVotes).toBe(false)
-  });
-
-  it(`activateCountingOrReveal: should set isRevealable to true because user isn't owner and all players selected card`, () => {
-    const mockUser: User = {room_id: '123',is_owner: false, username: 'juan', visualization: 'player'}
-    component.userHost = mockUser
-    jest.spyOn(component, 'allPlayersSelectedCard').mockReturnValue(true);
-    component.activateCountingOrReveal();
-    expect(component.isRevealable).toBe(false)
-    expect(component.revealCardsOrRestartText).toBe('')
-    expect(component.countingVotes).toBe(true)
-  });
-
-  // listenNewUser
-  it(`listenNewUser: should add this user because isn't exists`, () => {
-    const mockUser: User = {
-      _id: '1231',
-      room_id: 'testId',
-      username: 'juan',
-      visualization: 'player',
-    };
-    const mockPlayers: User[] = [
-      {room_id: '123', username: 'juan', visualization: 'player', selected_card: { id: 0, value: 0, viewValue: '0'}},
-      { room_id: '123', username: 'Daniel', visualization: 'spectator' },
-      {room_id: '123', username: 'Santiago', visualization: 'player'},
-    ];
-    component.userHost= mockUser
-    const spy1 = jest.spyOn(socketService, 'listenNewUser').mockReturnValue(of(mockPlayers))
-    const spy2 = jest.spyOn(component, 'exists').mockReturnValue(false)
-    const spy3 = jest.spyOn(component, 'setFirstPosition')
-    const spy4 = jest.spyOn(component, 'activateCountingOrReveal')
-    component.listenNewUser()
-    expect(spy1).toHaveBeenCalled()
-    expect(spy2).toHaveBeenCalledWith(mockUser)
-    expect(component.players).toEqual([mockUser, ...mockPlayers])
-    expect(spy3).toHaveBeenCalled()
-    expect(spy4).toHaveBeenCalled()
-  });
-
-  it(`listenNewUser: shouldn't add this user because already exists`, () => {
-    const mockUser: User = {
-      _id: '1231',
-      room_id: 'testId',
-      username: 'juan',
-      visualization: 'player',
-    };
+  // // listenNewUser
+  it(`listenNewUser: should set new players list`, () => {
     const mockPlayers: User[] = [
       {_id: '1231', room_id: '123', username: 'juan', visualization: 'player', selected_card: { id: 0, value: 0, viewValue: '0'}},
       { room_id: '123', username: 'Daniel', visualization: 'spectator' },
       {room_id: '123', username: 'Santiago', visualization: 'player'},
     ];
-    component.userHost= mockUser
     const spy1 = jest.spyOn(socketService, 'listenNewUser').mockReturnValue(of(mockPlayers))
-    const spy2 = jest.spyOn(component, 'exists').mockReturnValue(true)
-    const spy3 = jest.spyOn(component, 'setFirstPosition')
+    const spy3 = jest.spyOn(component, 'setFirstPosition').mockImplementation()
     const spy4 = jest.spyOn(component, 'activateCountingOrReveal')
     component.listenNewUser()
     expect(spy1).toHaveBeenCalled()
-    expect(spy2).toHaveBeenCalledWith(mockUser)
     expect(component.players).toEqual([...mockPlayers])
     expect(spy3).toHaveBeenCalled()
     expect(spy4).toHaveBeenCalled()
   });
 
+  // listenCardRevealed
+  it('listenCardRevealed: should emit event and restart cardsSelected and counting Votes', () => {
+    const mockCardsRevealed = [
+      { value: -1, amount: 1 },
+      { value: 13, amount: 2 },
+      { value: 58, amount: 1 },
+    ];
+    const spy = jest.spyOn(socketService, 'listenCardRevealed').mockReturnValue(of(mockCardsRevealed));
+    component.listenCardRevealed();
+    expect(spy).toHaveBeenCalled();
+    expect(component.cardsSelected).toEqual(mockCardsRevealed);
+    expect(component.countingVotes).toBe(false);
+  });
 
   // listenRestartGame
   it('listenRestartGame: should reset the game settings and set the owner property as the data fetched', () => {
@@ -231,29 +161,6 @@ describe('RoomComponent', () => {
     expect(component.revealCardsOrRestartText).toBe('')
     expect(component.cardsSelected).toEqual([])
     expect(component.countingVotes).toBe(false)
-  });
-
-  // listenCardRevealed
-  it('listenCardRevealed: should emit event and restart cardsSelected and counting Votes', () => {
-    const mockCardsRevealed = [
-      {
-        value: -1,
-        amount: 1,
-      },
-      {
-        value: 13,
-        amount: 2,
-      },
-      {
-        value: 58,
-        amount: 1,
-      },
-    ];
-    const spy = jest.spyOn(socketService, 'listenCardRevealed').mockReturnValue(of(mockCardsRevealed));
-    component.listenCardRevealed();
-    expect(spy).toHaveBeenCalled();
-    expect(component.cardsSelected).toEqual(mockCardsRevealed);
-    expect(component.countingVotes).toBe(false);
   });
 
   // getPlayersInCache
@@ -305,6 +212,28 @@ describe('RoomComponent', () => {
     expect(spy2).toHaveBeenCalledTimes(1)
   });
 
+  // exists
+  it('exists: should return true because user exists', () => {
+    const mockUser: User = {_id: '12345', room_id: '123', username: 'Santiago', visualization: 'player'};
+    const mockPlayers: User[] = [
+      {_id: '123', is_owner: true, room_id: '123', username: 'juan', visualization: 'player', selected_card: { id: 0, value: 0, viewValue: '0'}},
+      { room_id: '123', username: 'Daniel', visualization: 'spectator' },
+      {_id: '12345', room_id: '123', username: 'Santiago', visualization: 'player'},
+    ];
+    const existUser = component.exists(mockUser, mockPlayers);
+    expect(existUser).toBe(true)
+  });
+
+  it(`exists: should return false because user isn't exists`, () => {
+    const mockUser: User = {_id: '12345', room_id: '123', username: 'Santiago', visualization: 'player'};
+    const mockPlayers: User[] = [
+      {_id: '123', is_owner: true, room_id: '123', username: 'juan', visualization: 'player', selected_card: { id: 0, value: 0, viewValue: '0'}},
+      { room_id: '123', username: 'Daniel', visualization: 'spectator' },
+      {_id: '1234', room_id: '123', username: 'Santiago', visualization: 'player'},
+    ];
+    const existUser = component.exists(mockUser, mockPlayers);
+    expect(existUser).toBe(false)
+  });
 
   // setFirstPosition
   it('setFirstPosition: should set firstPosition', () => {
@@ -320,39 +249,6 @@ describe('RoomComponent', () => {
     expect(component.players[0]._id).toEqual('12345');
   });
 
-  // exists
-  it('exists: should return true because user exists', () => {
-    const mockUser: User = {_id: '12345', room_id: '123', username: 'Santiago', visualization: 'player'};
-    const mockPlayers: User[] = [
-      {_id: '123', is_owner: true, room_id: '123', username: 'juan', visualization: 'player', selected_card: { id: 0, value: 0, viewValue: '0'}},
-      { room_id: '123', username: 'Daniel', visualization: 'spectator' },
-      {_id: '12345', room_id: '123', username: 'Santiago', visualization: 'player'},
-    ];
-    component.players = mockPlayers;
-    const existUser = component.exists(mockUser);
-    expect(existUser).toBe(true)
-  });
-
-  it(`exists: should return false because user isn't exists`, () => {
-    const mockUser: User = {_id: '12345', room_id: '123', username: 'Santiago', visualization: 'player'};
-    const mockPlayers: User[] = [
-      {_id: '123', is_owner: true, room_id: '123', username: 'juan', visualization: 'player', selected_card: { id: 0, value: 0, viewValue: '0'}},
-      { room_id: '123', username: 'Daniel', visualization: 'spectator' },
-      {_id: '1234', room_id: '123', username: 'Santiago', visualization: 'player'},
-    ];
-    component.players = mockPlayers;
-    const existUser = component.exists(mockUser);
-    expect(existUser).toBe(false)
-  });
-
-  // getUser
-  it('getUser: should return user in localstorage', () => {
-    const mockUser = { _id: 'testId1', username: 'pedro', visualization: 'player', selected_card: 5, is_owner: false, room_id: 'roomID' };
-    localStorage.setItem('user', JSON.stringify(mockUser));
-    const user = component.getUser();
-    expect(user).toEqual(mockUser);
-  });
-
   // onCardSelected
   it('onCardSelected: should set selected_card in user', () => {
     const mockData: CardSelected = {idUser: '12345', cardSelected: {id: 2, value: 3, viewValue: '3'}}
@@ -366,7 +262,58 @@ describe('RoomComponent', () => {
     component.onCardSelected(mockData)
     expect(component.players[0].selected_card).toEqual(mockData.cardSelected)
     expect(spy).toHaveBeenCalledTimes(1)
+  });
 
+  // activateCountingOrReveal
+  it(`activateCountingOrReveal: shouldn't do any change because allPlayersSelectedCard return false`, () => {
+    jest.spyOn(component, 'allPlayersSelectedCard').mockReturnValue(false);
+    component.activateCountingOrReveal();
+    expect(component.isRevealable).toBe(false)
+    expect(component.revealCardsOrRestartText).toBe('')
+    expect(component.countingVotes).toBe(false)
+  });
+
+  it('activateCountingOrReveal: should set isRevealable to true because user is owner and all players selected card', () => {
+    const mockUser: User = {room_id: '123',is_owner: true, username: 'juan', visualization: 'player'}
+    component.userHost = mockUser
+    jest.spyOn(component, 'allPlayersSelectedCard').mockReturnValue(true);
+    component.activateCountingOrReveal();
+    expect(component.isRevealable).toBe(true)
+    expect(component.revealCardsOrRestartText).toBe('Revelar cartas')
+    expect(component.countingVotes).toBe(false)
+  });
+
+  it(`activateCountingOrReveal: should set isRevealable to true because user isn't owner and all players selected card`, () => {
+    const mockUser: User = {room_id: '123',is_owner: false, username: 'juan', visualization: 'player'}
+    component.userHost = mockUser
+    jest.spyOn(component, 'allPlayersSelectedCard').mockReturnValue(true);
+    component.activateCountingOrReveal();
+    expect(component.isRevealable).toBe(false)
+    expect(component.revealCardsOrRestartText).toBe('')
+    expect(component.countingVotes).toBe(true)
+  });
+
+  // allPlayersSelectedCard
+  it('allPlayersSelectedCard: should return true because all players selected card', () => {
+    const mockPlayers: User[] = [
+      {room_id: '123', username: 'juan', visualization: 'player', selected_card: { id: 0, value: 0, viewValue: '0'}},
+      { room_id: '123', username: 'Daniel', visualization: 'spectator' },
+      {room_id: '123', username: 'Santiago', visualization: 'player', selected_card: { id: 5, value: 13, viewValue: '13'}},
+    ];
+    component.players = mockPlayers;
+    const res = component.allPlayersSelectedCard();
+    expect(res).toBe(true)
+  });
+
+  it(`allPlayersSelectedCard: should return false because not all players selected card`, () => {
+    const mockPlayers: User[] = [
+      {room_id: '123', username: 'juan', visualization: 'player', selected_card: { id: 0, value: 0, viewValue: '0'}},
+      { room_id: '123', username: 'Daniel', visualization: 'spectator' },
+      {room_id: '123', username: 'Santiago', visualization: 'player'},
+    ];
+    component.players = mockPlayers;
+    const res = component.allPlayersSelectedCard();
+    expect(res).toBe(false)
   });
 
   // revealCards
