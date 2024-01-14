@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ButtonSubmitComponent } from './button-submit.atom';
 
 describe('ButtonSubmitComponent', () => {
@@ -31,4 +30,5 @@ describe('ButtonSubmitComponent', () => {
     component.onClick(event as unknown as Event)
     expect(spy).not.toHaveBeenCalled()
   });
+
 });
