@@ -369,28 +369,28 @@ describe('RoomComponent', () => {
 
   });
 
-  // // revealCards
-  // it('revealCards: should emit reveald cards', () => {
-  //   const mockPlayers: User[] = [
-  //     {_id: '123', room_id: '123', username: 'juan', visualization: 'player', selected_card: { id: 0, value: 0, viewValue: '0'}},
-  //     { room_id: '123', username: 'Daniel', visualization: 'spectator' },
-  //     {_id: '12345', room_id: '123', username: 'Santiago', visualization: 'player', selected_card: { id: 7 , value: 34, viewValue: '34'}},
-  //     {_id: '1252', room_id: '123', username: 'Fabian', visualization: 'player', selected_card: { id: 10 , value: -1, viewValue: '?'}}
-  //   ];
-  //   const cardsExpected = [
-  //     { value: '34', amount: 1 },
-  //     { value: '0', amount: 1 },
-  //     { value: '-1', amount: 1 },
-  //   ];
-  //   component.players = mockPlayers;
-  //   const spy = jest.spyOn(socketService, 'emit').mockReturnValue();
-  //   component.revealCards();
-  //   expect(spy).toHaveBeenCalledWith('reveal-cards', cardsExpected);
-  //   expect(component.cardsSelected).toEqual(cardsExpected)
-  //   expect(component.isRevealable).toBe(false)
-  //   expect(component.isAvaliableToRestart).toBe(true)
-  //   expect(component.revealCardsOrRestartText).toBe('Nueva votación')
-  // });
+  // revealCards
+  it('revealCards: should emit reveald cards', () => {
+    const mockPlayers: User[] = [
+      {_id: '123', room_id: '123', username: 'juan', visualization: 'player', selected_card: { id: 0, value: 0, viewValue: '0'}},
+      { room_id: '123', username: 'Daniel', visualization: 'spectator' },
+      {_id: '12345', room_id: '123', username: 'Santiago', visualization: 'player', selected_card: { id: 7 , value: 34, viewValue: '34'}},
+      {_id: '1252', room_id: '123', username: 'Fabian', visualization: 'player', selected_card: { id: 10 , value: -1, viewValue: '?'}}
+    ];
+    const cardsExpected = [
+      { value: '0', amount: 1 },
+      { value: '34', amount: 1 },
+      { value: '-1', amount: 1 },
+    ];
+    component.players = mockPlayers;
+    const spy = jest.spyOn(socketService, 'emit').mockReturnValue();
+    component.revealCards();
+    expect(spy).toHaveBeenCalledWith('reveal-cards', cardsExpected);
+    expect(component.cardsSelected).toEqual(cardsExpected)
+    expect(component.isRevealable).toBe(false)
+    expect(component.isAvaliableToRestart).toBe(true)
+    expect(component.revealCardsOrRestartText).toBe('Nueva votación')
+  });
 
   // restart
   it('restart: should reset config and set this user as owner', () => {
@@ -428,6 +428,25 @@ describe('RoomComponent', () => {
       expect(player.selected_card).toBeFalsy()
       if (player._id == '1234') expect(player.is_owner).toBe(true)
     })
+  })
+
+  // revealCardsOrRestart
+  it('revealCardsOrRestart: should call restart method', () => {
+    const spy1 = jest.spyOn(component, 'restart').mockImplementation()
+    const spy2 = jest.spyOn(component, 'revealCards').mockImplementation()
+    component.isAvaliableToRestart = true
+    component.revealCardsOrRestart()
+    expect(spy1).toHaveBeenCalledTimes(1)
+    expect(spy2).not.toHaveBeenCalled()
+  })
+
+  it('revealCardsOrRestart: should call revealCards method', () => {
+    const spy1 = jest.spyOn(component, 'restart').mockImplementation()
+    const spy2 = jest.spyOn(component, 'revealCards').mockImplementation()
+    component.isAvaliableToRestart = false
+    component.revealCardsOrRestart()
+    expect(spy1).not.toHaveBeenCalled()
+    expect(spy2).toHaveBeenCalledTimes(1)
   })
 
 });

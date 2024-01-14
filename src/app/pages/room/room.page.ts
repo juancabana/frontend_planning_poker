@@ -97,33 +97,27 @@ export class RoomComponent implements OnInit, OnDestroy {
   }
 
   listenRestartGame(): void {
-    this.socketService
-      .listenRestartGame()
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((players) => {
-        this.players = players;
-        players.map((player) => {
-          player._id == this.userHost._id
-            ? (this.userHost.is_owner = player.is_owner)
-            : false;
-        });
-
-        this.isAvaliableToRestart = false;
-        this.isRevealable = false;
-        this.revealCardsOrRestartText = '';
-        this.cardsSelected = [];
-        this.countingVotes = false;
+    this.socketService.listenRestartGame().pipe(takeUntil(this.unsubscribe$)).subscribe((players) => {
+      this.players = players;
+      players.map((player) => {
+        player._id == this.userHost._id
+          ? (this.userHost.is_owner = player.is_owner)
+          : false;
       });
+
+      this.isAvaliableToRestart = false;
+      this.isRevealable = false;
+      this.revealCardsOrRestartText = '';
+      this.cardsSelected = [];
+      this.countingVotes = false;
+    });
   }
 
   listenCardRevealed(): void {
-    this.socketService
-      .listenCardRevealed()
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((data: CardRevealed[]) => {
-        this.cardsSelected = data;
-        this.countingVotes = false;
-      });
+    this.socketService.listenCardRevealed().pipe(takeUntil(this.unsubscribe$)).subscribe((data: CardRevealed[]) => {
+      this.cardsSelected = data;
+      this.countingVotes = false;
+    });
   }
 
   getPlayersInCache(): void {
@@ -166,23 +160,18 @@ export class RoomComponent implements OnInit, OnDestroy {
   }
 
   revealCards(): void {
-    const players = this.players.filter(
-      (player) => player.selected_card?.value && player.visualization == 'player'
-    );
+    const players = this.players.filter(player => player.visualization == 'player');
     const cards = players.map((player) => player.selected_card?.value);
     let values: any = {};
-    cards.map((value) => {
+    cards.forEach((value) => {
       if (value != -3) {
         values[`${value}`] = (values[`${value}`] || 0) + 1;
       }
     });
-
     const result = Object.entries(values).map(([value, amount]) => ({
       value,
       amount,
     }));
-    console.log(result)
-
     this.socketService.emit('reveal-cards', result);
     this.cardsSelected = result;
     this.isRevealable = false;
