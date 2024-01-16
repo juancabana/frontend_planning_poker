@@ -44,7 +44,7 @@ describe('UserModalComponent', () => {
       typeUser: '',
       username: '',
     });
-    const spy = jest.spyOn(service, 'createUser');
+    const spy = jest.spyOn(service, 'createUser').mockImplementation();
     component.createUser();
     expect(spy).not.toHaveBeenCalled();
   });
@@ -54,7 +54,7 @@ describe('UserModalComponent', () => {
       typeUser: 'player',
       username: 'juan.',
     });
-    const spy = jest.spyOn(service, 'createUser');
+    const spy = jest.spyOn(service, 'createUser').mockImplementation();
     component.createUser();
     expect(spy).not.toHaveBeenCalled();
   });
@@ -75,8 +75,8 @@ describe('UserModalComponent', () => {
       visualization: 'player',
     };
     const spy1 = jest.spyOn(service, 'createUser').mockReturnValue(of(mockUser));
-    const spy2 = jest.spyOn(dialogRef, 'close');
-    const spy3 = jest.spyOn(localStorage, 'setItem');
+    const spy2 = jest.spyOn(dialogRef, 'close').mockImplementation();
+    const spy3 = jest.spyOn(localStorage, 'setItem').mockImplementation();
     component.createUser();
     expect(spy1).toHaveBeenCalledWith(newUser);
     expect(spy2).toHaveBeenCalled();

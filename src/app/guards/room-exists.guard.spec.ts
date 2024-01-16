@@ -39,7 +39,7 @@ describe('roomExistsGuard', () => {
   it('roomExistsGuard: should return true because room exists', () => {
     const mockRoom: Room = { _id: '123', tittle: 'Test Room', averageScore: -1, owner: '123', players: [] };
     const spy1 = jest .spyOn(service, 'findRoomById') .mockReturnValue(of(mockRoom));
-    const spy2 = jest.spyOn(service, 'setRoom');
+    const spy2 = jest.spyOn(service, 'setRoom').mockImplementation();
     executeGuard(route, state);
     expect(spy1).toHaveBeenCalledTimes(1);
     expect(spy2).toHaveBeenCalledTimes(1);
@@ -47,8 +47,8 @@ describe('roomExistsGuard', () => {
 
   it('roomExistsGuard: should redirect because room is not exists', () => {
     const spy1 = jest .spyOn(service, 'findRoomById') .mockReturnValue(throwError(new Error('Simulated error')));
-    const spy2 = jest.spyOn(service, 'setRoom');
-    const spy3 = jest.spyOn(router, 'navigateByUrl');
+    const spy2 = jest.spyOn(service, 'setRoom').mockImplementation();
+    const spy3 = jest.spyOn(router, 'navigateByUrl').mockImplementation();
     executeGuard(route, state);
     expect(spy1).toHaveBeenCalledTimes(1);
     expect(spy2).not.toHaveBeenCalledTimes(1);

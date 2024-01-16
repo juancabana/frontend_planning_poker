@@ -20,7 +20,7 @@ describe('ButtonSubmitComponent', () => {
   // onClick
   it('onClick: should emit submit', () => {
     const event = { preventDefault: jest.fn() }
-    const spy = jest.spyOn(component.submit, 'emit');
+    const spy = jest.spyOn(component.submit, 'emit').mockImplementation();
     component.type = 'submit'
     component.onClick(event as unknown as Event)
     expect(spy).toHaveBeenCalled()
@@ -28,7 +28,7 @@ describe('ButtonSubmitComponent', () => {
 
   it(`onClick: shouldn't emit submit`, () => {
     const event = { preventDefault: jest.fn() }
-    const spy = jest.spyOn(component.submit, 'emit');
+    const spy = jest.spyOn(component.submit, 'emit').mockImplementation();
     component.type = 'button'
     component.onClick(event as unknown as Event)
     expect(spy).not.toHaveBeenCalled()

@@ -61,8 +61,8 @@ describe('CardMenuComponent', () => {
   it('selectCard: Should set cardSelected to mockCard', () => {
     const mockCard: Card = { id: 0, value: 0, viewValue: '0' };
     const spy1 = jest.spyOn(localStorage, 'getItem').mockReturnValue(JSON.stringify({ _id: '1234' }));
-    const spy2 = jest.spyOn(component.cardSelectedEvent, 'emit');
-    const spy3 = jest.spyOn(component, 'emitCardSelected');
+    const spy2 = jest.spyOn(component.cardSelectedEvent, 'emit').mockImplementation();
+    const spy3 = jest.spyOn(component, 'emitCardSelected').mockImplementation();
     component.selectCard(mockCard);
     expect(spy1).toHaveBeenCalledTimes(1);
     expect(component.cardSelected).toEqual(mockCard);
@@ -77,7 +77,7 @@ describe('CardMenuComponent', () => {
   it('emitCardSelected: Should emit cardSelected', () => {
     const mockCard: Card = { id: 0, value: 0, viewValue: '0' };
     component.cardSelected = mockCard;
-    const spy = jest.spyOn(webSocketService, 'emit');
+    const spy = jest.spyOn(webSocketService, 'emit').mockImplementation();
     component.emitCardSelected(0, '1234');
     expect(spy).toHaveBeenCalledWith('cardSelected', {
       index: 0,

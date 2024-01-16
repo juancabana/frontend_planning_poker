@@ -29,21 +29,21 @@ describe('AdminModalComponent', () => {
   // submitAdminData
   it(`submitAdminData: should call close with idUserSelected because idUserSelected isn't empty`, () => {
     component.idUserSelected = 'testId';
-    const spy = jest.spyOn(dialogRef, 'close');
+    const spy = jest.spyOn(dialogRef, 'close').mockImplementation();
     component.submitAdminData();
     expect(spy).toHaveBeenCalledWith('testId');
   });
 
   it(`submitAdminData: shouldn't call close because idUserSelected is empty`, () => {
     component.idUserSelected = '';
-    const spy = jest.spyOn(dialogRef, 'close');
+    const spy = jest.spyOn(dialogRef, 'close').mockImplementation();
     component.submitAdminData();
     expect(spy).not.toHaveBeenCalled();
   });
 
   // setUserAdmin
   it('setUserAdmin: should set idUserSelected', () => {
-    const spy = jest.spyOn(component, 'checkButton')
+    const spy = jest.spyOn(component, 'checkButton').mockImplementation()
     component.setUserAdmin('testId');
     expect(component.idUserSelected).toBe('testId');
     expect(spy).toHaveBeenCalled()

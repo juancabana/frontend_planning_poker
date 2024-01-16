@@ -35,7 +35,7 @@ describe('FormRoomComponent', () => {
     const mockRoom: Room = {_id: '123', tittle: 'Sprint 32', averageScore: -1, owner: '1234', players: []}
     component.room.setValue('Sprint 32')
     const spy1 = jest.spyOn(service, 'createNewRoom').mockReturnValue(of(mockRoom))
-    const spy2 = jest.spyOn(localStorage, 'setItem')
+    const spy2 = jest.spyOn(localStorage, 'setItem').mockImplementation()
     const spy3 = jest.spyOn(router, 'navigateByUrl').mockImplementation()
     component.createRoom()
     expect(spy1).toHaveBeenCalledWith('Sprint 32')
@@ -45,21 +45,21 @@ describe('FormRoomComponent', () => {
 
   it(`createRoom: shouldn't call createRoom because room name isn't valid`, () => {
     component.room.setValue('')
-    const spy = jest.spyOn(service, 'createNewRoom')
+    const spy = jest.spyOn(service, 'createNewRoom').mockImplementation()
     component.createRoom()
     expect(spy).not.toHaveBeenCalled()
   });
 
   it(`createRoom: shouldn't call createRoom because room name isn't valid`, () => {
     component.room.setValue('room')
-    const spy = jest.spyOn(service, 'createNewRoom')
+    const spy = jest.spyOn(service, 'createNewRoom').mockImplementation()
     component.createRoom()
     expect(spy).not.toHaveBeenCalled()
   });
 
   it(`createRoom: shouldn't call createRoom because room name isn't valid`, () => {
     component.room.setValue('roomName-')
-    const spy = jest.spyOn(service, 'createNewRoom')
+    const spy = jest.spyOn(service, 'createNewRoom').mockImplementation()
     component.createRoom()
     expect(spy).not.toHaveBeenCalled()
   });

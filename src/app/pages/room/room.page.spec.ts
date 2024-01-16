@@ -47,7 +47,7 @@ describe('RoomComponent', () => {
     const mockRoom: Room = { tittle: 'Sprint 32', averageScore: -3, owner: '123', players: [] };
     const spy1 = jest.spyOn(service, 'getRoom').mockReturnValue(mockRoom);
     const spy2 = jest.spyOn(socketService, 'setupSocketConnection').mockImplementation();
-    const spy3 = jest.spyOn(component, 'createUser');
+    const spy3 = jest.spyOn(component, 'createUser').mockImplementation();
     component.ngOnInit();
     expect(spy1).toHaveBeenCalledTimes(1);
     expect(component.room).toEqual(mockRoom);
@@ -68,10 +68,10 @@ describe('RoomComponent', () => {
         } as MatDialogRef<UserModalComponent>;
       });
     const spy2 = jest.spyOn(component, 'getUser').mockReturnValue(mockUser);
-    const spy3 = jest.spyOn(component, 'listenNewUser');
+    const spy3 = jest.spyOn(component, 'listenNewUser').mockImplementation();
     const spy4 = jest.spyOn(component, 'getPlayersInCache').mockImplementation();
-    const spy5 = jest.spyOn(component, 'listenCardRevealed');
-    const spy6 = jest.spyOn(component, 'listenRestartGame');
+    const spy5 = jest.spyOn(component, 'listenCardRevealed').mockImplementation();
+    const spy6 = jest.spyOn(component, 'listenRestartGame').mockImplementation();
     component.createUser();
     expect(component.userHost).toEqual(mockUser);
     expect(spy1).toHaveBeenCalled();
@@ -95,7 +95,7 @@ describe('RoomComponent', () => {
       disableClose: true,
       data: { room_id: 'id123' },
     };
-    const spy = jest.spyOn(dialog, 'open');
+    const spy = jest.spyOn(dialog, 'open').mockImplementation();
     component.openCreateUserDialog();
     expect(spy).toHaveBeenLastCalledWith(UserModalComponent, options);
   });
@@ -117,7 +117,7 @@ describe('RoomComponent', () => {
     ];
     const spy1 = jest.spyOn(socketService, 'listenNewUser').mockReturnValue(of(mockPlayers))
     const spy3 = jest.spyOn(component, 'setFirstPosition').mockImplementation()
-    const spy4 = jest.spyOn(component, 'activateCountingOrReveal')
+    const spy4 = jest.spyOn(component, 'activateCountingOrReveal').mockImplementation()
     component.listenNewUser()
     expect(spy1).toHaveBeenCalled()
     expect(component.players).toEqual([...mockPlayers])
