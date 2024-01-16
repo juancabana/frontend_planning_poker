@@ -22,7 +22,7 @@ describe('ResultsComponent', () => {
   it('ngOnInit: should call setAverage', () => {
     const spy = jest.spyOn(component, 'setAverage').mockImplementation();
     component.ngOnInit();
-    expect(spy).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 
   // setAverage

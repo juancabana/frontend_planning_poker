@@ -74,13 +74,13 @@ describe('RoomComponent', () => {
     const spy6 = jest.spyOn(component, 'listenRestartGame').mockImplementation();
     component.createUser();
     expect(component.userHost).toEqual(mockUser);
-    expect(spy1).toHaveBeenCalled();
-    expect(spy2).toHaveBeenCalled();
+    expect(spy1).toHaveBeenCalledTimes(1);
+    expect(spy2).toHaveBeenCalledTimes(1);
     expect(component.userHost).toEqual(mockUser);
-    expect(spy3).toHaveBeenCalled();
-    expect(spy4).toHaveBeenCalled();
-    expect(spy5).toHaveBeenCalled();
-    expect(spy6).toHaveBeenCalled();
+    expect(spy3).toHaveBeenCalledTimes(1);
+    expect(spy4).toHaveBeenCalledTimes(1);
+    expect(spy5).toHaveBeenCalledTimes(1);
+    expect(spy6).toHaveBeenCalledTimes(1);
   });
 
   // // openCreateUserDialog
@@ -119,10 +119,10 @@ describe('RoomComponent', () => {
     const spy3 = jest.spyOn(component, 'setFirstPosition').mockImplementation()
     const spy4 = jest.spyOn(component, 'activateCountingOrReveal').mockImplementation()
     component.listenNewUser()
-    expect(spy1).toHaveBeenCalled()
+    expect(spy1).toHaveBeenCalledTimes(1)
     expect(component.players).toEqual([...mockPlayers])
-    expect(spy3).toHaveBeenCalled()
-    expect(spy4).toHaveBeenCalled()
+    expect(spy3).toHaveBeenCalledTimes(1)
+    expect(spy4).toHaveBeenCalledTimes(1)
   });
 
   // listenCardRevealed
@@ -134,7 +134,7 @@ describe('RoomComponent', () => {
     ];
     const spy = jest.spyOn(socketService, 'listenCardRevealed').mockReturnValue(of(mockCardsRevealed));
     component.listenCardRevealed();
-    expect(spy).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalledTimes(1);
     expect(component.cardsSelected).toEqual(mockCardsRevealed);
     expect(component.countingVotes).toBe(false);
   });

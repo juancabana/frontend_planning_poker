@@ -36,13 +36,13 @@ describe('InvitePlayersModalComponent', () => {
     const closeModalSpy = jest.spyOn(component, 'closeModal').mockImplementation();
     component.copyLink();
     expect(copySpy).toHaveBeenCalledWith('http://localhost:4200');
-    expect(closeModalSpy).toHaveBeenCalled();
+    expect(closeModalSpy).toHaveBeenCalledTimes(1);
   });
 
   // closeModal
   it('closeModal: should close modal', () => {
     const spy = jest.spyOn(dialogRef, 'close').mockImplementation();
     component.closeModal();
-    expect(spy).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 });

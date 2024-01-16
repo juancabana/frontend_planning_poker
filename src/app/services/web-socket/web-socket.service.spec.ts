@@ -43,7 +43,7 @@ describe('WebSocketService', () => {
     const spy2 = jest.spyOn(webSocketService, 'onEvent').mockReturnValue(of([]))
     webSocketService.onEvent<User[]>('userCreated').subscribe((data) => {
       // console.log('Holiiiiiii')
-      expect(spy1).toHaveBeenCalled()
+      expect(spy1).toHaveBeenCalledTimes(1)
       expect(data).toEqual([])
     })
   });

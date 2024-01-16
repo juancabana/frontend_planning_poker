@@ -79,7 +79,7 @@ describe('UserModalComponent', () => {
     const spy3 = jest.spyOn(localStorage, 'setItem').mockImplementation();
     component.createUser();
     expect(spy1).toHaveBeenCalledWith(newUser);
-    expect(spy2).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalledTimes(1);
     expect(spy3).toHaveBeenCalledWith('user', JSON.stringify(newUser));
   });
 });

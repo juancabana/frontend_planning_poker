@@ -23,7 +23,7 @@ describe('ButtonSubmitComponent', () => {
     const spy = jest.spyOn(component.submit, 'emit').mockImplementation();
     component.type = 'submit'
     component.onClick(event as unknown as Event)
-    expect(spy).toHaveBeenCalled()
+    expect(spy).toHaveBeenCalledTimes(1)
   });
 
   it(`onClick: shouldn't emit submit`, () => {

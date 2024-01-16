@@ -46,7 +46,7 @@ describe('AdminModalComponent', () => {
     const spy = jest.spyOn(component, 'checkButton').mockImplementation()
     component.setUserAdmin('testId');
     expect(component.idUserSelected).toBe('testId');
-    expect(spy).toHaveBeenCalled()
+    expect(spy).toHaveBeenCalledTimes(1)
   });
 
   // ChecButton
