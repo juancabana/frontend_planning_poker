@@ -39,10 +39,6 @@ export class OptionsCards implements OnInit {
   }
 
   emitCardSelected(idCard: number, idUser: string): void {
-    this.webSocketService.emit('cardSelected', {
-      index: idCard,
-      lastSelected: this.cardSelected?.value,
-      ID_user: idUser,
-    });
+    this.webSocketService.emit('cardSelected', { index: idCard, idUser: idUser });
   }
 }

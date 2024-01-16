@@ -69,9 +69,10 @@ describe('RoomComponent', () => {
       });
     const spy2 = jest.spyOn(component, 'getUser').mockReturnValue(mockUser);
     const spy3 = jest.spyOn(component, 'listenNewUser').mockImplementation();
-    const spy4 = jest.spyOn(component, 'getPlayersInCache').mockImplementation();
-    const spy5 = jest.spyOn(component, 'listenCardRevealed').mockImplementation();
-    const spy6 = jest.spyOn(component, 'listenRestartGame').mockImplementation();
+    const spy4 = jest.spyOn(component, 'listenCardSelected').mockImplementation();
+    const spy5 = jest.spyOn(component, 'getPlayersInCache').mockImplementation();
+    const spy6 = jest.spyOn(component, 'listenCardsRevealed').mockImplementation();
+    const spy7 = jest.spyOn(component, 'listenRestartGame').mockImplementation();
     component.createUser();
     expect(component.userHost).toEqual(mockUser);
     expect(spy1).toHaveBeenCalledTimes(1);
@@ -81,6 +82,7 @@ describe('RoomComponent', () => {
     expect(spy4).toHaveBeenCalledTimes(1);
     expect(spy5).toHaveBeenCalledTimes(1);
     expect(spy6).toHaveBeenCalledTimes(1);
+    expect(spy7).toHaveBeenCalledTimes(1);
   });
 
   // // openCreateUserDialog
@@ -125,15 +127,32 @@ describe('RoomComponent', () => {
     expect(spy4).toHaveBeenCalledTimes(1)
   });
 
-  // listenCardRevealed
-  it('listenCardRevealed: should emit event and restart cardsSelected and counting Votes', () => {
+  // // listenCardSelected
+  it(`listenCardSelected: should set new players list`, () => {
+    const mockPlayers: User[] = [
+      {_id: '1231', room_id: '123', username: 'juan', visualization: 'player', selected_card: { id: 0, value: 0, viewValue: '0'}},
+      { room_id: '123', username: 'Daniel', visualization: 'spectator' },
+      {room_id: '123', username: 'Santiago', visualization: 'player'},
+    ];
+    const spy1 = jest.spyOn(socketService, 'listenCardSelected').mockReturnValue(of(mockPlayers))
+    const spy3 = jest.spyOn(component, 'setFirstPosition').mockImplementation()
+    const spy4 = jest.spyOn(component, 'activateCountingOrReveal').mockImplementation()
+    component.listenCardSelected()
+    expect(spy1).toHaveBeenCalledTimes(1)
+    expect(component.players).toEqual([...mockPlayers])
+    expect(spy3).toHaveBeenCalledTimes(1)
+    expect(spy4).toHaveBeenCalledTimes(1)
+  });
+
+  // listenCardsRevealed
+  it('listenCardsRevealed: should emit event and restart cardsSelected and counting Votes', () => {
     const mockCardsRevealed = [
       { value: -1, amount: 1 },
       { value: 13, amount: 2 },
       { value: 58, amount: 1 },
     ];
-    const spy = jest.spyOn(socketService, 'listenCardRevealed').mockReturnValue(of(mockCardsRevealed));
-    component.listenCardRevealed();
+    const spy = jest.spyOn(socketService, 'listenCardsRevealed').mockReturnValue(of(mockCardsRevealed));
+    component.listenCardsRevealed();
     expect(spy).toHaveBeenCalledTimes(1);
     expect(component.cardsSelected).toEqual(mockCardsRevealed);
     expect(component.countingVotes).toBe(false);

@@ -79,10 +79,6 @@ describe('CardMenuComponent', () => {
     component.cardSelected = mockCard;
     const spy = jest.spyOn(webSocketService, 'emit').mockImplementation();
     component.emitCardSelected(0, '1234');
-    expect(spy).toHaveBeenCalledWith('cardSelected', {
-      index: 0,
-      lastSelected: 0,
-      ID_user: '1234',
-    });
+    expect(spy).toHaveBeenCalledWith('cardSelected', { index: 0, idUser: '1234' });
   });
 });

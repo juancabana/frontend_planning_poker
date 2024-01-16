@@ -43,7 +43,11 @@ export class WebSocketService {
     return this.onEvent<User[]>('userCreated');
   }
 
-  listenCardRevealed(): Observable<CardRevealed[]> {
+  listenCardSelected(): Observable<User[]> {
+    return this.onEvent<User[]>('cardSelected');
+  }
+
+  listenCardsRevealed(): Observable<CardRevealed[]> {
     return this.onEvent<CardRevealed[]>('reveal-cards');
   }
 

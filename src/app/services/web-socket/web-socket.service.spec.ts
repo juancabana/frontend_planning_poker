@@ -62,10 +62,17 @@ describe('WebSocketService', () => {
     expect(spy).toHaveBeenCalledWith('userCreated');
   });
 
-  // listenCardRevealed
-  it('listenCardRevealed: Should listen event', () => {
+  // listenCardSelected
+  it('listenCardSelected: Should listen event', () => {
     const spy = jest.spyOn(webSocketService, 'onEvent');
-    webSocketService.listenCardRevealed().subscribe();
+    webSocketService.listenCardSelected().subscribe();
+    expect(spy).toHaveBeenCalledWith('cardSelected');
+  });
+
+  // listenCardsRevealed
+  it('listenCardsRevealed: Should listen event', () => {
+    const spy = jest.spyOn(webSocketService, 'onEvent');
+    webSocketService.listenCardsRevealed().subscribe();
     expect(spy).toHaveBeenCalledWith('reveal-cards');
   });
 

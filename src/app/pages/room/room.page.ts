@@ -46,7 +46,8 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.openCreateUserDialog().afterClosed().pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
       this.userHost = this.getUser();
       this.listenNewUser();
-      this.listenCardRevealed();
+      this.listenCardSelected()
+      this.listenCardsRevealed();
       this.listenRestartGame();
       this.getPlayersInCache();
     });
@@ -76,8 +77,16 @@ export class RoomComponent implements OnInit, OnDestroy {
     });
   }
 
-  listenCardRevealed(): void {
-    this.socketService.listenCardRevealed().pipe(takeUntil(this.unsubscribe$)).subscribe((data: CardRevealed[]) => {
+  listenCardSelected(): void {
+    this.socketService.listenCardSelected().pipe(takeUntil(this.unsubscribe$)).subscribe((data: User[]) => {
+      this.players = [...data];
+      this.setFirstPosition();
+      this.activateCountingOrReveal();
+    });
+  }
+
+  listenCardsRevealed(): void {
+    this.socketService.listenCardsRevealed().pipe(takeUntil(this.unsubscribe$)).subscribe((data: CardRevealed[]) => {
       this.cardsSelected = data;
       this.countingVotes = false;
     });
