@@ -20,6 +20,9 @@ describe('InvitePlayersModalComponent', () => {
         { provide: Clipboard, useValue: { copy: jest.fn() } },
       ],
     });
+  });
+
+  beforeEach(() => {
     fixture = TestBed.createComponent(InvitePlayersModalComponent);
     component = fixture.componentInstance;
     dialogRef = TestBed.inject(MatDialogRef);

@@ -20,8 +20,6 @@ describe('RoomComponent', () => {
   let dialog: MatDialog;
 
   beforeEach(() => {
-    jest.spyOn(RoomComponent.prototype, 'ngOnInit').mockImplementationOnce(() => {});
-
     TestBed.configureTestingModule({
       declarations: [RoomComponent],
       imports: [HttpClientTestingModule, MatDialogModule],
@@ -32,6 +30,10 @@ describe('RoomComponent', () => {
         }
       ],
     });
+  });
+
+  beforeEach(() => {
+    jest.spyOn(RoomComponent.prototype, 'ngOnInit').mockImplementationOnce(() => {});
     fixture = TestBed.createComponent(RoomComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

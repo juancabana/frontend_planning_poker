@@ -12,6 +12,9 @@ describe('AppComponent', () => {
       imports: [RouterTestingModule, BrowserAnimationsModule],
       declarations: [AppComponent],
     });
+  });
+
+  beforeEach(() => {
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
   });

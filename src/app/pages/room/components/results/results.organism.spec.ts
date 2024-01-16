@@ -10,6 +10,9 @@ describe('ResultsComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ResultsComponent],
     });
+  });
+
+  beforeEach(() => {
     fixture = TestBed.createComponent(ResultsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

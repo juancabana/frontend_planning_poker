@@ -20,6 +20,9 @@ describe('FormRoomComponent', () => {
       imports: [HttpClientTestingModule, ReactiveFormsModule],
       declarations: [FormRoomComponent, ButtonSubmitComponent],
     });
+  });
+
+  beforeEach(() => {
     fixture = TestBed.createComponent(FormRoomComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -33,7 +36,7 @@ describe('FormRoomComponent', () => {
     component.room.setValue('Sprint 32')
     const spy1 = jest.spyOn(service, 'createNewRoom').mockReturnValue(of(mockRoom))
     const spy2 = jest.spyOn(localStorage, 'setItem')
-    const spy3 = jest.spyOn(router, 'navigateByUrl')
+    const spy3 = jest.spyOn(router, 'navigateByUrl').mockImplementation()
     component.createRoom()
     expect(spy1).toHaveBeenCalledWith('Sprint 32')
     expect(spy2).toHaveBeenCalledWith('room', JSON.stringify(mockRoom))

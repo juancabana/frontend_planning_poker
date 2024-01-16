@@ -9,6 +9,9 @@ describe('ButtonSubmitComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ButtonSubmitComponent],
     });
+  });
+
+  beforeEach(() => {
     fixture = TestBed.createComponent(ButtonSubmitComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

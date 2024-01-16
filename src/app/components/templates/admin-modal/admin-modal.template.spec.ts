@@ -10,7 +10,6 @@ describe('AdminModalComponent', () => {
   let dialogRef: MatDialogRef<AdminModalComponent>;
 
   beforeEach(() => {
-    localStorage.setItem('user', JSON.stringify({ _id: 'testId' }));
     TestBed.configureTestingModule({
       declarations: [AdminModalComponent, ButtonSubmitComponent],
       providers: [
@@ -18,6 +17,9 @@ describe('AdminModalComponent', () => {
         { provide: MAT_DIALOG_DATA, useValue: [] },
       ],
     });
+  });
+  beforeEach(() => {
+    localStorage.setItem('user', JSON.stringify({ _id: 'testId' }));
     fixture = TestBed.createComponent(AdminModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

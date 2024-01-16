@@ -9,10 +9,12 @@ describe('CardComponent', () => {
     TestBed.configureTestingModule({
       declarations: [CardComponent],
     });
+  });
+
+  beforeEach(() => {
     fixture = TestBed.createComponent(CardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-
   });
 
   it('card: should create component', () => {

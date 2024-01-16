@@ -15,6 +15,9 @@ describe('WebSocketService', () => {
     TestBed.configureTestingModule({
       providers: [WebSocketService, { provide: Socket }],
     });
+  });
+
+  beforeEach(() => {
     webSocketService = TestBed.inject(WebSocketService);
     webSocketService.socket = { emit: jest.fn() } as any;
     socket = TestBed.inject(Socket);

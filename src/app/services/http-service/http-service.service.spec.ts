@@ -20,6 +20,9 @@ describe('HttpServiceService', () => {
       imports: [HttpClientTestingModule],
       providers: [HttpService],
     });
+  });
+
+  beforeEach(() => {
     service = TestBed.inject(HttpService);
     httpMock = TestBed.inject(HttpTestingController);
   });

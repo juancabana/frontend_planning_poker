@@ -14,6 +14,9 @@ describe('HomeComponent', () => {
       declarations: [HomeComponent, LogoComponent, FormRoomComponent],
       imports: [BrowserAnimationsModule],
     });
+  });
+
+  beforeEach(() => {
     fixture = TestBed.createComponent(HomeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -3,6 +3,7 @@ import {
   ActivatedRouteSnapshot,
   CanActivateFn,
   Router,
+  RouterModule,
   RouterStateSnapshot,
 } from '@angular/router';
 
@@ -23,8 +24,11 @@ describe('roomExistsGuard', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule, RouterModule],
     });
+  });
+
+  beforeEach(() => {
     router = TestBed.inject(Router);
     route = { params: { id_room: 'id123' } } as unknown as ActivatedRouteSnapshot;
     state = {} as RouterStateSnapshot;

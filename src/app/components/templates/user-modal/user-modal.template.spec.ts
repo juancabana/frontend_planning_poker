@@ -28,6 +28,9 @@ describe('UserModalComponent', () => {
         { provide: MAT_DIALOG_DATA, useValue: {} },
       ],
     });
+  });
+
+  beforeEach(() => {
     fixture = TestBed.createComponent(UserModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
