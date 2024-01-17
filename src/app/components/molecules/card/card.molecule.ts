@@ -10,7 +10,7 @@ import { Card } from 'src/app/interfaces/card.interface';
 export class CardComponent {
   @Input() public card?: Card;
   @Input() public player?: User;
-  @Input() public visualizate_result: Boolean = false;
+  @Input() public visualizate_result: boolean = false;
   @Input() public isCardOption = false;
   @Input() public selected_by_user = false;
   @Input() public value = '';

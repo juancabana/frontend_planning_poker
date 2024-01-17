@@ -1,15 +1,15 @@
 import { Room } from 'src/app/interfaces/room.interface';
 import { WebSocketService } from './web-socket.service';
 import { TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
 import { User } from 'src/app/interfaces/user.interface';
 import { Socket, io } from 'socket.io-client';
+import { MockSocket } from './interfaces/mockSocket.interface';
 
 jest.mock('socket.io-client');
 
 describe('WebSocketService', () => {
   let webSocketService: WebSocketService;
-  let socket: Socket;
+  let socket: Socket | MockSocket;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -19,7 +19,7 @@ describe('WebSocketService', () => {
 
   beforeEach(() => {
     webSocketService = TestBed.inject(WebSocketService);
-    webSocketService.socket = { emit: jest.fn() } as any;
+    webSocketService.socket = { emit: jest.fn() } as unknown as Socket;
     socket = TestBed.inject(Socket);
   });
 
@@ -40,7 +40,7 @@ describe('WebSocketService', () => {
   // onEvent
   it('onEvent: Should execute on function', () => {
     const spy1 = jest.spyOn(socket, 'on')
-    const spy2 = jest.spyOn(webSocketService, 'onEvent').mockReturnValue(of([]))
+    // const spy2 = jest.spyOn(webSocketService, 'onEvent').mockReturnValue(of([]))
     webSocketService.onEvent<User[]>('userCreated').subscribe((data) => {
       // console.log('Holiiiiiii')
       expect(spy1).toHaveBeenCalledTimes(1)

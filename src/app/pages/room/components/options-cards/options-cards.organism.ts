@@ -11,12 +11,13 @@ import { Card } from '../../../../interfaces/card.interface';
   templateUrl: './options-cards.organism.html',
   styleUrls: ['./options-cards.organism.sass'],
 })
-export class OptionsCards implements OnInit {
+export class OptionsCardsComponent implements OnInit {
   public cardOptions: Card[] = [];
   public cardSelected?: Card;
   public selectedCard = -1;
 
   @Input() public visualization!: string;
+  @Input() public idUser!: string
 
   @Output() public cardSelectedEvent = new EventEmitter<CardSelected>();
 
@@ -32,10 +33,9 @@ export class OptionsCards implements OnInit {
   }
 
   selectCard(card: Card): void {
-    const idUser = JSON.parse(localStorage.getItem('user')!)._id;
     this.cardSelected = this.cardOptions[card.id];
-    this.cardSelectedEvent.emit({ idUser, cardSelected: this.cardSelected });
-    this.emitCardSelected(card.id, idUser);
+    this.cardSelectedEvent.emit({ idUser: this.idUser, cardSelected: this.cardSelected });
+    this.emitCardSelected(card.id, this.idUser);
   }
 
   emitCardSelected(idCard: number, idUser: string): void {

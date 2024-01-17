@@ -33,7 +33,7 @@ describe('RoomComponent', () => {
   });
 
   beforeEach(() => {
-    jest.spyOn(RoomComponent.prototype, 'ngOnInit').mockImplementationOnce(() => {});
+    jest.spyOn(RoomComponent.prototype, 'ngOnInit').mockImplementationOnce(() => {console.log('ngOnInit')});
     fixture = TestBed.createComponent(RoomComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -381,7 +381,7 @@ describe('RoomComponent', () => {
     })
     component.players = mockPlayers
     component.userHost = mockUser
-    const spy2 = jest.spyOn(socketService, 'emit').mockImplementation(() => {})
+    const spy2 = jest.spyOn(socketService, 'emit').mockImplementation()
     component.restart()
     expect(spy1).toHaveBeenCalledWith(AdminModalComponent, config)
     expect(spy2).toHaveBeenCalledWith('restart', mockIdUser)

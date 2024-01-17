@@ -35,7 +35,7 @@ export class WebSocketService {
     });
   }
 
-  emit(event: string, data?: any): void {
+  emit(event: string, data?: unknown): void {
     this.socket.emit(event, data);
   }
 

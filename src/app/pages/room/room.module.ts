@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RoomComponent } from './room.page';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from 'src/app/components/molecules/header/header.molecule';
-import { OptionsCards } from 'src/app/pages/room/components/options-cards/options-cards.organism';
+import { OptionsCardsComponent } from 'src/app/pages/room/components/options-cards/options-cards.organism';
 import { ResultsComponent } from 'src/app/pages/room/components/results/results.organism';
 import { CardComponent } from 'src/app/components/molecules/card/card.molecule';
 import { ShortNamePipe } from 'src/app/pipes/short-name.pipe';
@@ -18,7 +18,7 @@ import { ReactiveFormsModule } from '@angular/forms';
   declarations: [
     RoomComponent,
     HeaderComponent,
-    OptionsCards,
+    OptionsCardsComponent,
     CardComponent,
     ResultsComponent,
     UserModalComponent,

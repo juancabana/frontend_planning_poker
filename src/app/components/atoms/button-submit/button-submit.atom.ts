@@ -10,11 +10,11 @@ export class ButtonSubmitComponent  {
   @Input() public label: string = ''
   @Input() public isActive: boolean = false;
 
-  @Output() submit = new EventEmitter<void>();
+  @Output() submitEvent = new EventEmitter<void>();
 
   onClick(event: Event): void {
     event.preventDefault()
     if (this.type != 'submit') return
-    this.submit.emit();
+    this.submitEvent.emit();
   }
 }

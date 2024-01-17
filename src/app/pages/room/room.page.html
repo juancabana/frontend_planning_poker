@@ -95,8 +95,9 @@
     </div>
   </div>
   <options-cards
-    *ngIf="userHost && cardsSelected.length == 0"
+    *ngIf="userHost && cardsSelected.length === 0"
     [visualization]="userHost.visualization"
+    [idUser]="userHost._id!"
     (cardSelectedEvent)="onCardSelected($event)"
   ></options-cards>
   <results

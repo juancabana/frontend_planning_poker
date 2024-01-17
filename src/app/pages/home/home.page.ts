@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
@@ -11,7 +11,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
     ]),
   ],
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   showWelcomeMessage = true;
 
   ngOnInit(): void {

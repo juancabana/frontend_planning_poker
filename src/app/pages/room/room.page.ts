@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Subject, takeUntil } from 'rxjs';
@@ -22,11 +23,11 @@ export class RoomComponent implements OnInit, OnDestroy {
   public room!: Room;
   public userHost!: User;
   public players: User[] = [];
-  public cardsSelected: any[] = [];
-  public isRevealable: Boolean = false;
-  public isAvaliableToRestart: Boolean = false;
+  public cardsSelected: CardRevealed[] = [];
+  public isRevealable: boolean = false;
+  public isAvaliableToRestart: boolean = false;
   public revealCardsOrRestartText: string = '';
-  public countingVotes: Boolean = false;
+  public countingVotes: boolean = false;
 
   private unsubscribe$ = new Subject<void>();
 
@@ -105,7 +106,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   }
 
   getPlayersInCache(): void {
-    this.httpService.getPlayers(this.room._id!).subscribe(
+    this.httpService.getPlayers(this.room._id).subscribe(
      (cachedPlayers) => {
         if (!this.exists(this.userHost, cachedPlayers)) {
           this.players = [this.userHost, ...cachedPlayers];
@@ -121,11 +122,11 @@ export class RoomComponent implements OnInit, OnDestroy {
   exists = (userToEvaluate: User, listUser: User[]): boolean => listUser.some((element) => element._id == userToEvaluate._id);
 
   setFirstPosition(): void {
-    let userIndex = this.players.findIndex(
+    const userIndex = this.players.findIndex(
       (player) => this.userHost._id === player._id
     );
     if (userIndex !== -1) {
-      let user = this.players.splice(userIndex, 1)[0];
+      const user = this.players.splice(userIndex, 1)[0];
       this.players.unshift(user);
     }
   }
@@ -154,16 +155,16 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   revealCards(): void {
     const players = this.players.filter(player => player.visualization == 'player');
-    const cards = players.map((player) => player.selected_card?.value);
-    let values: any = {};
-    cards.forEach((value) => {
+    const cards = players.map((player) => player.selected_card!.value);
+    const values: Record<number, number> = {};
+    cards.forEach((value: number) => {
       if (value != -3) {
         values[`${value}`] = (values[`${value}`] || 0) + 1;
       }
     });
-    const result = Object.entries(values).map(([value, amount]) => ({
-      value,
-      amount,
+    const result: CardRevealed[] = Object.entries(values).map(([value, amount]) => ({
+      value: Number(value),
+      amount: Number(amount),
     }));
     this.socketService.emit('reveal-cards', result);
     this.cardsSelected = result;

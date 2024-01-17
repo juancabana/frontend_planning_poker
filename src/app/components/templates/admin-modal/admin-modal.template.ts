@@ -10,7 +10,6 @@ import { User } from '../../../interfaces/user.interface';
 export class AdminModalComponent {
   public idUserSelected: string = '';
   public isButtonEnabled: boolean = false;
-  public idThisUser: string = JSON.parse(localStorage.getItem('user')!)._id;
 
   constructor(
     private dialogRef: MatDialogRef<AdminModalComponent>,
