@@ -1,23 +1,24 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-import { OptionsCards } from './options-cards.organism';
+import { OptionsCardsComponent } from './options-cards.organism';
 
 import { HttpService } from '../../../../services/http-service/http-service.service';
 import { WebSocketService } from '../../../../services/web-socket/web-socket.service';
 import { Card } from 'src/app/interfaces/card.interface';
 import { of } from 'rxjs';
+import { User } from 'src/app/interfaces/user.interface';
 
 describe('CardMenuComponent', () => {
-  let component: OptionsCards;
-  let fixture: ComponentFixture<OptionsCards>;
+  let component: OptionsCardsComponent;
+  let fixture: ComponentFixture<OptionsCardsComponent>;
   let webSocketService: WebSocketService;
   let service: HttpService;
   let mockCards: Card[]
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [OptionsCards],
+      declarations: [OptionsCardsComponent],
       providers: [
         HttpService,
         { provide: WebSocketService, useValue: { emit: jest.fn() }}
@@ -27,7 +28,7 @@ describe('CardMenuComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OptionsCards);
+    fixture = TestBed.createComponent(OptionsCardsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
     component.cardOptions = mockCards;
@@ -60,17 +61,17 @@ describe('CardMenuComponent', () => {
   // selectCard
   it('selectCard: Should set cardSelected to mockCard', () => {
     const mockCard: Card = { id: 0, value: 0, viewValue: '0' };
-    const spy1 = jest.spyOn(localStorage, 'getItem').mockReturnValue(JSON.stringify({ _id: '1234' }));
-    const spy2 = jest.spyOn(component.cardSelectedEvent, 'emit').mockImplementation();
-    const spy3 = jest.spyOn(component, 'emitCardSelected').mockImplementation();
+    const mockIdUser: string = '1234'
+    const spy3 = jest.spyOn(component.cardSelectedEvent, 'emit').mockImplementation();
+    const spy4 = jest.spyOn(component, 'emitCardSelected').mockImplementation();
+    component.idUser = mockIdUser
     component.selectCard(mockCard);
-    expect(spy1).toHaveBeenCalledTimes(1);
     expect(component.cardSelected).toEqual(mockCard);
-    expect(spy2).toHaveBeenCalledWith({
+    expect(spy3).toHaveBeenCalledWith({
       idUser: '1234',
       cardSelected: mockCard,
     });
-    expect(spy3).toHaveBeenCalledWith(0, '1234');
+    expect(spy4).toHaveBeenCalledWith(0, '1234');
   });
 
   // emitCardSelected

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -33,7 +34,7 @@ describe('RoomComponent', () => {
   });
 
   beforeEach(() => {
-    jest.spyOn(RoomComponent.prototype, 'ngOnInit').mockImplementationOnce(() => {console.log('ngOnInit')});
+    jest.spyOn(RoomComponent.prototype, 'ngOnInit').mockImplementationOnce(() => {});
     fixture = TestBed.createComponent(RoomComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -44,7 +45,7 @@ describe('RoomComponent', () => {
 
   // ngOnInit
   it('ngOnInit: should call setupSocketConnection, and createUser methods', () => {
-    const mockRoom: Room = { tittle: 'Sprint 32', averageScore: -3, owner: '123', players: [] };
+    const mockRoom: Room = {_id: '1234', tittle: 'Sprint 32', averageScore: -3, owner: '123', players: [] };
     const spy1 = jest.spyOn(service, 'getRoom').mockReturnValue(mockRoom);
     const spy2 = jest.spyOn(socketService, 'setupSocketConnection').mockImplementation();
     const spy3 = jest.spyOn(component, 'createUser').mockImplementation();
@@ -346,9 +347,9 @@ describe('RoomComponent', () => {
       {_id: '1252', room_id: '123', username: 'Fabian', visualization: 'player', selected_card: { id: 10 , value: -1, viewValue: '?'}}
     ];
     const cardsExpected = [
-      { value: '0', amount: 1 },
-      { value: '34', amount: 1 },
-      { value: '-1', amount: 1 },
+      { value: 0, amount: 1 },
+      { value: 34, amount: 1 },
+      { value: -1, amount: 1 },
     ];
     component.players = mockPlayers;
     const spy = jest.spyOn(socketService, 'emit').mockReturnValue();
