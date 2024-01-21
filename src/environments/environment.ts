@@ -1,5 +1,5 @@
 export const environment = {
   production: false,
-  url: 'http://localhost:3000/api',
-  urlSocket: 'http://localhost:3000/',
+  url: 'https://planning-pokerservice.onrender.com/api',
+  urlSocket: 'https://planning-pokerservice.onrender.com/',
 };

@@ -7,7 +7,6 @@ import { HttpService } from '../../../../services/http-service/http-service.serv
 import { WebSocketService } from '../../../../services/web-socket/web-socket.service';
 import { Card } from 'src/app/interfaces/card.interface';
 import { of } from 'rxjs';
-import { User } from 'src/app/interfaces/user.interface';
 
 describe('CardMenuComponent', () => {
   let component: OptionsCardsComponent;
