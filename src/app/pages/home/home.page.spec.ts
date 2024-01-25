@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, fakeAsync,  tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { HomeComponent } from './home.page';

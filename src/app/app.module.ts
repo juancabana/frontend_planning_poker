@@ -5,10 +5,11 @@ import { CommonModule } from '@angular/common';
 import { HomeModule } from './pages/home/home.module';
 import { RoomModule } from './pages/room/room.module';
 import { RouterModule } from '@angular/router';
+import { AuthModule } from './pages/auth/auth.module';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [CommonModule, AppRoutingModule, HomeModule, RoomModule, RouterModule],
+  imports: [CommonModule, AppRoutingModule, HomeModule, RoomModule, RouterModule, AuthModule],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

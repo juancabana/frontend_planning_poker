@@ -5,10 +5,10 @@
   </button>
 </div>
 <div class="invitation-modal__body">
-  <input
-    class="invitation-modal__span"
-    type="text"
-    disabled
+  <input-component
+    [className]="'invitation-modal__span'"
+    [type]="'text'"
+    [disable]="true"
     [value]="actualUrl"
   />
   <button-submit

@@ -1,0 +1,48 @@
+<section class="sign-up">
+  <div class="sign-up__left-module">
+    <div class="sign-up__wrapper-logo">
+      <logo/>
+    </div>
+    <div class="sign-up__content">
+      <h1 class="sign-up__tittle">Registrate</h1>
+      <h2 class="sign-up__description">Si ya tienes cuenta puedes iniciar sesión</h2>
+      <a href="#/login" class="sign-up__link">Iniciar sesión</a>
+    </div>
+  </div>
+
+  <div class="sign-up__right-module">
+    <div class="sign-up__wrapper-logo--responsive">
+      <logo />
+    </div>
+    <form class="sign-up__form" [formGroup]="signUpForm">
+      <h2 class="sign-up__subtittle">Crea tu cuenta</h2>
+      <span class="sign-up__subtittle__description">Registrate para empezar</span>
+
+      <div class="sign-up__input-wrapper">
+        <span class="sign-up__text">Nombre de usuario</span>
+        <input formControlName="username" class="sign-up__input" type="text" placeholder="Ingresa tu nombre de usuario">
+        <span *ngIf="signUpForm.controls.username.errors?.['minlength']" class="sign-up__error-text">Debe tener mínimo 4 caracteres</span>
+        <span *ngIf="signUpForm.controls.username.errors?.['maxLength']" class="sign-up__error-text">Debe tener máximo 20 caracteres</span>
+        <span *ngIf="signUpForm.controls.username.errors?.['pattern']" class="sign-up__error-text">No debe tener caracteres especiales y debe tener máximo 3 numeros</span>
+      </div>
+
+      <div class="sign-up__input-wrapper">
+        <span class="sign-up__text">Dirección de email</span>
+        <input formControlName="email" class="sign-up__input" type="email" placeholder="Ingresa tu email">
+        <span *ngIf="signUpForm.controls.email.errors?.['pattern']" class="sign-up__error-text">Debe ser un email válido</span>
+      </div>
+
+      <div class="sign-up__input-wrapper">
+        <span class="sign-up__text">Contraseña</span>
+        <input formControlName="password" class="sign-up__input" type="password" placeholder="Ingresa tu contraseña">
+        <span *ngIf="signUpForm.controls.password.errors?.['minlength']" class="sign-up__error-text">Debe tener mínimo 4 caracteres</span>
+
+      </div>
+
+      <button class='sign-up__button'>Crear cuenta</button>
+
+      <h2 class="sign-up__description">Si ya tienes cuenta puedes <a href="#/login" class="sign-up__link--description">iniciar sesión</a></h2>
+    </form>
+  </div>
+
+</section>

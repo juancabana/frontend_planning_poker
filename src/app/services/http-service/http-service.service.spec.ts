@@ -2,10 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { HttpService } from './http-service.service';
 import { User } from 'src/app/interfaces/user.interface';
-import {
-  HttpTestingController,
-  HttpClientTestingModule,
-} from '@angular/common/http/testing';
+import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
 import { environment as env } from '../../../environments/environment';
 import { Room } from 'src/app/interfaces/room.interface';
 import { Card } from 'src/app/interfaces/card.interface';

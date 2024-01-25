@@ -1,0 +1,39 @@
+<section class="login">
+  <div class="login__left-module">
+    <div class="login__wrapper-logo">
+      <logo/>
+    </div>
+    <div class="login__content">
+      <h1 class="login__tittle">Bienvenido</h1>
+      <h2 class="login__description">Si no tienes cuenta puedes crear una</h2>
+      <a href="#/sign-up" class="login__link">Registrate</a>
+    </div>
+  </div>
+
+  <div class="login__right-module">
+    <div class="login__wrapper-logo--responsive">
+      <logo />
+    </div>
+    <form class="login__form" [formGroup]="loginForm">
+      <h2 class="login__subtittle">Iniciar sesión</h2>
+      <span class="login__subtittle__description">Ingresa tus credenciales</span>
+
+      <div class="login__input-wrapper">
+        <span class="login__text">Dirección de email</span>
+        <input class="login__input" formControlName="email" [email]="true" type="email" placeholder="Ingresa tu email">
+        <span *ngIf="loginForm.controls.email.errors?.['pattern']" class="login__error-text">Debe ser un email válido</span>
+      </div>
+
+      <div class="login__input-wrapper">
+        <span class="login__text">Contraseña</span>
+        <input class="login__input" formControlName="password" type="password" placeholder="Ingresa tu contraseña">
+        <span *ngIf="loginForm.controls.password.errors?.['minlength']" class="login__error-text">Debe tener mínimo 4 caracteres</span>
+      </div>
+
+      <button class='login__button' [ngClass]="{'login__button--active': loginForm.valid}" type="button" (click)="logingWithCognito()">Iniciar sesión</button>
+
+      <h2 class="login__description">Si no tienes cuenta puedes <a href="#/sign-up" class="login__link--description">Registrarte</a></h2>
+    </form>
+  </div>
+
+</section>

@@ -1,0 +1,20 @@
+<input
+*ngIf="!formControl"
+[class]="className"
+[type]="type"
+[disabled]="disable"
+[id]="id"
+[name]="name"
+[value]="value"
+/>
+<input
+*ngIf="formControl"
+[class]="className"
+[type]="type"
+[formControl]="formControl"
+/>
+<!-- <input
+*ngIf="controlName"
+[class]="className"
+[type]="type"
+/> -->

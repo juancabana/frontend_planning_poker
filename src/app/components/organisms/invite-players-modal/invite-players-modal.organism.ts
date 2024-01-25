@@ -9,7 +9,7 @@ import { PlatformLocation } from '@angular/common';
   styleUrls: ['./invite-players-modal.organism.sass'],
 })
 export class InvitePlayersModalComponent {
-  public actualUrl: string = this.platformLocation.href;
+  public actualUrl: any = this.platformLocation.href;
 
   constructor(
     private readonly dialogRef: MatDialogRef<InvitePlayersModalComponent>,

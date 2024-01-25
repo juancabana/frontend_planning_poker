@@ -1,11 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import {
-  ActivatedRouteSnapshot,
-  CanActivateFn,
-  Router,
-  RouterModule,
-  RouterStateSnapshot,
-} from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterModule, RouterStateSnapshot } from '@angular/router';
 
 import { roomExistsGuard } from './room-exists.guard';
 import { Room } from '../interfaces/room.interface';
