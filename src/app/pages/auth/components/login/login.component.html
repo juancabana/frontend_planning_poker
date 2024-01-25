@@ -27,7 +27,7 @@
       <div class="login__input-wrapper">
         <span class="login__text">Contraseña</span>
         <input class="login__input" formControlName="password" type="password" placeholder="Ingresa tu contraseña">
-        <span *ngIf="loginForm.controls.password.errors?.['minlength']" class="login__error-text">Debe tener mínimo 4 caracteres</span>
+        <span *ngIf="loginForm.controls.password.errors?.['minlength']" class="login__error-text">Debe tener mínimo 8 caracteres</span>
       </div>
 
       <button class='login__button' [ngClass]="{'login__button--active': loginForm.valid}" type="button" (click)="logingWithCognito()">Iniciar sesión</button>

@@ -35,11 +35,11 @@
       <div class="sign-up__input-wrapper">
         <span class="sign-up__text">Contraseña</span>
         <input formControlName="password" class="sign-up__input" type="password" placeholder="Ingresa tu contraseña">
-        <span *ngIf="signUpForm.controls.password.errors?.['minlength']" class="sign-up__error-text">Debe tener mínimo 4 caracteres</span>
+        <span *ngIf="signUpForm.controls.password.errors?.['minlength']" class="sign-up__error-text">Debe tener mínimo 8 caracteres</span>
 
       </div>
 
-      <button class='sign-up__button'>Crear cuenta</button>
+      <button class='sign-up__button' [ngClass]="{'sign-up__button--active': signUpForm.valid}" (click)="register()">Crear cuenta</button>
 
       <h2 class="sign-up__description">Si ya tienes cuenta puedes <a href="#/login" class="sign-up__link--description">iniciar sesión</a></h2>
     </form>

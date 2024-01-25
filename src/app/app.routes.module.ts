@@ -5,6 +5,7 @@ import { RoomComponent } from './pages/room/room.page';
 import { roomExistsGuard } from './guards/room-exists.guard';
 import { LoginComponent } from './pages/auth/components/login/login.component';
 import { SignUpComponent } from './pages/auth/components/sign-up/sign-up.component';
+import { authGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -23,6 +24,7 @@ const routes: Routes = [
   {
     path: 'create-room',
     component: HomeComponent,
+    canActivate: [authGuard]
   },
   {
     path: 'room/:id_room',
