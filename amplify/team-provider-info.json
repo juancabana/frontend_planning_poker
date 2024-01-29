@@ -1,19 +1,19 @@
 {
   "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-planningpoker-dev-110703-authRole",
-      "UnauthRoleArn": "arn:aws:iam::339712931009:role/amplify-planningpoker-dev-110703-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::339712931009:role/amplify-planningpoker-dev-110703-authRole",
+      "AuthRoleName": "amplify-planningpoker-dev-184447-authRole",
+      "UnauthRoleArn": "arn:aws:iam::339712931009:role/amplify-planningpoker-dev-184447-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::339712931009:role/amplify-planningpoker-dev-184447-authRole",
       "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-planningpoker-dev-110703-deployment",
-      "UnauthRoleName": "amplify-planningpoker-dev-110703-unauthRole",
-      "StackName": "amplify-planningpoker-dev-110703",
-      "StackId": "arn:aws:cloudformation:us-east-1:339712931009:stack/amplify-planningpoker-dev-110703/c832c700-bb9b-11ee-bd84-0a4bf77832d7",
-      "AmplifyAppId": "d1ojif8vnd17sd"
+      "DeploymentBucketName": "amplify-planningpoker-dev-184447-deployment",
+      "UnauthRoleName": "amplify-planningpoker-dev-184447-unauthRole",
+      "StackName": "amplify-planningpoker-dev-184447",
+      "StackId": "arn:aws:cloudformation:us-east-1:339712931009:stack/amplify-planningpoker-dev-184447/39cd2b10-be37-11ee-8644-126ccbf01755",
+      "AmplifyAppId": "d1q6sodg2525e1"
     },
     "categories": {
       "auth": {
-        "planningpoker12abd1e9": {}
+        "planningpokerdbf925df": {}
       }
     }
   }

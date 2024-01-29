@@ -1,22 +1,16 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { jwtDecode } from 'jwt-decode';
-import { currentConfig } from '../aws.config';
+import { AuthService } from '../services/auth/auth.service';
 
-export const authGuard: CanActivateFn = (route, state) => {
+export const authGuard: CanActivateFn = async () => {
   const router = inject(Router)
-  const token = localStorage.getItem(`CognitoIdentityServiceProvider.${currentConfig.Auth?.Cognito.userPoolClientId}.92085648-131b-40f1-807f-49f5c293c0be.accessToken`);
-    if (!token) {
+  const authService = inject(AuthService)
+
+  const userInfo = await authService.currentAuthenticatedUser()
+
+    if (!userInfo) {
       router.navigate(['/login']);
-      return false;
     }
 
-    try {
-      // Decodifica el token. Si el token no es válido, jwt_decode lanzará un error
-      jwtDecode(token);
-      return true;
-    } catch (error) {
-      router.navigate(['/login']);
-      return false;
-    }
+    return true;
 };

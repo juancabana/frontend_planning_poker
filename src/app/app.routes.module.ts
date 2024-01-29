@@ -3,9 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.page';
 import { RoomComponent } from './pages/room/room.page';
 import { roomExistsGuard } from './guards/room-exists.guard';
-import { LoginComponent } from './pages/auth/components/login/login.component';
-import { SignUpComponent } from './pages/auth/components/sign-up/sign-up.component';
+import { LoginComponent } from './pages/auth/login/login.component';
+import { SignUpComponent } from './pages/auth/sign-up/sign-up.component';
 import { authGuard } from './guards/auth.guard';
+import { ConfirmCodeComponent } from './pages/auth/confirm-code/confirm-code.component';
 
 const routes: Routes = [
   {
@@ -15,11 +16,18 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
+
   },
   {
     path: 'sign-up',
-    component: SignUpComponent
+    component: SignUpComponent,
+
+  },
+  {
+    path: 'confirm-code',
+    component: ConfirmCodeComponent,
+    canActivate: [authGuard]
   },
   {
     path: 'create-room',

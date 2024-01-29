@@ -1,0 +1,15 @@
+<section class="confirm-code">
+  <div class="confirm-code__body">
+    <logo [heigth]="200"/>
+    <h1 class="confirm-code__tittle">Confirma tu centa</h1>
+    <hr class="confirm-code__line">
+    <div class="confirm-code__container">
+      <h2 class="confirm-code__name">Hola {{state['data'].username}}</h2>
+      <p class="confirm-code__description">
+        Ingresa el código que enviamos al correo {{state['data'].codeDeliveryDetails.destination}}, recuerda que tiene una duración de 24 horas
+      </p>
+      <input [formControl]="code" type="number" class="confirm-code__input">
+      <button-submit [type]="'submit'" [label]="'Verificar'" [isActive]="code.valid" style="align-self: center;" (submitEvent)="confirmCode()"/>
+    </div>
+  </div>
+</section>

@@ -8,4 +8,5 @@ import { Component, Input } from '@angular/core';
 export class LogoComponent {
   @Input() public label: string = '';
   @Input() public url: string = '/'
+  @Input() public heigth: number = 100
 }

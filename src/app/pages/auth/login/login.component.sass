@@ -1,15 +1,15 @@
-@use '../../../../../variables' as var
+@use '../../../../variables' as var
 
 $colorDark: #240f4a
 $colorLight: #B963FD
 
-.sign-up
+.login
   width: 100vw
   height: 100vh
   background: white
   display: flex
 
-.sign-up__left-module
+.login__left-module
   width: 60%
   height: 100%
   background: linear-gradient( #615578, #330072)
@@ -20,12 +20,12 @@ $colorLight: #B963FD
   @media screen and (max-width: 965px)
     display: none
 
-.sign-up__wrapper-logo
+.login__wrapper-logo
   position: absolute
   top: 0px
   right: 0px
 
-.sign-up__wrapper-logo--responsive
+.login__wrapper-logo--responsive
   position: absolute
   top: 0px
   right: 0px
@@ -33,18 +33,18 @@ $colorLight: #B963FD
   @media screen and (max-width: 965px)
     display: inline
 
-.sign-up__content
+.login__content
   width: 80%
   margin-bottom: 5rem
 
-.sign-up__tittle
+.login__tittle
   font-family: var.$appFont
   color: white
   font-size: 3.4rem
   font-weight: 600
   margin: 0px
 
-.sign-up__description
+.login__description
   font-family: var.$appFont
   color: #ddeaef
   font-size: 1rem
@@ -52,7 +52,8 @@ $colorLight: #B963FD
   margin-top: 5px
   @media screen and (max-width: 965px)
     display: inline
-.sign-up__link
+.login__link
+  display: block
   margin-top: 1rem
   border: none
   background: #6429cd
@@ -69,18 +70,18 @@ $colorLight: #B963FD
 
 
 
-.sign-up__link--description
+.login__link--description
   display: none
   color: white
   @media screen and (max-width: 965px)
     display: inline
 
-.sign-up__form
+.login__form
   width: 80%
   @media screen and (max-width: 965px)
     max-width: 450px
 
-.sign-up__right-module
+.login__right-module
   background: #EEE6F0
   width: 40%
   height: 100%
@@ -93,7 +94,7 @@ $colorLight: #B963FD
 
 
 
-.sign-up__subtittle
+.login__subtittle
   font-family: var.$appFont
   color: #330072
   font-size: 2rem
@@ -103,7 +104,7 @@ $colorLight: #B963FD
   @media screen and (max-width: 965px)
     color: white
 
-.sign-up__subtittle__description
+.login__subtittle__description
   display: block
   margin-top: 0px
   font-family: var.$appFont
@@ -112,19 +113,19 @@ $colorLight: #B963FD
   @media screen and (max-width: 965px)
     color: #cfdcdf
 
-.sign-up__input-wrapper
+.login__input-wrapper
   display: flex
   flex-direction: column
   margin-bottom: .8rem
 
-.sign-up__text
+.login__text
   font-family: var.$appFont
   color: #330072
   margin-bottom: 3px
   @media screen and (max-width: 965px)
     color: #ebe6ec
 
-.sign-up__input
+.login__input
   font-family: var.$appFont
   border-radius: 25px
   border: 1px solid #593783
@@ -153,7 +154,7 @@ $colorLight: #B963FD
       font-size: 1rem
 
 
-.sign-up__button
+.login__button
   height: 45px
   width: 200px
   display: flex
@@ -174,7 +175,7 @@ $colorLight: #B963FD
     color: white
     margin-bottom: 2rem
 
-.sign-up__button--active
+.login__button--active
   cursor: pointer
   color: var.$colorEnabled
   border: 1px solid #330072
@@ -186,7 +187,7 @@ $colorLight: #B963FD
   &:hover
     box-shadow: 0 0 10px $colorDark
 
-.sign-up__error-text
+.login__error-text
   font-family: var.$appFont
   font-size: small
   color: crimson

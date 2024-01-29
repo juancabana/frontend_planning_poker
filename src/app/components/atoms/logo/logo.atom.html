@@ -1,4 +1,4 @@
 <a [routerLink]="url" class="logo" [ngClass]="{ 'logo--label': label }">
-  <img src="assets/images/pragma.png" alt="Logo" height="100px" />
+  <img src="assets/images/pragma.png" alt="Logo" height="{{heigth}}" />
   <span *ngIf="label" class="logo__label_text">{{label}}</span>
 </a>
